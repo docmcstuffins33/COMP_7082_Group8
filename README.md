@@ -1,4 +1,4 @@
-# COMP_7082_Group8
+# Picking Up Steam
 
 # Docker Compose
 
