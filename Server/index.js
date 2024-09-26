@@ -3,7 +3,10 @@ const app = express();
 const axios = require('axios');
 const cors = require("cors")
 
+require('dotenv').config();
 const { API_KEY } = require('./config'); 
+
+STEAM_API_KEY = process.env.STEAM_API_KEY;
 
 app.use(cors({
     origin:"*",
@@ -22,7 +25,7 @@ app.get('/api/gamesByUser/:uid', async (req, res) => {
     console.log("Recieved Request.")
     try {
         const uid = req.params.uid;
-        const response = await axios.get('http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=' + API_KEY + '&steamid=' + uid + '&format=json&include_appinfo=true&include_played_free_games=true');
+        const response = await axios.get('http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=' + STEAM_API_KEY + '&steamid=' + uid + '&format=json&include_appinfo=true&include_played_free_games=true');
         const apps = response.data.response.games;
         const limitedApps = apps.filter(x => x.name);
         res.send({applist: {apps: limitedApps}});
@@ -30,7 +33,7 @@ app.get('/api/gamesByUser/:uid', async (req, res) => {
         console.error('Error fetching data from Steam API:', error);
         res.status(500).send('Error fetching data from Steam API');
         console.log(req.params.uid);
-        console.log(API_KEY)
+        console.log(STEAM_API_KEY)
     }
 });
 
