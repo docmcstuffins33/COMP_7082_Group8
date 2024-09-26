@@ -1,17 +1,56 @@
+import {useState, useEffect} from 'react';
 import Navbar from './Navbar.jsx'
 import './index.css'
+import axios from 'axios';
+
 
 function App() {
+  const [gameData, setGameData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchGameData = async () => {
+            try {
+              // ######### YOU NEED TO HAVE THE SERVER RUNNING FOR THIS TO WORK!!! ###########
+              // #########     IF YOU DO NOT, THE WEBSITE WILL SIMPLY NOT LOAD     ###########
+                const response = await axios.get('http://localhost:8080/api/applist');
+                console.log(response.data)
+                const filteredList = response.data.applist.apps.filter(x => x.name)
+                setGameData(filteredList); // Adjust according to the structure of the response
+            } catch (err) {
+                setError('Error fetching data from server');
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchGameData();
+    }, []);
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
+  
+  
+  
  return (
   <><Navbar />
   <body>
   <div className="content">
      <p>This is a simple home page with a navbar containing just a title and a login button.</p>
+     <ul>
+        {gameData.map(app => (
+          <li key={app.appid}>{app.name}</li>
+        ))}
+      </ul>
    </div>
    </body>
    </>
   
  )
 }
+
+
 
 export default App;
