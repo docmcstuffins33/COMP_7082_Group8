@@ -6,6 +6,7 @@ import axios from 'axios';
 
 function App() {
   const [gameData, setGameData] = useState([]);
+  const [userID, setuserID] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -14,7 +15,8 @@ function App() {
             try {
               // ######### YOU NEED TO HAVE THE SERVER RUNNING FOR THIS TO WORK!!! ###########
               // #########     IF YOU DO NOT, THE WEBSITE WILL SIMPLY NOT LOAD     ###########
-                const response = await axios.get('http://localhost:8080/api/applist');
+              // Also ideally there should be some way to dynamically change the user id sent here. Do this later!
+                const response = await axios.get('http://localhost:8080/api/gamesByUser/' + '76561198290514792');
                 console.log(response.data)
                 const filteredList = response.data.applist.apps.filter(x => x.name)
                 setGameData(filteredList); // Adjust according to the structure of the response
