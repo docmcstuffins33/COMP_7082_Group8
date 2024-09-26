@@ -5,10 +5,11 @@ import axios from 'axios';
 
 
 function App() {
-  const [gameData, setGameData] = useState([]);
-  const [userID, setuserID] = useState(null);
+    const [gameData, setGameData] = useState([]);
+    const [userID, setUserID] = useState(process.env.REACT_APP_STEAM_USER_ID);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
 
     useEffect(() => {
         const fetchGameData = async () => {
@@ -16,7 +17,7 @@ function App() {
               // ######### YOU NEED TO HAVE THE SERVER RUNNING FOR THIS TO WORK!!! ###########
               // #########     IF YOU DO NOT, THE WEBSITE WILL SIMPLY NOT LOAD     ###########
               // Also ideally there should be some way to dynamically change the user id sent here. Do this later!
-                const response = await axios.get('http://localhost:8080/api/gamesByUser/' + '76561198290514792');
+                const response = await axios.get('http://localhost:8080/api/gamesByUser/' + userID);
                 console.log(response.data)
                 const filteredList = response.data.applist.apps.filter(x => x.name)
                 setGameData(filteredList); // Adjust according to the structure of the response
