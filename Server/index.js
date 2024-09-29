@@ -3,10 +3,10 @@ const app = express();
 const axios = require('axios');
 const cors = require("cors")
 
-require('dotenv').config();
-const { API_KEY } = require('./config'); 
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
-STEAM_API_KEY = process.env.STEAM_API_KEY;
+const STEAM_API_KEY = process.env.STEAM_API_KEY;
 
 app.use(cors({
     origin:"*",
@@ -33,7 +33,7 @@ app.get('/api/gamesByUser/:uid', async (req, res) => {
         console.error('Error fetching data from Steam API:', error);
         res.status(500).send('Error fetching data from Steam API');
         console.log(req.params.uid);
-        console.log(STEAM_API_KEY)
+        console.log(STEAM_API_KEY);
     }
 });
 

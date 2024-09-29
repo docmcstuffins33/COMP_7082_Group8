@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import Navbar from './Navbar.jsx'
+
 import './index.css'
 import axios from 'axios';
 
@@ -17,7 +17,8 @@ function App() {
               // ######### YOU NEED TO HAVE THE SERVER RUNNING FOR THIS TO WORK!!! ###########
               // #########     IF YOU DO NOT, THE WEBSITE WILL SIMPLY NOT LOAD     ###########
               // Also ideally there should be some way to dynamically change the user id sent here. Do this later!
-                const response = await axios.get('http://localhost:8080/api/gamesByUser/' + userID);
+                //const response = await axios.get('http://localhost:8080/api/gamesByUser/' + userID);
+                const response = await axios.get('http://localhost:8080/api/gamesByUser/' + "76561198290514792");
                 console.log(response.data)
                 const filteredList = response.data.applist.apps.filter(x => x.name)
                 setGameData(filteredList); // Adjust according to the structure of the response
@@ -38,7 +39,6 @@ function App() {
   
   
  return (
-  <><Navbar />
   <body>
   <div className="content">
      <p>This is a simple home page with a navbar containing just a title and a login button.</p>
@@ -49,8 +49,6 @@ function App() {
       </ul>
    </div>
    </body>
-   </>
-  
  )
 }
 
