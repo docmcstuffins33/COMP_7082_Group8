@@ -1,24 +1,56 @@
 
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: linear-gradient(white, rgb(34, 34, 34));
-  }
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: linear-gradient(white, rgb(34, 34, 34));
+}
   
-  .content {
-    padding: 2rem;
-    text-align: center;
-    background-color: linear-gradient(white, rgb(34, 34, 34));
-  }
-  
-  h1 {
-    color: #333;
-  }
-  
-  p {
-    color: #555;
-  }
+.content {
+  padding: 2rem;
+  text-align: center;
+  background-color: linear-gradient(white, rgb(34, 34, 34));
+}
 
+h1 {
+  color: #333;
+}
+  
+p {
+  color: #555;
+}
 
+#profileDecorations, #profileThemes {
+  display:flex;
+  overflow-x: auto;
+}
+
+#profileDecorations > div {
+  margin:0 10px;
+  padding: 10px 0;
+  align-content: center;
+  text-align: center;
+}
+
+#profileThemes > div {
+  margin:0 10px;
+  padding: 10px 0;
+  align-content: center;
+  text-align: center;
+}
+
+.rounded {
+  border-radius: 50%;
+}
+
+.itemCost {
+  background-color: #3c9cf5;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+}
