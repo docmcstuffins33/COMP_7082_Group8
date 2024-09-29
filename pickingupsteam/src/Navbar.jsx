@@ -8,7 +8,7 @@ function Navbar() {
     <nav className="navbar">
       <h2 className="navbar-logo">Picking Up Steam</h2>
       <Link to="/">Home</Link>
-      <Link to="/">Store</Link>
+      <Link to="/store">Store</Link>
       <Link to="/">Profile</Link>
       <Link to="/">Quests</Link>
       <button className="login-button">Login</button>
