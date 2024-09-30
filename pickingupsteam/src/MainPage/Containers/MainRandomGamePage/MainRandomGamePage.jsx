@@ -10,7 +10,7 @@ const MainRandomGamePage = () => {
 
     // User Data
     //should be load dynamically
-    const [userID, setUserID] = useState(process.env.REACT_APP_STEAM_USER_ID);
+    const [userID, setUserID] = useState("");
     const [gameData, setGameData] = useState([]);
 
     // Server Data
