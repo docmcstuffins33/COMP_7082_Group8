@@ -92,7 +92,6 @@ const MainRandomGamePage = () => {
             </div>
             
         </div>
-        MainRandonGamePage
     </div>
   )
 }

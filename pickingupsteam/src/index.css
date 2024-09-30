@@ -11,6 +11,7 @@
     --brown-color: #46364a;
     --white-color: #ffffff;
     --yellow-color: #ffd321;
+    --primary-background-color: linear-gradient(white, #3A3A3A);
 
     /* Dark mode colors */
     --dark-primary-color: #1a202c;
@@ -21,5 +22,25 @@
     --dark-brown-color: #1a202c;
     --dark-white-color: #1a202c;
     --dark-yellow-color: #ffc107;
+
+    
 }
+.content{
+    background: var(--primary-background-color);
+    height: 100%;
+    min-height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+}
+html, body{
+    
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+
 
