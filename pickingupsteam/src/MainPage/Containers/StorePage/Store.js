@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link } from "react-router-dom";
-import './index.css';
+import './Store.css';
 
 
 function Store() {
