@@ -1,0 +1,35 @@
+
+
+#profileDecorations, #profileThemes {
+    display:flex;
+    overflow-x: auto;
+  }
+  
+  #profileDecorations > div {
+    margin:0 10px;
+    padding: 10px 0;
+    align-content: center;
+    text-align: center;
+  }
+  
+  #profileThemes > div {
+    margin:0 10px;
+    padding: 10px 0;
+    align-content: center;
+    text-align: center;
+  }
+  
+  .rounded {
+    border-radius: 50%;
+  }
+  
+  .itemCost {
+    background-color: #3c9cf5;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+  }
