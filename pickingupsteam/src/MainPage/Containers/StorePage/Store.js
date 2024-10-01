@@ -26,9 +26,9 @@ function Store() {
     <div id='profileDecorations'>
         {profileDecorations.map(dec => (
             <div>
-                <img class='rounded' src={dec.img} height="200px" width="200px"></img>
+                <img className='rounded' src={dec.img} height="200px" width="200px"></img>
                 <p key={dec.name}>{dec.name}</p>
-                <button class='itemCost'>Cost: {dec.cost}</button>
+                <button className='itemCost'>Cost: {dec.cost}</button>
             </div>
         ))}
     </div>
@@ -38,7 +38,7 @@ function Store() {
             <div>
                 <img src={dec.img} height="200px" width="300px"></img>
                 <p key={dec.name}>{dec.name}</p>
-                <button class='itemCost'>Cost: {dec.cost}</button>
+                <button className='itemCost'>Cost: {dec.cost}</button>
             </div>
         ))}
     </div>

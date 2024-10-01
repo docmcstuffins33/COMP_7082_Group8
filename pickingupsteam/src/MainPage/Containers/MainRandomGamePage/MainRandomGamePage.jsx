@@ -55,37 +55,37 @@ const MainRandomGamePage = () => {
     }
 
     return (
-    <div class="app__main_container">
-        <div class="app__searchBar">
+    <div className="app__main_container">
+        <div className="app__searchBar">
             {/* Search bar here and setUserId */}
-            <input class="app__searchBar-input"
+            <input className="app__searchBar-input"
             type="text"
             placeholder='Enter Steam User ID'
             value={userID}
             onChange={(e) => setUserID(e.target.value)}
             />
-            <button onClick={handleSearch} class='app__searchBar-button' >
+            <button onClick={handleSearch} className='app__searchBar-button' >
                 Search
             </button>
         </div>
-        <div class="app__gameListPanel">
-            <div class="app__gameList">
+        <div className="app__gameListPanel">
+            <div className="app__gameList">
                 <h2>Game List </h2>
-                <div class="app__gameList-container">
+                <div className="app__gameList-container">
                     
                     {loading ? (<div>Loading...</div>) :
                     (error ? (<div>Error</div>) :
-                    (gameData.map(game => (<div class="app__gameList-item">{
-                        <p class="app__gameList-item-text">{game.name}</p>
+                    (gameData.map(game => (<div className="app__gameList-item">{
+                        <p className="app__gameList-item-text">{game.name}</p>
                         }</div>))))}
                 </div>
 
             </div>
-            <div class="app__randomGameWheel">
+            <div className="app__randomGameWheel">
                 <h2>
                     Random Game
                 </h2>
-                <button class="app__randomGameWheel-button" onClick={pickRandomGame}>Pick Random Game</button>
+                <button className="app__randomGameWheel-button" onClick={pickRandomGame}>Pick Random Game</button>
                 <p>
                     {randomGame}
                 </p>
