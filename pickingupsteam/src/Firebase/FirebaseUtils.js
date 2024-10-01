@@ -1,86 +1,31 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
-// Fetch a user by ID
-export const fetchUser = async (userId) => {
+// Fetch by ID
+// collection - Users, Games, Icons, Banners
+export const fetchUser = async (collection, collectionId) => {
   try {
-    const docRef = doc(db, "Users", userId);
+    const docRef = doc(db, collection, collectionId);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       return docSnap.data();
     } else {
-      console.log("No such document!");
+      console.log("Data does not exist");
       return null;
     }
   } catch (error) {
-    console.error("Error fetching user:", error);
+    console.error("Error fetching from collection:", error);
   }
 };
 
-// Add or update a user
-export const writeUser = async (userId, userData) => {
+// Add or update by ID
+export const writeUser = async (collection, collectionId, collectionData) => {
   try {
-    const docRef = doc(db, "Users", userId);
-    await setDoc(docRef, userData, { merge: true });
-    console.log("User updated/added:", userId);
+    const docRef = doc(db, collection, collectionId);
+    await setDoc(docRef, collectionData, { merge: true });
+    console.log("Collection updated/added:", collectionId);
   } catch (error) {
-    console.error("Error writing user:", error);
-  }
-};
-
-// Fetch a banner
-export const fetchBanner = async (bannerId) => {
-  try {
-    const docRef = doc(db, "Banners", bannerId);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      return docSnap.data();
-    } else {
-      console.log("No such document!");
-      return null;
-    }
-  } catch (error) {
-    console.error("Error fetching banner:", error);
-  }
-};
-
-// Add or update a banner
-export const writeBanner = async (bannerId, bannerData) => {
-  try {
-    const docRef = doc(db, "Banners", bannerId);
-    await setDoc(docRef, bannerData, { merge: true });
-    console.log("Banner updated/added:", bannerId);
-  } catch (error) {
-    console.error("Error writing banner:", error);
-  }
-};
-
-// Fetch a game
-export const fetchGame = async (gameId) => {
-  try {
-    const docRef = doc(db, "Games", gameId);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      return docSnap.data();
-    } else {
-      console.log("No such document!");
-      return null;
-    }
-  } catch (error) {
-    console.error("Error fetching game:", error);
-  }
-};
-
-// Add or update a game
-export const writeGame = async (gameId, gameData) => {
-  try {
-    const docRef = doc(db, "Games", gameId);
-    await setDoc(docRef, gameData, { merge: true });
-    console.log("Game updated/added:", gameId);
-  } catch (error) {
-    console.error("Error writing game:", error);
+    console.error("Error writing to collection:", error);
   }
 };
