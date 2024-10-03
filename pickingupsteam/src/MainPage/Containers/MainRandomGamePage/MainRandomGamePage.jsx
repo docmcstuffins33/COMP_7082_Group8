@@ -7,7 +7,6 @@ const MainRandomGamePage = () => {
     //page states
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
     // User Data
     //should be load dynamically
     const [userID, setUserID] = useState("");
