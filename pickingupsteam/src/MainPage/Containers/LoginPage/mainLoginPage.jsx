@@ -50,6 +50,15 @@ const MainLoginPage = () => {
     }
   }
 
+  const handleLogout = async (e) => {
+    try {
+      await auth.signOut()
+      console.log("User logged out")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
 <div>
   <div>
@@ -107,6 +116,8 @@ const MainLoginPage = () => {
       <button type="submit">Submit</button>
     </form>
   </div>
+
+  <button onClick={handleLogout}>Log Out</button>
 </div>
   )
 }
