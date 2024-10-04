@@ -7,7 +7,6 @@ const MainRandomGamePage = () => {
     //page states
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
     // User Data
     //should be load dynamically
     const [userID, setUserID] = useState("");
@@ -27,8 +26,6 @@ const MainRandomGamePage = () => {
 
 
     const fetchGameData = async () => {
-        console.log(process.env.REACT_APP_SERVER_URL)
-        console.log(process.env.REACT_APP_SERVER_PORT)
         try{
             let gameData = await GetGameByUserID(userID, serverURL, serverPort);
             setGameData(gameData);
@@ -57,7 +54,7 @@ const MainRandomGamePage = () => {
     return (
     <div class="app__main_container">
         <div class="app__searchBar">
-            {/* Search bar here and setUserId */}
+            <div>
             <input class="app__searchBar-input"
             type="text"
             placeholder='Enter Steam User ID'
@@ -66,7 +63,7 @@ const MainRandomGamePage = () => {
             />
             <button onClick={handleSearch} class='app__searchBar-button' >
                 Search
-            </button>
+             </button> </div>
         </div>
         <div class="app__gameListPanel">
             <div class="app__gameList">

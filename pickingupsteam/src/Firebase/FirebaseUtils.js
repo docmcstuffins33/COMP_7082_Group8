@@ -1,11 +1,11 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "./Firebase";
 
 // Fetch by ID
 // collection - Users, Games, Icons, Banners
-export const fetchUser = async (collection, collectionId) => {
+export const fetchUser = async (UserID) => {
   try {
-    const docRef = doc(db, collection, collectionId);
+    const docRef = doc(db, "Users", UserID);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -20,11 +20,11 @@ export const fetchUser = async (collection, collectionId) => {
 };
 
 // Add or update by ID
-export const writeUser = async (collection, collectionId, collectionData) => {
+export const writeUser = async (userID, userData) => {
   try {
-    const docRef = doc(db, collection, collectionId);
-    await setDoc(docRef, collectionData, { merge: true });
-    console.log("Collection updated/added:", collectionId);
+    const docRef = doc(db, "Users", userID);
+    await setDoc(docRef, userData, { merge: true });
+    console.log("Collection updated/added:", userID);
   } catch (error) {
     console.error("Error writing to collection:", error);
   }
