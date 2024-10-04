@@ -1,25 +1,28 @@
 import React, {useState} from 'react'
 import './MainLoginPage.css'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { auth, db } from '../../../Firebase/Firebase'
-import { fetchUser, writeUser } from '../../../Firebase/FirebaseUtils'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { auth} from '../../../Firebase/Firebase'
+import { writeUser } from '../../../Firebase/FirebaseUtils'
 
 const MainLoginPage = () => {
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [regEmail, setRegEmail] = useState("");
+  const [regPassword, setRegPassword] = useState("");
   const [steamID, setSteamID] = useState("");
   const [username, setUsername] = useState("");
+
+  const [logEmail, setLogEmail] = useState("");
+  const [logPassword, setLogPassword] = useState("");
 
   const handleRegister = async (e) => {
     e.preventDefault()
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, regEmail, regPassword);
       const user = auth.currentUser;
       if(user) {
         const userData = {
           Username: username,
-          Email: email,
+          Email: regEmail,
           Points: 0,
           SteamID: steamID,
           Games: [],
@@ -28,7 +31,6 @@ const MainLoginPage = () => {
             Icons: []
           }
         }
-        console.log(userData);
         await writeUser(user.uid, userData);
       }
       console.log(user);
@@ -37,16 +39,35 @@ const MainLoginPage = () => {
     }
   }
 
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    try {
+      await signInWithEmailAndPassword(auth, logEmail, logPassword)
+      const user = auth.currentUser
+      console.log(user)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
 <div>
   <div>
-    <form>
+    <form onSubmit={handleLogin}>
       <h1>Log In</h1>
       <div>
-        <input type="email" name="email" required></input>
+        <input type="email"         
+        placeholder='Enter Email'
+        value={logEmail}
+        onChange={(e) => setLogEmail(e.target.value)} 
+        name="email" required></input>
       </div>
       <div>
-        <input type="password"name="password" required></input>
+        <input type="password"         
+        placeholder='Enter Password'
+        value={logPassword}
+        onChange={(e) => setLogPassword(e.target.value)}
+        name="password" required></input>
       </div>
       <button type="submit">Submit</button>
     </form>
@@ -58,8 +79,8 @@ const MainLoginPage = () => {
       <div>
         <input type="email"             
         placeholder='Enter Email'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={regEmail}
+        onChange={(e) => setRegEmail(e.target.value)}
         name="email" required></input>
       </div>
       <div>
@@ -79,8 +100,8 @@ const MainLoginPage = () => {
       <div>
         <input type="password" 
         placeholder='Enter Password'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={regPassword}
+        onChange={(e) => setRegPassword(e.target.value)}
         name="password" required></input>
       </div>
       <button type="submit">Submit</button>

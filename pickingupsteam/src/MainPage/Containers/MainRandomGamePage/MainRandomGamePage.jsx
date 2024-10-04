@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { GetGameByUserID } from '../../../SteamUtils/index.js'
 import './MainRandomGamePage.css'
+import { auth } from '../../../Firebase/Firebase.js'
+import { fetchUser } from '../../../Firebase/FirebaseUtils.js'
 
 const MainRandomGamePage = () => {
 
@@ -12,6 +14,8 @@ const MainRandomGamePage = () => {
     const [userID, setUserID] = useState("");
     const [gameData, setGameData] = useState([]);
 
+    const [userData, setUserData] = useState()
+
     // Server Data
     const [serverURL, setServerURL] = useState(process.env.REACT_APP_SERVER_URL);
     const [serverPort, setServerPort] = useState(process.env.REACT_APP_SERVER_PORT);
@@ -21,13 +25,18 @@ const MainRandomGamePage = () => {
 
     //initial fetch
     useEffect(() => {
+        fetchUserData();
         fetchGameData();
     },[])
 
 
+    const fetchUserData = async() =>
+        auth.onAuthStateChanged(async (user) => {
+            setUserData(await fetchUser(user.uid))
+    })
+
     const fetchGameData = async () => {
-        console.log(process.env.REACT_APP_SERVER_URL)
-        console.log(process.env.REACT_APP_SERVER_PORT)
+        console.log(userData)
         try{
             let gameData = await GetGameByUserID(userID, serverURL, serverPort);
             setGameData(gameData);
@@ -56,7 +65,8 @@ const MainRandomGamePage = () => {
     return (
     <div class="app__main_container">
         <div class="app__searchBar">
-            {/* Search bar here and setUserId */}
+            {!auth.currentUser ? (
+            <div>
             <input class="app__searchBar-input"
             type="text"
             placeholder='Enter Steam User ID'
@@ -65,7 +75,8 @@ const MainRandomGamePage = () => {
             />
             <button onClick={handleSearch} class='app__searchBar-button' >
                 Search
-            </button>
+             </button> </div>) : (<div>SteamID: {userID}</div>)
+            }
         </div>
         <div class="app__gameListPanel">
             <div class="app__gameList">
