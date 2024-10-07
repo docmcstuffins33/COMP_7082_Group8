@@ -82,99 +82,89 @@ const MainLoginPage = () => {
     }
 
   return (
-    <div class="app__mainPanel">
-        <div class="app__login-form">
+    <div className="app__mainPanel">
+        <div className="app__login-form">
             <Box component="form"
                 sx={{ '& .MuiTextField-root': { m: 1, width: '1ch' } }}
                 noValidate
                 autoComplete="on"
-                style={{display: 'flex', flexDirection: 'column', width: '50%'}}
+                style={{ display: 'flex', flexDirection: 'column', width: '50%' }}
                 onSubmit={handleLogin}
-                >
-                    <h1>Log In</h1>
-                    <Textfield
-                        required
-                        id="outlined-required"
-                        label="Email"
-                        variant="filled"
-                        style={{width: '25ch', backgroundColor: 'white', width: '100%'}}
-                        onChange={(e) => setLogEmail(e.target.value)}
-                    ></Textfield>
-                    <Textfield
-                        required
-                        id="outlined-required"
-                        label="Password"
-                        variant="filled"
-                        style={{width: '25ch', backgroundColor: 'white', width: '100%'}}
-                        onChange={(e) => setLogPassword(e.target.value)}
-                    ></Textfield>
-                    <button class="login__link-button" type="submit">Submit</button>
+            >
+                <h1>Log In</h1>
+                <Textfield
+                    required
+                    id="log-email"
+                    label="Email"
+                    type="email"
+                    variant="filled"
+                    input="email"
+                    style={{ width: '100%', backgroundColor: 'white' }}
+                    onChange={(e) => setLogEmail(e.target.value)}
+                />
+                <Textfield
+                    required
+                    id="log-password"
+                    label="Password"
+                    type="password"
+                    variant="filled"
+                    style={{ width: '100%', backgroundColor: 'white' }}
+                    onChange={(e) => setLogPassword(e.target.value)}
+                />
+                <button className="login__link-button" type="submit">Submit</button>
             </Box>
-
-            {/* <form onSubmit={handleLogin}>
-            <h1>Log In</h1>
-            <div>
-                <input type="email"         
-                placeholder='Enter Email'
-                value={logEmail}
-                onChange={(e) => setLogEmail(e.target.value)} 
-                name="email" required
-                class="login_inputField"></input>
-            </div>
-            <div>
-                <input type="password"         
-                placeholder='Enter Password'
-                value={logPassword}
-                onChange={(e) => setLogPassword(e.target.value)}
-                name="password" required
-                class="login_inputField"></input>
-            </div>
-            <button class="login__link-button" type="submit">Submit</button>
-            </form> */}
         </div>
 
-        <div class="app__register-form">
-            <form onSubmit={handleRegister}>
-            <h1>Sign Up</h1>
-            <div>
-                <input type="email"             
-                placeholder='Enter Email'
-                value={regEmail}
-                onChange={(e) => setRegEmail(e.target.value)}
-                name="email" required
-                class="login_inputField"></input>
-            </div>
-            <div>
-                <input type="text"             
-                placeholder='Enter Username'
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                name="username" required
-                class="login_inputField"></input>
-            </div>
-            <div>
-                <input type="text"        
-                placeholder='Enter SteamID'
-                value={steamID}
-                onChange={(e) => setSteamID(e.target.value)}
-                name="steamid" required 
-                class="login_inputField"></input>
-            </div>
-            <div>
-                <input type="password" 
-                placeholder='Enter Password'
-                value={regPassword}
-                onChange={(e) => setRegPassword(e.target.value)}
-                name="password" required
-                class="login_inputField"></input>
-            </div>
-            <button class="login__link-button" type="submit">Submit</button>
-            </form>
+        <div className="app__register-form">
+            <Box component="form"
+                sx={{ '& .MuiTextField-root': { m: 1, width: '1ch' } }}
+                noValidate
+                autoComplete="on"
+                style={{ display: 'flex', flexDirection: 'column', width: '50%' }}
+                onSubmit={handleRegister}
+            >
+                <h1>Sign Up</h1>
+                <Textfield
+                    required
+                    id="reg-email"
+                    label="Email"
+                    type="email"
+                    variant="filled"
+                    style={{ width: '100%', backgroundColor: 'white' }}
+                    onChange={(e) => setRegEmail(e.target.value)}
+                />
+                <Textfield
+                    required
+                    id="reg-username"
+                    label="Username"
+                    type="text"
+                    variant="filled"
+                    style={{ width: '100%', backgroundColor: 'white' }}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <Textfield
+                    required
+                    id="reg-steamid"
+                    label="SteamID"
+                    type="text"
+                    variant="filled"
+                    style={{ width: '100%', backgroundColor: 'white' }}
+                    onChange={(e) => setSteamID(e.target.value)}
+                />
+                <Textfield
+                    required
+                    id="reg-password"
+                    label="Password"
+                    type="password"
+                    variant="filled"
+                    style={{ width: '100%', backgroundColor: 'white' }}
+                    onChange={(e) => setRegPassword(e.target.value)}
+                />
+                <button className="login__link-button" type="submit">Submit</button>
+            </Box>
         </div>
-
-        {/* <button onClick={handlesignOut}>Log Out</button> */}
     </div>
-  )
+    )
 }
 
 export default MainLoginPage
