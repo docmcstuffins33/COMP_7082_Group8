@@ -111,7 +111,7 @@ const MainLoginPage = () => {
                     style={{ width: '100%', backgroundColor: 'white' }}
                     onChange={(e) => setLogPassword(e.target.value)}
                 />
-                <button className="login__link-button" type="submit">Submit</button>
+                <button className="login__link-button" type="submit">Log In</button>
             </Box>
         </div>
 
@@ -160,7 +160,7 @@ const MainLoginPage = () => {
                     style={{ width: '100%', backgroundColor: 'white' }}
                     onChange={(e) => setRegPassword(e.target.value)}
                 />
-                <button className="login__link-button" type="submit">Submit</button>
+                <button className="login__link-button" type="submit">Sign Up</button>
             </Box>
         </div>
     </div>

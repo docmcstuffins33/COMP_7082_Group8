@@ -31,7 +31,6 @@ const MainCreditPage = () => {
         if(isAuthenticated){
             const authUser = auth.currentUser;
             removeCreditFromUser(authUser.uid, user, 10);
-            setCredit(credit - 10);
         }
     }
     return (
