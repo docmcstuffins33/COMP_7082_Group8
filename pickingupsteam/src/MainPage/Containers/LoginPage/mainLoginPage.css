@@ -1,0 +1,72 @@
+
+/* ------------------Main Panel Container-------------------------*/
+.app__mainPanel{
+    display: flex;
+    flex-direction: row;
+    justify-content:  center;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    padding: 0 2rem;
+    
+}
+/* ------------------Main Panel Container-------------------------*/
+
+/* ------------------Login Form Container-------------------------*/
+.app__login-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    width: 50%;
+    height: 100%;
+    padding: 0 2rem;
+}
+/* ------------------Login Form Container-------------------------*/
+
+/* ------------------Register Form Container-------------------------*/
+.app__register-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 50%;
+    height: 100%;
+    padding: 0 2rem;
+}
+/* ------------------Register Form Container-------------------------*/
+
+/* ------------------Input Field-------------------------*/
+.login_inputField{
+    width:100%;
+    margin-top: 5%;
+    padding:1rem;
+    border:none;
+    border-radius: 5%;
+    background-color: var(--white-color);
+    outline:none
+}
+
+/* ------------------Input Field-------------------------*/
+
+/* ------------------Buttons-------------------------*/
+.login__link-button{
+    margin: 5%;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    color: var(--black-color);
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 5%;
+    transition: all 0.2s ease-in-out;
+    font-weight: 600;
+}
+
+.login__link-button:hover{
+    font-size: 1rem;
+    background-color: var(--hover-color);
+    box-shadow: 6px 6px 6px rgba(0,0,0,0.1),
+    -6px -6px 6px rgba(255,255,255,0.1);
+    cursor: pointer;
+}
+/* ------------------Buttons-------------------------*/

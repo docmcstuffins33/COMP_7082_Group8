@@ -3,50 +3,53 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: #333;
+    background-color: var(--header-color);
+    height: 8vh;
   }
+
   
-  .app__navbar-logo {
+.app__navbar-logo {
     color: white;
     font-size: 1.5rem;
-  }
-  .app__navbar-links{
+    transition: all 0.15s ease-in-out;
+}
+
+.app__navbar-logo:hover{
+    font-size: 1.7rem;
+}
+
+.app__navbar-links{
+    width: 75%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
 
-  }
+}
 
-  .app__linkButton{
-    margin: 0 2rem;
-    padding: 1rem 1rem;
+.app__linkButton{
+    margin: 0 1.5rem;
+    padding: 1rem 1.5rem;
     font-size: 1rem;
-    color: black;
-    background-color: #ffffff;
-    border: none;
-    
-  }
+    color: var(--black-color);
+    background-color: var(--primary-color);
+    border: 0.25rem solid var(--black-color);
+    border-radius: 15%;
+    transition: all 0.2s ease-in-out;
+    font-weight: 600;
 
-  .app__linkButton:hover{
-    background-color: #45a049;
-    
-  }
+}
 
-  .app__narbar-credit{
-
-  }
-  .app__narbar-store{
-
-  }
-  .app__narbar-login {
-    background-color: #4CAF50;
-    border: none;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
+.app__linkButton:hover{
+    font-size: 1.2rem;
+    background-color: var(--hover-color);
+    box-shadow: 6px 6px 6px rgba(0,0,0,0.1),
+    -6px -6px 6px rgba(255,255,255,0.1);
     cursor: pointer;
-  }
-  
-  .app__narbar-login:hover {
-    background-color: #45a049;
-  }
+}
+.app__narbar-credit{
+
+}
+.app__narbar-store{
+
+}

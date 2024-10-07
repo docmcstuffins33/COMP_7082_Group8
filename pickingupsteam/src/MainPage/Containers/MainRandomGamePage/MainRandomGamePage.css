@@ -36,12 +36,12 @@
 }
 .app__gameList-container{
     padding: 0.25rem;
-    background-color: #848484;
+    background-color: var(--gray-color);
 
 }
 .app__gameList-item{
     display: flex;
-    border: 2px solid black;
+    border: 2px solid var(--black-color);
     border-radius: 4px;
     margin-bottom: 0.5rem;
     align-items: center;
@@ -49,7 +49,7 @@
 
 }
 .app__gameList-item-text{
-    color:black
+    color:var(--black-color);
 }
 /* ------------------End of Game list Container-------------------------*/
 
@@ -63,3 +63,4 @@
     height: 100%;
     padding: 0 2rem;
 }
+/* ------------------End of Random Game Wheel Container-------------------------*/
