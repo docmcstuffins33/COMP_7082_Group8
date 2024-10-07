@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 
-import { MainRandomGamePage, Navbar, Store, LoginPage, CreditPage} from './MainPage/index.js';
+import { MainRandomGamePage, Navbar, Store, LoginPage, CreditPage, ProfilePage, SignoutPage} from './MainPage/index.js';
 
 function App() {
     return (
@@ -18,6 +18,8 @@ function App() {
                         <Route path="/store" element={<Store />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/credit" element={<CreditPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/signout" element={<SignoutPage />} />
                     </Routes>
                 </BrowserRouter>
             </div>

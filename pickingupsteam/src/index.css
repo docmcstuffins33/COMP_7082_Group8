@@ -4,27 +4,40 @@
     --font-base: "DM Sans", sans-serif;
 
     --primary-color: #edf2f8;
-    --secondary-color: #313bac;
+    --secondary-color: #2a475e;
+    --header-color: #1b2838;
     --black-color: #030303;
     --lightGray-color: #e4e4e4;
     --gray-color: #6b7688;
     --brown-color: #46364a;
     --white-color: #ffffff;
     --yellow-color: #ffd321;
+    --hover-color: #66c0f4;
     --primary-background-color: linear-gradient(white, #3A3A3A);
-
-    /* Dark mode colors */
-    --dark-primary-color: #1a202c;
-    --dark-secondary-color: #f8f8f8;
-    --dark-black-color: #f8f8f8;
-    --dark-lightGray-color: #333333;
-    --dark-gray-color: #d2d6dc;
-    --dark-brown-color: #1a202c;
-    --dark-white-color: #1a202c;
-    --dark-yellow-color: #ffc107;
-
     
 }
+[data-theme="dark"] {
+    --primary-color: #2c2c2c;        
+    --secondary-color: #66c0f4;      
+    --header-color: #1b2838;         
+    --black-color: #eaeaea;          
+    --lightGray-color: #353535;      
+    --gray-color: #b0b3b8;           
+    --brown-color: #b9a9b6;          
+    --white-color: #121212;   
+    --hover-color: #2a475e;       
+    --yellow-color: #ffd321;    
+    
+    
+    /* undecided */
+    --primary-background-color: linear-gradient(white, #3A3A3A);
+}
+
+/*default no underline for all links*/
+a {
+    text-decoration: none;
+}
+
 .content{
     background: var(--primary-background-color);
     height: 100%;
