@@ -70,7 +70,26 @@ app.get('/api/gamesByUser/:uid', async (req, res) => {
     }
 });
 
-app.get('/api/howLongToBeat/:name', async (req, res) => {
+//SteamSpy api route, should hypothetically be fetching data including the median playtime.
+//Currently the api seems to always return 0? I've reached out to the API developer and am awaiting a response.
+app.get('/api/steamSpy/:appid', async (req, res) => {
+    console.log("Recieved Request.")
+    try {
+        const appid = req.params.appid;
+        const response = await axios.get('http://steamspy.com/api.php?request=appdetails&appid=' + appid);
+        res.send(response.data);
+    } catch (error) {
+        console.error('Error fetching data from Steam API:', error);
+        res.status(500).send('Error fetching data from Steam API');
+        console.log(req.params.appid);
+        console.log(STEAM_API_KEY);
+    }
+});
+
+
+
+//This route can get some extra stats about a game. Might be unnecessary, but was implemented in hopes that it would show playtime.
+app.get('/api/IGDB/:name', async (req, res) => {
     console.log("Recieved Request.")
     try {
         await checkAccessToken();
