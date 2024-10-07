@@ -1,9 +1,46 @@
 import React from 'react'
-import './mainCreditPage.css'
-const mainCreditPage = () => {
-  return (
-    <div>mainCreditPage</div>
-  )
+import './MainCreditPage.css'
+import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect} from 'react';
+import { addCredit, removeCredit } from '../../../Firebase/FirebaseUtils';
+import { auth } from '../../../Firebase/Firebase';
+import{ useFirebaseHook } from '../../../Firebase/FireBaseHook'
+
+const MainCreditPage = () => {
+    const {user, isAuthenticated} = useSelector(state => state.auth);
+    const [credit, setCredit] = useState(0);
+
+    const {addCreditToUser, removeCreditFromUser } = useFirebaseHook();
+    
+
+    useEffect(() => {
+        if(user){
+            console.log("Current Credit: " + user.Points);
+            setCredit(user.Points);
+        }
+    }, [user]);
+
+    const AddCredit = () => {
+        if(isAuthenticated){
+            const authUser = auth.currentUser;
+            addCreditToUser(authUser.uid, user, 10);
+
+        }
+    }
+    const MinusCredit = () => {
+        if(isAuthenticated){
+            const authUser = auth.currentUser;
+            removeCreditFromUser(authUser.uid, user, 10);
+            setCredit(credit - 10);
+        }
+    }
+    return (
+        <div>CurrentCredit: {credit}
+        <button onClick={AddCredit}>AddCredit</button>
+        <button onClick={MinusCredit}>MinusCredit</button>
+        
+        </div>
+    )
 }
 
-export default mainCreditPage
+export default MainCreditPage

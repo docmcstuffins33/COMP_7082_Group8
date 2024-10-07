@@ -1,3 +1,5 @@
+
+//---------------------setup express server----------------------
 const express = require('express');
 const app = express();
 const axios = require('axios');
@@ -5,19 +7,26 @@ const cors = require("cors")
 
 require('dotenv').config()
 
-const STEAM_API_KEY = process.env.STEAM_API_KEY;
-
 app.use(cors({
     origin:"*",
     methods:['GET']
 }))
 
+//handle JSON requests
+var bodyParser = require('body-parser')
+app.use(bodyParser.json());
 // Start the server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
     console.log('Press Ctrl+C to quit.');
 });
+//---------------------setup express server----------------------
+
+
+const STEAM_API_KEY = process.env.STEAM_API_KEY;
+
+
 
 //76561198290514792 is will's steam id. You can use this to test if you want
 app.get('/api/gamesByUser/:uid', async (req, res) => {
