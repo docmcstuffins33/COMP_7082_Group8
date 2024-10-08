@@ -54,16 +54,15 @@ const MainRandomGamePage = () => {
     return (
     <div class="app__main_container">
         <div class="app__searchBar">
-            <div>
             <input class="app__searchBar-input"
-            type="text"
-            placeholder='Enter Steam User ID'
-            value={userID}
-            onChange={(e) => setUserID(e.target.value)}
+                type="text"
+                placeholder='Enter Steam User ID'
+                value={userID}
+                onChange={(e) => setUserID(e.target.value)}
             />
             <button onClick={handleSearch} class='app__searchBar-button' >
                 Search
-             </button> </div>
+            </button>
         </div>
         <div class="app__gameListPanel">
             <div class="app__gameList">
