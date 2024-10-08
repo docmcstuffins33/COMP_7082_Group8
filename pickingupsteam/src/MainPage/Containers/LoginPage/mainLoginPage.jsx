@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import './MainLoginPage.css'
+import './mainLoginPage.css'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth} from '../../../Firebase/Firebase'
 

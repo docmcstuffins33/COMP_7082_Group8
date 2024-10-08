@@ -1,5 +1,5 @@
 import React from 'react'
-import './MainCreditPage.css'
+import './mainCreditPage.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect} from 'react';
 import { addCredit, removeCredit } from '../../../Firebase/FirebaseUtils';
