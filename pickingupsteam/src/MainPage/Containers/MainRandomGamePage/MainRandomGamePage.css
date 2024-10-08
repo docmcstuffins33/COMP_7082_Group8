@@ -1,4 +1,4 @@
-
+/* ------------------Main Panel Container-------------------------*/
 
 .app__main_container{
     display: flex;
@@ -10,6 +10,7 @@
 }
 
 /* ------------------Main Panel Container-------------------------*/
+
 .app__gameListPanel{
     display: flex;
     flex-direction: row;
@@ -18,9 +19,49 @@
     width: 100%;
     height: 100%;
     padding: 0 2rem;
-    
 }
-/* ------------------Main Panel Container-------------------------*/
+/* ------------------SearchBar-------------------------*/
+.app__searchBar{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: min(40%, 480px);
+
+    height: 100%;
+    padding: 0 2rem;
+}
+.app__searchBar-input{
+    width:100%;
+    margin-top: 5%;
+    padding:1rem;
+    border:none;
+    border-radius: 5%;
+    background-color: var(--white-color);
+    outline:none
+}
+
+.app__searchBar-button{
+    margin: 1%;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    color: var(--black-color);
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 5%;
+    transition: all 0.2s ease-in-out;
+    font-weight: 600;
+}
+
+.app__searchBar-button:hover{
+    font-size: 1rem;
+    background-color: var(--hover-color);
+    box-shadow: 6px 6px 6px rgba(0,0,0,0.1),
+    -6px -6px 6px rgba(255,255,255,0.1);
+    cursor: pointer;
+}
+/* -------------------SearchBar-------------------------*/
+
 
 
 
@@ -46,7 +87,11 @@
     margin-bottom: 0.5rem;
     align-items: center;
     justify-content: center;
+    transition: all 0.2s ease-in-out;
 
+}.app__gameList-item:hover{
+
+    background-color: var(--white-color);
 }
 .app__gameList-item-text{
     color:var(--black-color);
@@ -63,4 +108,26 @@
     height: 100%;
     padding: 0 2rem;
 }
+
+.app__randomGameWheel-button{
+    margin: 1%;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    color: var(--black-color);
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 5%;
+    transition: all 0.2s ease-in-out;
+    font-weight: 600;
+}
+
+.app__randomGameWheel-button:hover{
+    font-size: 1rem;
+    background-color: var(--hover-color);
+    box-shadow: 6px 6px 6px rgba(0,0,0,0.1),
+    -6px -6px 6px rgba(255,255,255,0.1);
+    cursor: pointer;
+}
+
 /* ------------------End of Random Game Wheel Container-------------------------*/
+

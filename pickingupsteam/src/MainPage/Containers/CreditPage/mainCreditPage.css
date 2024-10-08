@@ -1,0 +1,31 @@
+.credit__container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 2rem;
+}
+
+/* ------------------Buttons-------------------------*/
+.credit__add-button{
+    margin: 1%;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    color: var(--black-color);
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 5%;
+    transition: all 0.2s ease-in-out;
+    font-weight: 600;
+}
+
+.credit__add-button:hover{
+    font-size: 1rem;
+    background-color: var(--hover-color);
+    box-shadow: 6px 6px 6px rgba(0,0,0,0.1),
+    -6px -6px 6px rgba(255,255,255,0.1);
+    cursor: pointer;
+}
+/* ------------------Buttons-------------------------*/

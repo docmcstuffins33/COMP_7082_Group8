@@ -34,9 +34,10 @@ const MainCreditPage = () => {
         }
     }
     return (
-        <div>CurrentCredit: {credit}
-        <button onClick={AddCredit}>AddCredit</button>
-        <button onClick={MinusCredit}>MinusCredit</button>
+        <div class="credit__container">
+            <h1>CurrentCredit: {credit}</h1>
+            <button class ="credit__add-button" onClick={AddCredit}>AddCredit</button>
+            <button  class ="credit__add-button" onClick={MinusCredit}>MinusCredit</button>
         
         </div>
     )
