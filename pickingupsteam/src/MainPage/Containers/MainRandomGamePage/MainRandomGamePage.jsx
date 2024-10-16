@@ -29,6 +29,12 @@ const MainRandomGamePage = () => {
         try{
             let gameData = await GetGameByUserID(userID, serverURL, serverPort);
             setGameData(gameData);
+            //let completeTime = 30;
+            //if (gameData.length > 0) {
+            //    incompleteGameData = await gameData.filter(game => game.playtime_forever < completeTime);
+             //   setIncompleteGameData(incompleteGameData);
+            //}
+            
         }catch(err){
             setError(err);
             console.error(err);
@@ -47,8 +53,9 @@ const MainRandomGamePage = () => {
         if (gameData.length === 0) {
             return;
         }
-        const randomIndex = Math.floor(Math.random() * gameData.length);
-        setRandomGame(gameData[randomIndex].name);
+        let incompleteGameData = gameData.filter(game => game.playtime_forever < 30);
+        const randomIndex = Math.floor(Math.random() * incompleteGameData.length);
+        setRandomGame(incompleteGameData[randomIndex].name);
     }
 
     return (
@@ -71,7 +78,7 @@ const MainRandomGamePage = () => {
                     
                     {loading ? (<div>Loading...</div>) :
                     (error ? (<div>Error</div>) :
-                    (gameData.map(game => (<div className="app__gameList-item">{
+                    (gameData.filter(game => game.playtime_forever < 30).map(game => (<div className="app__gameList-item">{
                         <p className="app__gameList-item-text">{game.name}</p>
                         }</div>))))}
                 </div>
