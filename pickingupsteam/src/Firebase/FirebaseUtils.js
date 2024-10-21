@@ -1,5 +1,6 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { db } from "./Firebase";
+import { collection, doc, getDoc, setDoc, getDocs } from "firebase/firestore";
+import { ref, getDownloadURL } from "firebase/storage";
+import { db, storage } from "./Firebase";
 
 // Fetch by ID
 // collection - Users, Games, Icons, Banners
@@ -28,6 +29,36 @@ export const writeUser = async (userID, userData) => {
         console.error("Error writing to collection:", error);
     }
 };
+
+export const fetchAllIcons = async () => {
+    try {
+        const docSnap = await getDocs(collection(db, 'Icons'));
+        if (!docSnap.empty) {
+            const data = docSnap.docs.map(doc => doc.data());
+            console.log(data);
+            return data;
+        } else {
+            console.log("Data does not exist");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching from collection:", error);
+    }
+};
+
+export const getImage = async (name) => {
+    try {
+        const url = await getDownloadURL(ref(storage, name))
+        if (url) {
+            return url;
+        } else {
+            console.log("URL does not exist");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching image:", error);
+    }
+}
 
 
 export const addCredit = async (userID, userData, amount) => {
