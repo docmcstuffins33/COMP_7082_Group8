@@ -46,6 +46,22 @@ export const fetchAllIcons = async () => {
     }
 };
 
+export const fetchAllBackgrounds = async () => {
+    try {
+        const docSnap = await getDocs(collection(db, 'Backgrounds'));
+        if (!docSnap.empty) {
+            const data = docSnap.docs.map(doc => doc.data());
+            console.log(data);
+            return data;
+        } else {
+            console.log("Data does not exist");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching from collection:", error);
+    }
+};
+
 export const getImage = async (name) => {
     try {
         const url = await getDownloadURL(ref(storage, name))
