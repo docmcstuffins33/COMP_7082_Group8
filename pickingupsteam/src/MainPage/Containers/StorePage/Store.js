@@ -83,7 +83,7 @@ function Store() {
                     <img class="rounded dummyProfile" src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"></img>
                 </div>
                 <p key={dec.name}>{dec.name}</p>
-                <button class='itemCost' onClick={() => openModal(dec)}>Cost: {dec.cost}</button>
+                <button className='itemCost' onClick={() => openModal(dec)}>Cost: {dec.cost}</button>
             </div>
         ))}
     </div>
@@ -107,17 +107,22 @@ function Store() {
         contentLabel="PurchaseModal"
       >
         <button onClick={closeModal}>X</button>
+        {selectedPurchase && 
         <h2>{selectedPurchase.name}</h2>
-        {selectedPurchase.type == "icon" && 
+        }
+        {selectedPurchase && selectedPurchase.type == "icon" && 
             <div class="profileImgHolder">
                 <img class="icon" src={selectedPurchase.img}></img>
                 <img class="rounded dummyProfile" src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"></img>
             </div>
         }
-        {selectedPurchase.type == "bg" && 
+        {selectedPurchase && selectedPurchase.type == "bg" && 
             <img class="bg" src={selectedPurchase.img}></img>
         }
+        {selectedPurchase && 
         <button class='itemCost'>Purchase for {selectedPurchase.cost}</button>
+        }
+        
       </Modal>
     </div>
     </>
