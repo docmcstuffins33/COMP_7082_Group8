@@ -29,6 +29,12 @@ const MainRandomGamePage = () => {
         try{
             let gameData = await GetGameByUserID(userID, serverURL, serverPort);
             setGameData(gameData);
+            //let completeTime = 30;
+            //if (gameData.length > 0) {
+            //    incompleteGameData = await gameData.filter(game => game.playtime_forever < completeTime);
+             //   setIncompleteGameData(incompleteGameData);
+            //}
+            
         }catch(err){
             setError(err);
             console.error(err);
@@ -47,8 +53,9 @@ const MainRandomGamePage = () => {
         if (gameData.length === 0) {
             return;
         }
-        const randomIndex = Math.floor(Math.random() * gameData.length);
-        setRandomGame(gameData[randomIndex].name);
+        let incompleteGameData = gameData.filter(game => game.playtime_forever < 30);
+        const randomIndex = Math.floor(Math.random() * incompleteGameData.length);
+        setRandomGame(incompleteGameData[randomIndex].name);
     }
 
     return (
@@ -60,28 +67,28 @@ const MainRandomGamePage = () => {
                 value={userID}
                 onChange={(e) => setUserID(e.target.value)}
             />
-            <button onClick={handleSearch} class='app__searchBar-button' >
+            <button onClick={handleSearch} className='app__searchBar-button' >
                 Search
             </button>
         </div>
-        <div class="app__gameListPanel">
-            <div class="app__gameList">
+        <div className="app__gameListPanel">
+            <div className="app__gameList">
                 <h2>Game List </h2>
-                <div class="app__gameList-container">
+                <div className="app__gameList-container">
                     
                     {loading ? (<div>Loading...</div>) :
                     (error ? (<div>Error</div>) :
-                    (gameData.map(game => (<div class="app__gameList-item">{
-                        <p class="app__gameList-item-text">{game.name}</p>
+                    (gameData.filter(game => game.playtime_forever < 30).map(game => (<div className="app__gameList-item">{
+                        <p className="app__gameList-item-text">{game.name}</p>
                         }</div>))))}
                 </div>
 
             </div>
-            <div class="app__randomGameWheel">
+            <div className="app__randomGameWheel">
                 <h2>
                     Random Game
                 </h2>
-                <button class="app__randomGameWheel-button" onClick={pickRandomGame}>Pick Random Game</button>
+                <button className="app__randomGameWheel-button" onClick={pickRandomGame}>Pick Random Game</button>
                 <p>
                     {randomGame}
                 </p>
