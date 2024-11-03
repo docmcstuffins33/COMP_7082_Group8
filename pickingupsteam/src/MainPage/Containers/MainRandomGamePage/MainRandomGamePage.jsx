@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { GetGameByUserID } from '../../../SteamUtils/index.js'
 import './MainRandomGamePage.css'
+import { useSelector } from 'react-redux';
 
 const MainRandomGamePage = () => {
 
     //page states
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
     // User Data
-    //should be load dynamically
-    const [userID, setUserID] = useState("");
+    const {user} = useSelector(state => state.auth);
+
+    //Steam ID
+    const [steamID, setSteamID] = useState("");
     const [gameData, setGameData] = useState([]);
 
     // Server Data
@@ -21,32 +25,41 @@ const MainRandomGamePage = () => {
 
     //initial fetch
     useEffect(() => {
+        if(!user) return;
         fetchGameData();
     },[])
 
+    useEffect(() => {
+        if (user && user.SteamID) {
+            setSteamID(user.SteamID);
+            fetchGameData(user.SteamID);
+        }
+    }, [user]);
 
-    const fetchGameData = async () => {
-        try{
-            let gameData = await GetGameByUserID(userID, serverURL, serverPort);
+    useEffect(() => {
+
+    },[gameData])
+
+    const fetchGameData = async (id = steamID) => {
+        setLoading(true);
+        try {
+            const gameData = await GetGameByUserID(id, serverURL, serverPort);
             setGameData(gameData);
             //let completeTime = 30;
             //if (gameData.length > 0) {
             //    incompleteGameData = await gameData.filter(game => game.playtime_forever < completeTime);
              //   setIncompleteGameData(incompleteGameData);
             //}
-            
-        }catch(err){
+        } catch (err) {
             setError(err);
             console.error(err);
-        }finally{
+        } finally {
             setLoading(false);
         }
-        
-        console.log(gameData)
     }
 
     const handleSearch = async () => {
-        fetchGameData()
+        fetchGameData();
     }
 
     const pickRandomGame = () => {
@@ -64,8 +77,8 @@ const MainRandomGamePage = () => {
             <input class="app__searchBar-input"
                 type="text"
                 placeholder='Enter Steam User ID'
-                value={userID}
-                onChange={(e) => setUserID(e.target.value)}
+                value={steamID}
+                onChange={(e) => setSteamID(e.target.value)}
             />
             <button onClick={handleSearch} className='app__searchBar-button' >
                 Search
@@ -75,7 +88,6 @@ const MainRandomGamePage = () => {
             <div className="app__gameList">
                 <h2>Game List </h2>
                 <div className="app__gameList-container">
-                    
                     {loading ? (<div>Loading...</div>) :
                     (error ? (<div>Error</div>) :
                     (gameData.filter(game => game.playtime_forever < 30).map(game => (<div className="app__gameList-item">{
