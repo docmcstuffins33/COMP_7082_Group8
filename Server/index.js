@@ -24,34 +24,6 @@ app.listen(PORT, () => {
 //---------------------setup express server----------------------
 
 const STEAM_API_KEY = process.env.STEAM_API_KEY;
-const TWITCH_CLIENT_ID = process.env.TWITCH_CLIENT_ID;
-const TWITCH_CLIENT_SECRET = process.env.TWITCH_CLIENT_SECRET;
-
-let igdbAccessToken = null;
-let igdbTokenExpiryTime = null;
-
-async function getAccessToken(){
-    try {
-        const response = await axios.post('https://id.twitch.tv/oauth2/token?client_id=' + TWITCH_CLIENT_ID + '&client_secret=' + TWITCH_CLIENT_SECRET + '&grant_type=client_credentials');
-        igdbAccessToken = response.data.access_token;
-        const expiresIn = response.data.expires_in;
-
-        // Calculate expiry time in milliseconds
-        igdbTokenExpiryTime = Date.now() + (expiresIn - 300) * 1000; // Refresh 5 minutes before expiration
-
-        console.log('Access token fetched:', igdbAccessToken);
-    } catch (error) {
-        console.error('Error fetching access token:', error);
-    }
-}
-
-async function checkAccessToken() {
-    if (!igdbAccessToken || Date.now() >= igdbTokenExpiryTime) {
-        await getAccessToken();
-    }
-}
-
-getAccessToken();
 
 //76561198290514792 is will's steam id. You can use this to test if you want
 app.get('/api/gamesByUser/:uid', async (req, res) => {
