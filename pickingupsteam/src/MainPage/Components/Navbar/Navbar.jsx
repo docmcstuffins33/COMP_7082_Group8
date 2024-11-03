@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Navbar.css'; // Optional: for styling
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
 
@@ -10,6 +10,13 @@ function Navbar() {
     //storing the credit, should be dynamic or stored in a database
     const {user, isAuthenticated} = useSelector(state => state.auth);
     const [credit, setCredit] = useState(0);
+
+    //handle the redirect to previous page
+    const location = useLocation();
+    const handleLoginClick = () => {
+        sessionStorage.setItem("previousPage", location.pathname);
+    };
+
     useEffect(() => {
         if(user){
             console.log("Current Credit: " + user.Points);
@@ -34,13 +41,13 @@ function Navbar() {
                     <Link to="/profile" className="app__linkButton">
                         Profile
                     </Link>
-                    <Link to="/signOut" className="app__linkButton">
+                    <Link to="/signOut" className="app__linkButton" onClick={handleLoginClick}>
                         Sign out
                     </Link>
                 </>
                 :
                 <>
-                    <Link to="/login" className="app__linkButton">
+                    <Link to="/login" className="app__linkButton" onClick={handleLoginClick}>
                         Login
                     </Link>
                 </>

@@ -63,7 +63,10 @@ const MainLoginPage = () => {
         console.log(user.uid)
         await startLogin(user.uid).then((state)=>{
             if(state){
-                navigate('/profile')
+                //redirect to previous page
+                const previousPage = sessionStorage.getItem("previousPage") || '/profile';
+                navigate(previousPage);
+                sessionStorage.removeItem("previousPage"); // Clear after redirection
             }
         })
 

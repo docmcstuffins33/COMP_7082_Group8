@@ -11,6 +11,7 @@ const SignoutPage = () => {
     const navigate = useNavigate();
     const {SignOutUser} = useFirebaseHook();
 
+    //handle logout
     useEffect(() => {
         const StartsignOut = async () => {
             await SignOutUser();
@@ -20,7 +21,10 @@ const SignoutPage = () => {
             setReturnTimer(time =>{
                 if(time === 0) {
                     clearInterval(timer)
-                    navigate('/home')
+                    //redirect to previous page
+                    const previousPage = sessionStorage.getItem("previousPage") || '/home';
+                    navigate(previousPage);
+                    sessionStorage.removeItem("previousPage"); // Clear after redirection
                     return 0
                 }
                 return time - 1

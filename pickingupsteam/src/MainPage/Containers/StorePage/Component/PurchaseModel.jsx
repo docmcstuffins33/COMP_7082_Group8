@@ -26,6 +26,7 @@ function PurchaseModal({ isOpen, onRequestClose: closeModel, selectedPurchase })
     const PurchaseIcon = async () => {
         try{
             const authUser = auth.currentUser;
+            //call hook to update user with the selected purchase
             await purchaseIconInStore(authUser.uid, user, selectedPurchase);
             closeModel();
         }
@@ -33,9 +34,11 @@ function PurchaseModal({ isOpen, onRequestClose: closeModel, selectedPurchase })
             console.log(error);
         }
     }
+
     const PurchaseBackground = async () => {
         try{
             const authUser = auth.currentUser;
+            //call hook to update user with the selected purchase
             await purchaseBackgroundInStore(authUser.uid, user, selectedPurchase);
             closeModel();
         }
