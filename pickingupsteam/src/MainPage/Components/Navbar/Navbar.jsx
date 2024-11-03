@@ -23,8 +23,15 @@ function Navbar() {
             setCredit(user.Points);
         }
     }, [user]);
+
+    // Determine background style
+    const navbarStyle = {
+        backgroundImage: isAuthenticated && user.Inventory?.Banners?.length > 0 
+            ? `url(${user.Inventory.Banners[0].img})` 
+            : 'none',
+    };
     return (
-        <nav className="app__navbar">
+        <nav className="app__navbar" style={navbarStyle}>
         <Link to="/home">
             <h1 className="app__navbar-logo">Picking Up Steam</h1>
         </Link>

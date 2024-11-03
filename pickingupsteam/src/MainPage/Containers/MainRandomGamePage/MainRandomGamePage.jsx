@@ -74,15 +74,25 @@ const MainRandomGamePage = () => {
     return (
     <div class="app__main_container">
         <div class="app__searchBar">
-            <input class="app__searchBar-input"
+            {user && user.Inventory &&user.Inventory.Icons ? 
+            <div class ="app_user-profile-container">
+                <img src={user.Inventory.Icons[0]?.img} alt={`${user.Username}'s icon`} className="app__user-profile-iconTheme" />
+                <h1 class="app__user-profile-text">Welcome, {user.Username}!</h1>
+            </div>
+            :
+            <>
+                <input class="app__searchBar-input"
                 type="text"
                 placeholder='Enter Steam User ID'
                 value={steamID}
                 onChange={(e) => setSteamID(e.target.value)}
-            />
-            <button onClick={handleSearch} className='app__searchBar-button' >
-                Search
-            </button>
+                />
+                <button onClick={handleSearch} className='app__searchBar-button' >
+                    Search
+                </button>
+            </>     
+            }
+
         </div>
         <div className="app__gameListPanel">
             <div className="app__gameList">
