@@ -1,0 +1,105 @@
+.side-panel {
+    position: fixed;
+    top: 25%;
+    left: 0;
+    width: 15%;
+    height: 75%;
+    background-color: #333;
+    color: white;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    transform: translateX(-100%);
+    padding: 1rem;
+    border-top-right-radius: 8px;
+}
+  
+.side-panel.open {
+    transform: translateX(0);
+}
+  
+.toggle-button {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    width: 75px;
+    height: 100px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: left 0.3s ease;
+}
+  
+.button-closed {
+    left: 0%;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+  
+.button-open {
+    left: 16%;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+  
+.panel-title {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 5rem;
+}
+  
+.achievement-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: (100% - 1rem);
+    height: 20%;
+    background-color: #444;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+  
+.achievement-image {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0.5rem;
+}
+
+.achievement-name {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 0.3rem;
+    text-align: center;
+}
+
+.achievement-points {
+    font-size: 1.2rem;
+    color: #ddd;
+    margin-bottom: 0.5rem;
+}
+  
+.button-group {
+    display: flex;
+    gap: 0.5rem;
+}
+  
+.claim-button, .refresh-button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+  
+.claim-button:hover, .refresh-button:hover {
+    background-color: #666;
+}
+  
