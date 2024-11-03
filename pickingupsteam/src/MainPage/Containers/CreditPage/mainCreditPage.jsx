@@ -11,14 +11,13 @@ const MainCreditPage = () => {
     const [credit, setCredit] = useState(0);
 
     const {addCreditToUser, removeCreditFromUser } = useFirebaseHook();
-    
 
     useEffect(() => {
         if(user){
             console.log("Current Credit: " + user.Points);
             setCredit(user.Points);
         }
-    }, [user]);
+    }, [user]); 
 
     const AddCredit = () => {
         if(isAuthenticated){

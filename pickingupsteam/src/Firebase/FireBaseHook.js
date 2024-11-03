@@ -1,7 +1,9 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import {login, signOut, saveUser} from '../Redux/AccountManagement/AuthSlice';
-import { fetchUser, writeUser, addCredit, removeCredit } from '../Firebase/FirebaseUtils';
+import {fetchIcon} from '../Redux/Inventory/IconSlice';
+import { fetchBackground } from '../Redux/Inventory/BackgroundSlice';
+import { fetchUser, writeUser, addCredit, removeCredit, purchaseIconInStore, purchaseBackgroundInStore, fetchAllIcons, fetchAllBackgrounds, getImage } from '../Firebase/FirebaseUtils';
 import { auth } from '../Firebase/Firebase';
 
 
@@ -10,7 +12,7 @@ export const useFirebaseHook = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
 
-    const startLogin = async (userID) => {
+    const startLoginHook = async (userID) => {
         const userData = await fetchUser(userID);
         if (userData) {
             dispatch(login(userData));
@@ -18,12 +20,12 @@ export const useFirebaseHook = () => {
         }
         return false;
     };
-    const SignOutUser = async () => {
+    const SignOutUserHook = async () => {
         auth.signOut();
         dispatch(signOut());
     };
 
-    const fetchUserById = async (userID) => {
+    const fetchUserByIdHook = async (userID) => {
         const userData = await fetchUser(userID);
         if (userData) {
             dispatch(saveUser(userData));
@@ -33,31 +35,88 @@ export const useFirebaseHook = () => {
             return false;
         }
     };
-    const writeUserToDB = async (userID, userData) => {
+    const writeUserToDBHook = async (userID, userData) => {
         if(!userData || !userID) return false;
         await writeUser(userID, userData).then(()=>{
+            if(!userData) return false;
             dispatch(saveUser(userData));
         });
         
         return true
     };
-
-    const addCreditToUser = async (userID, userData, amount) => {
+    //add credit to user and save state into redux
+    const addCreditToUserHook = async (userID, userData, amount) => {
         if(!userID) return false;
-
         await addCredit(userID, userData, amount).then((userData)=>{
+            if(!userData) return false;
             dispatch(saveUser(userData));
         });
         return true
     };
-
-    const removeCreditFromUser = async (userID, userData, amount) => {
+    //remove credit from user and save state into redux
+    const removeCreditFromUserHook = async (userID, userData, amount) => {
         if(!userID) return false;
         await removeCredit(userID, userData, amount).then((userData)=>{
+            if(!userData) return false;
             dispatch(saveUser(userData));
         });
         return true
     };
-
-    return { user, fetchUserById, writeUserToDB, addCreditToUser, removeCreditFromUser, SignOutUser, startLogin };
+    //load icon and save state into redux
+    const getIconsHook = async () => {
+        await fetchAllIcons().then(async (data) => {
+            try{
+                //load image
+                const imgPromises = data.map(async data => {
+                    const downloadPath = await getImage(data.path);
+                    return { name: data.name, cost: data.cost, img: downloadPath, type: "icon" };
+                });
+                const newIcons = await Promise.all(imgPromises);
+                dispatch(fetchIcon(newIcons));
+            }catch(error){
+                console.log(error);
+            }
+            
+        });
+    }
+    //load background and save state into redux
+    const getBackgroundHook = async () => {
+        await fetchAllBackgrounds().then(async (data) => {
+            try{
+                const bgPromises = data.map(async bg => {
+                    const downloadPath = await getImage(bg.path);
+                    return { name: bg.name, cost: bg.cost, img: downloadPath, type: "bg" };
+                });
+                const newBgs = await Promise.all(bgPromises);
+                dispatch(fetchBackground(newBgs));
+            }catch(error){
+                console.log(error);
+            }
+            
+        });
+    }
+    //purchase icon and save user state into redux
+    const purchaseIconInStoreHook = async (userID, userData, item) => {
+        if(!userID) return false;
+        await purchaseIconInStore(userID, userData, item).then((userData)=>{
+            if(!userData) return false
+            dispatch(saveUser(userData));
+        });
+        return true
+    };
+    //purchase background and save user state into redux
+    const purchaseBackgroundInStoreHook = async (userID, userData, item) => {
+        if(!userID) return false;
+        await purchaseBackgroundInStore(userID, userData, item).then((userData)=>{
+            if(!userData) return false
+            dispatch(saveUser(userData));
+        });
+        return true
+    }
+    
+    return { user, fetchUserById: fetchUserByIdHook, writeUserToDB: writeUserToDBHook,
+        addCreditToUser: addCreditToUserHook, removeCreditFromUser: removeCreditFromUserHook,
+        SignOutUser: SignOutUserHook, startLogin: startLoginHook,
+        purchaseIconInStore: purchaseIconInStoreHook, purchaseBackgroundInStore: purchaseBackgroundInStoreHook,
+        getIcon: getIconsHook, getBackground: getBackgroundHook};
 };

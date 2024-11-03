@@ -3,7 +3,7 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { db, storage } from "./Firebase";
 
 // Fetch by ID
-// collection - Users, Games, Icons, Banners
+// collection - Users, Games, Icons, Backgrounds
 export const fetchUser = async (UserID) => {
     try {
         const docRef = doc(db, "Users", UserID);
@@ -35,7 +35,7 @@ export const fetchAllIcons = async () => {
         const docSnap = await getDocs(collection(db, 'Icons'));
         if (!docSnap.empty) {
             const data = docSnap.docs.map(doc => doc.data());
-            console.log(data);
+            // console.log(data);
             return data;
         } else {
             console.log("Data does not exist");
@@ -51,7 +51,7 @@ export const fetchAllBackgrounds = async () => {
         const docSnap = await getDocs(collection(db, 'Backgrounds'));
         if (!docSnap.empty) {
             const data = docSnap.docs.map(doc => doc.data());
-            console.log(data);
+            // console.log(data);
             return data;
         } else {
             console.log("Data does not exist");
@@ -96,6 +96,57 @@ export const removeCredit = async (userID, userData, amount) => {
         let newAmount = userData.Points != null ? userData.Points - amount : 0
         let newUserData = {...userData, Points: newAmount };
 
+        await setDoc(docRef, newUserData, { merge: true });
+        return newUserData;
+    } catch (error) {
+        console.error("Error writing to collection:", error);
+        return null;
+    }
+}
+
+export const purchaseBackgroundInStore = async (userID, userData, item) => {
+    try {
+        const docRef = doc(db, "Users", userID);
+        let updatedBG = [...userData.Inventory.Banners, item];
+        let newUserData = {
+            ...userData,
+            Inventory: {
+                ...userData.Inventory,
+                Banners: updatedBG
+            },
+            Points: userData.Points - item.cost
+        };
+        console.log("_______________________________________________newUserData_______________________________________________")
+        console.log(userData.Points)
+        console.log(item.cost)
+        console.log(newUserData)
+        console.log("_______________________________________________newUserData_______________________________________________")
+        await setDoc(docRef, newUserData, { merge: true });
+        return newUserData;
+    } catch (error) {
+        console.error("Error writing to collection:", error);
+        return null;
+    }
+}
+
+export const purchaseIconInStore = async (userID, userData, item) => {
+    try {
+        const docRef = doc(db, "Users", userID);
+        let updatedIcons = [...userData.Inventory.Icons, item];
+
+        let newUserData = {
+            ...userData,
+            Inventory: {
+                ...userData.Inventory,
+                Icons: updatedIcons
+            },
+            Points: userData.Points - item.cost
+        };
+        console.log("_______________________________________________newUserData_______________________________________________")
+        console.log(userData.Points)
+        console.log(item.cost)
+        console.log(newUserData)
+        console.log("_______________________________________________newUserData_______________________________________________")
         await setDoc(docRef, newUserData, { merge: true });
         return newUserData;
     } catch (error) {
