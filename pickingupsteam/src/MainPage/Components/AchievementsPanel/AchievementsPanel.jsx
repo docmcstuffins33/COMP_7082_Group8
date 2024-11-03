@@ -27,6 +27,7 @@ const AchievementsPanel = () => {
     };
 
     const getGamesWithLessThan20Minutes = async () => {
+        if(!user) return;
         let games = await GetGameByUserID(user.SteamID, serverURL, serverPort);
         const filteredGames = games.filter(game => game.playtime_forever < 20);
         setGames(filteredGames);

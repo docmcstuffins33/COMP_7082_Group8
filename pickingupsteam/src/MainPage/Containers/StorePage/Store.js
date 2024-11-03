@@ -5,6 +5,15 @@ import { fetchAllIcons, fetchAllBackgrounds, getImage } from '../../../Firebase/
 import Modal from 'react-modal';
 import zIndex from '@mui/material/styles/zIndex';
 
+import { useSelector } from 'react-redux';
+import { useFirebaseHook } from '../../../Firebase/FireBaseHook';
+import ProfileDecorations from './Component/ProfileDecorations';
+import ProfileThemes from './Component/ProfileThemes';
+import PurchaseModel from './Component/PurchaseModel';
+
+import { useDispatch } from 'react-redux';
+import { fetchIcon } from '../../../Redux/Inventory/IconSlice';
+
 
 function Store() {
     //For now, just making dummy arrays of hypothetical decorations will work.
@@ -13,43 +22,40 @@ function Store() {
     const [profileThemes, setProfileThemes] = useState([]);
     const [selectedPurchase, setSelectedPurchase] = useState(null);
     const [modalIsOpen, setIsOpen] = useState(false);
+
+    //Load icons and backgrounds into Redux from the firebase hooks
+
+    const {getIcon, getBackground} = useFirebaseHook();
+    const {icons} = useSelector(state => state.icon);
+    const {backgrounds} = useSelector(state => state.background);
+    
+    useEffect(() => {
+        //load icons and backgrounds from firebasehook
+        getIcon();
+        getBackground();
+    }, []);
+
+    //if icon is in redux
+    useEffect(() => {
+        handleFetchIcons();
+    }, [icons]);
+
     const handleFetchIcons = async () => {
-        const icons = await fetchAllIcons();
         if (icons) {
-            const iconPromises = icons.map(async icon => {
-                const downloadPath = await getImage(icon.path);
-                return { name: icon.name, cost: icon.cost, img: downloadPath, type: "icon" };
-            });
-            const newIcons = await Promise.all(iconPromises);
-            setProfileDecorations(newIcons); 
+            setProfileDecorations(icons); 
         }
     };
+
+    //if background is in redux
+    useEffect(() => {
+        handleFetchBackgrounds();
+    }, [backgrounds]);
 
     const handleFetchBackgrounds = async () => {
-        const bgs = await fetchAllBackgrounds();
-        if (bgs) {
-            const bgPromises = bgs.map(async bg => {
-                const downloadPath = await getImage(bg.path);
-                return { name: bg.name, cost: bg.cost, img: downloadPath, type: "bg" };
-            });
-            const newBgs = await Promise.all(bgPromises);
-            setProfileThemes(newBgs); 
+        if (backgrounds) {
+            setProfileThemes(backgrounds); 
         }
     };
-
-    //Modal doesn't like its styling coming from an external file, i think. Not totally sure why, but oh well
-    const modalStyle = {
-        content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: '100',
-          
-        },
-      };
 
     function openModal(purchase) {
         setSelectedPurchase(purchase);
@@ -65,66 +71,28 @@ function Store() {
         setIsOpen(false);
     }
 
-    useEffect(() => {
-        handleFetchIcons();
-        handleFetchBackgrounds();
-        console.log(profileDecorations)
-    }, [])
-
   return (
     <>
-    <h1>Points Shop</h1>
-    <h2>Profile Decorations</h2>
-    <div id='profileDecorations'>
-        {profileDecorations.map(dec => (
-            <div>
-                <div class="profileImgHolder">
-                    <img class="icon" src={dec.img}></img>
-                    <img class="rounded dummyProfile" src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"></img>
-                </div>
-                <p key={dec.name}>{dec.name}</p>
-                <button className='itemCost' onClick={() => openModal(dec)}>Cost: {dec.cost}</button>
-            </div>
-        ))}
-    </div>
-    <h2>Profile Themes</h2>
-    <div id='profileThemes'>
-        {profileThemes.map(dec => (
-            <div key={dec.name}>
-                <img class="bg" src={dec.img}></img>
-                <p key={dec.name}>{dec.name}</p>
-                <button class='itemCost' onClick={() => openModal(dec)}>Cost: {dec.cost}</button>
-            </div>
-        ))}
-    </div>
-    <div>
-      <Modal
-        className="purchaseModal"
-        isOpen={modalIsOpen}
-        style={modalStyle}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        contentLabel="PurchaseModal"
-      >
-        <button onClick={closeModal}>X</button>
-        {selectedPurchase && 
-        <h2>{selectedPurchase.name}</h2>
-        }
-        {selectedPurchase && selectedPurchase.type == "icon" && 
-            <div class="profileImgHolder">
-                <img class="icon" src={selectedPurchase.img}></img>
-                <img class="rounded dummyProfile" src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"></img>
-            </div>
-        }
-        {selectedPurchase && selectedPurchase.type == "bg" && 
-            <img class="bg" src={selectedPurchase.img}></img>
-        }
-        {selectedPurchase && 
-        <button class='itemCost'>Purchase for {selectedPurchase.cost}</button>
-        }
-        
-      </Modal>
-    </div>
+        <h1>Points Shop</h1>
+        <h2>Profile Decorations</h2>
+        <div id='profileDecorations'>
+            {profileDecorations.map(dec => (
+                <ProfileDecorations key={dec.name} decorations={dec} openModal={openModal}/>
+            ))}
+        </div>
+        <h2>Profile Themes</h2>
+        <div id='profileThemes'>
+            {profileThemes.map(theme => (
+                <ProfileThemes key={theme.name} theme={theme} openModal={openModal}/>
+            ))}
+        </div>
+        <div>
+            <PurchaseModel
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                selectedPurchase={selectedPurchase}
+            />
+        </div>
     </>
   );
 };
