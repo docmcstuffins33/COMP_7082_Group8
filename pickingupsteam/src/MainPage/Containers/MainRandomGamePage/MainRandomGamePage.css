@@ -20,6 +20,28 @@
     height: 100%;
     padding: 0 2rem;
 }
+/* ------------------User Profile, Icon-------------------------*/
+.app_user-profile-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+}
+.app__user-profile-iconTheme{
+    width: min(20vh, 300px);
+    height: min(20vh, 300px);
+    border-radius: 50%;
+    margin: 10%;
+
+}
+.app__user-profile-text{
+    color: var(--black-color);
+    font-weight: 600;
+    font-size: min(5vh, 30px);
+    white-space: nowrap;
+}
+
 /* ------------------SearchBar-------------------------*/
 .app__searchBar{
     display: flex;
