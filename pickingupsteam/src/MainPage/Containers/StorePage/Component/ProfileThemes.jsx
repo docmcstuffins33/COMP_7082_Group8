@@ -7,9 +7,10 @@ function ProfileThemes({ theme, openModal }) {
     const [isPurchased, setIsPurchased] = useState(false);  
     useEffect(() => {
         if(!user) return;
-        // console.log(user.Inventory)
-        // console.log(decorations.name)
-        // console.log(user.Inventory.filter(icon => icon.name === decorations.name));
+
+        // console.log(user.Inventory.Banners.filter(icon => icon.name === decorations.name));
+
+        // If the user has the background, set isPurchased to true
         if(!user.Inventory.Banners || user.Inventory.Banners.length === 0) return;
         console.log(user)
         if(user.Inventory.Banners.filter(bg => bg.name === theme.name).length > 0){
