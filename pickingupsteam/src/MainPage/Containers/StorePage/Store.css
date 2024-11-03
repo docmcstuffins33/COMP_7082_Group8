@@ -5,16 +5,74 @@
     overflow-x: auto;
   }
   
-  #profileDecorations > div {
+  #profileDecorations > div,  #profileThemes > div {
     margin:0 10px;
     padding: 10px 0;
     align-content: center;
     text-align: center;
+    position:relative;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
   }
-  
-  #profileThemes > div {
-    margin:0 10px;
-    padding: 10px 0;
+
+  .purchaseModal {
+    width: 75%;
+    height: 70%;
+    position: absolute;
+    border: 1px solid rgb(204, 204, 204);
+    background: rgb(255, 255, 255);
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+    align-content: center;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 3% 98%;
+    grid-template-rows: 3% 7% 75% 15%;
+  }
+
+  .purchaseModal > h2 {
+    grid-area: 2 / 1 / span 1 / span 2;
+    text-align: center;
+  }
+
+  .purchaseModal > .profileImgHolder, .purchaseModal > img{
+    grid-area: 3 / 1 / span 1 / span 2;
+    text-align: center;
+    align-self: center;
+    transform: translate(-50%, -50%);
+  }
+
+  .purchaseModal > .profileImgHolder{
+    height: 100%;
+    width: auto !important;
+    top: 50% !important;
+    left: 50% !important;
+  }
+
+  .purchaseModal > img{
+    align-self: center;
+    width: auto !important;
+    top: 50% !important;
+    left: 50% !important;
+    position: absolute;
+  }
+
+  .purchaseModal > .itemCost {
+    grid-area: 4 / 1 / span 1 / span 2;
+    text-align: center;
+  }
+
+  #profileDecorations > div {
+    width: 200px;
+  }
+
+  .profileImgHolder {
+    position:relative;
+    width: 200px;
+    height: 200px;
     align-content: center;
     text-align: center;
   }
@@ -33,3 +91,31 @@
     display: inline-block;
     font-size: 16px;
   }
+
+  .icon {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .bg  {
+    width: 400px;
+    height: 225px;
+  }
+
+.dummyProfile {
+  position: absolute;
+  z-index: 0;
+  height: 85%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ReactModalPortal {
+  position: absolute;
+  z-index: 20 !important;
+}
