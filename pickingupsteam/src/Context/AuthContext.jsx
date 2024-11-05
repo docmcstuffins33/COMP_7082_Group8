@@ -23,8 +23,16 @@ export const AuthProvider = ({ children }) => {
         return () => unsubscribe();
     }, []);
 
+    // Update user info function
+    const updateUser = (newUserInfo) => {
+            setUser((prevUser) => ({
+                ...prevUser,
+                ...newUserInfo,
+            }));
+    };
+
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, updateUser }}>
             {children}
         </AuthContext.Provider>
     );
