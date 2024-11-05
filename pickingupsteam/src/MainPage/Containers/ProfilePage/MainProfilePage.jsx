@@ -4,9 +4,10 @@ import "./MainProfilePage.css"
 
 import { useSelector } from 'react-redux'
 import { Navigate, useNavigate} from 'react-router-dom'
+import { useAuth } from '../../../Context/AuthContext';
 const MainProfilePage = () => {
 
-    const {user, isAuthenticated} = useSelector(state => state.auth);
+    const {user, isAuthenticated} = useAuth();
     const [returnTimer, setReturnTimer] = useState(5);
     const navigate = useNavigate();
 

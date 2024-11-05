@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './Navbar.css'; // Optional: for styling
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from 'react-redux';
-
+import {useAuth} from '../../../Context/AuthContext'
 
 
 
 function Navbar() {
     //storing the credit, should be dynamic or stored in a database
-    const {user, isAuthenticated} = useSelector(state => state.auth);
+    const {user, isAuthenticated} = useAuth();
     const [credit, setCredit] = useState(0);
 
     //handle the redirect to previous page
