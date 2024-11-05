@@ -40,7 +40,8 @@ const MainLoginPage = () => {
                     Inventory: {
                         Banners: [],
                         Icons: []
-                    }
+                    },
+                    SelectedGame: null
                 }
                 await writeUserToDB(user.uid, userData).then(() => {
                     console.log("Collection updated/added:", user.uid);

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {login, signOut, saveUser} from '../Redux/AccountManagement/AuthSlice';
 import {fetchIcon} from '../Redux/Inventory/IconSlice';
 import { fetchBackground } from '../Redux/Inventory/BackgroundSlice';
-import { fetchUser, writeUser, addCredit, removeCredit, purchaseIconInStore, purchaseBackgroundInStore, fetchAllIcons, fetchAllBackgrounds, getImage } from '../Firebase/FirebaseUtils';
+import { fetchUser, writeUser, addCredit, removeCredit, addSelectedGame, removeSelectedGame, purchaseIconInStore, purchaseBackgroundInStore, fetchAllIcons, fetchAllBackgrounds, getImage } from '../Firebase/FirebaseUtils';
 import { auth } from '../Firebase/Firebase';
 import {useAuth} from '../Context/AuthContext';
 
@@ -40,7 +40,7 @@ export const useFirebaseHook = () => {
         if(!userData || !userID) return false;
         await writeUser(userID, userData).then(()=>{
             if(!userData) return false;
-            dispatch(saveUser(userData));
+            updateUser(userData);
         });
         
         return true
@@ -63,6 +63,21 @@ export const useFirebaseHook = () => {
         });
         return true
     };
+    const addSelectedGameHook = async (userID, userData, selectedGame) => {
+        if(!userID) return false;
+        await addSelectedGame(userID, userData, selectedGame).then((userData) => {
+            if(!userData) return false;
+            updateUser(userData);
+        })
+    }
+    const removeSelectedGameHook = async (userID, userData) => {
+        if(!userID) return false;
+        await removeSelectedGame(userID, userData).then((userData) => {
+            if(!userData) return false;
+            updateUser(userData);
+            console.log(userData);
+        })
+    }
     //load icon and save state into redux
     const getIconsHook = async () => {
         await fetchAllIcons().then(async (data) => {
@@ -116,8 +131,8 @@ export const useFirebaseHook = () => {
     }
     
     return { user, fetchUserById: fetchUserByIdHook, writeUserToDB: writeUserToDBHook,
-        addCreditToUser: addCreditToUserHook, removeCreditFromUser: removeCreditFromUserHook,
-        SignOutUser: SignOutUserHook, startLogin: startLoginHook,
+        addCreditToUser: addCreditToUserHook, removeCreditFromUser: removeCreditFromUserHook, addSelectedGame: addSelectedGameHook,
+        removeSelectedGame: removeSelectedGameHook, SignOutUser: SignOutUserHook, startLogin: startLoginHook,
         purchaseIconInStore: purchaseIconInStoreHook, purchaseBackgroundInStore: purchaseBackgroundInStoreHook,
         getIcon: getIconsHook, getBackground: getBackgroundHook};
 };
