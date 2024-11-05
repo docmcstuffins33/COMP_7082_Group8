@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, setDoc, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, getDocs, deleteField } from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
 import { db, storage } from "./Firebase";
 
@@ -100,6 +100,31 @@ export const removeCredit = async (userID, userData, amount) => {
         return newUserData;
     } catch (error) {
         console.error("Error writing to collection:", error);
+        return null;
+    }
+}
+
+export const addSelectedGame = async (userID, userData, selectedGame) => {
+    try {
+        const docRef = doc(db, "Users", userID);
+        let newUserData = {...userData, SelectedGame: selectedGame};
+        await setDoc(docRef, newUserData, {merge:true});
+        return newUserData;
+    } catch (error) {
+        console.error("Error writing into collection:", error);
+        return null;
+    }
+}
+
+export const removeSelectedGame = async (userID, userData) => {
+    try {
+        const docRef = doc(db, "Users", userID);
+        let newAmount = userData.Points != null ? userData.Points + 200 : 200
+        let newUserData = {...userData, SelectedGame: null, Points: newAmount};
+        await setDoc(docRef, newUserData, {merge:true});
+        return newUserData;
+    }catch (error) {
+        console.error("Error writing into collection:", error);
         return null;
     }
 }
