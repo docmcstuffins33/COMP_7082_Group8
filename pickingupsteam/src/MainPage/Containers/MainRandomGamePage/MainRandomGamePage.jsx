@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { GetGameByUserID } from '../../../SteamUtils/index.js'
 import './MainRandomGamePage.css'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useAuth } from '../../../Context/AuthContext';
 
 const MainRandomGamePage = () => {
 
@@ -10,7 +11,8 @@ const MainRandomGamePage = () => {
     const [error, setError] = useState(null);
 
     // User Data
-    const {user} = useSelector(state => state.auth);
+    const { user } = useAuth();
+    const dispatch = useDispatch();
 
     //Steam ID
     const [steamID, setSteamID] = useState("");
@@ -23,22 +25,11 @@ const MainRandomGamePage = () => {
     // Random Game wheel Data
     const [randomGame, setRandomGame] = useState(null);
 
-    //initial fetch
     useEffect(() => {
-        if(!user) return;
-        fetchGameData();
-    },[])
-
-    useEffect(() => {
-        if (user && user.SteamID) {
-            setSteamID(user.SteamID);
+        if (user) {
             fetchGameData(user.SteamID);
         }
     }, [user]);
-
-    useEffect(() => {
-
-    },[gameData])
 
     const fetchGameData = async (id = steamID) => {
         setLoading(true);

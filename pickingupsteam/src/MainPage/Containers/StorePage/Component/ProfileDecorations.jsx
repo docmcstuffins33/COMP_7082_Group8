@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import '../Store.css';
 import { useSelector } from 'react-redux';
+import { useAuth } from '../../../../Context/AuthContext';
 function ProfileDecorations({ decorations, openModal }) {
-    const {user} = useSelector(state => state.auth);
+    const {user} = useAuth();
     const [isPurchased, setIsPurchased] = useState(false);  
 
     useEffect(() => {

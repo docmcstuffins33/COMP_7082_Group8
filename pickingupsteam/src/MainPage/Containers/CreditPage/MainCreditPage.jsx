@@ -5,9 +5,10 @@ import { useState, useEffect} from 'react';
 import { addCredit, removeCredit } from '../../../Firebase/FirebaseUtils';
 import { auth } from '../../../Firebase/Firebase';
 import{ useFirebaseHook } from '../../../Firebase/FireBaseHook'
+import { useAuth } from '../../../Context/AuthContext';
 
 const MainCreditPage = () => {
-    const {user, isAuthenticated} = useSelector(state => state.auth);
+    const {user, isAuthenticated} = useAuth();
     const [credit, setCredit] = useState(0);
 
     const {addCreditToUser, removeCreditFromUser } = useFirebaseHook();

@@ -4,10 +4,11 @@ import React, { useEffect, useState } from 'react';
 import '../Store.css';
 import { useSelector } from 'react-redux';
 import { auth } from '../../../../Firebase/Firebase';
+import { useAuth } from '../../../../Context/AuthContext';
 
 function PurchaseModal({ isOpen, onRequestClose: closeModel, selectedPurchase }) {
 
-    const {user, isAuthenticated} = useSelector(state => state.auth);
+    const {user, isAuthenticated} = useAuth();
     const [credit, setCredit] = useState(0);
     const {purchaseIconInStore, purchaseBackgroundInStore} = useFirebaseHook();
 

@@ -4,13 +4,13 @@ import { GetGameByUserID } from '../../../SteamUtils';
 import './AchievementsPanel.css';
 import { auth } from '../../../Firebase/Firebase';
 import { useFirebaseHook } from '../../../Firebase/FireBaseHook'
-
+import { useAuth } from '../../../Context/AuthContext';
 
 const AchievementsPanel = () => {
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const { user, isAuthenticated } = useSelector(state => state.auth);
+    const { user, isAuthenticated } = useAuth();
 
     const [serverURL, setServerURL] = useState(process.env.REACT_APP_SERVER_URL);
     const [serverPort, setServerPort] = useState(process.env.REACT_APP_SERVER_PORT);

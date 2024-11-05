@@ -5,12 +5,13 @@ import {fetchIcon} from '../Redux/Inventory/IconSlice';
 import { fetchBackground } from '../Redux/Inventory/BackgroundSlice';
 import { fetchUser, writeUser, addCredit, removeCredit, purchaseIconInStore, purchaseBackgroundInStore, fetchAllIcons, fetchAllBackgrounds, getImage } from '../Firebase/FirebaseUtils';
 import { auth } from '../Firebase/Firebase';
+import {useAuth} from '../Context/AuthContext';
 
 
 // hook all the FireBaseUtils function for redux auto dispatch
 export const useFirebaseHook = () => {
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.user);
+    const {user, updateUser} = useAuth();
 
     const startLoginHook = async (userID) => {
         const userData = await fetchUser(userID);
@@ -49,7 +50,7 @@ export const useFirebaseHook = () => {
         if(!userID) return false;
         await addCredit(userID, userData, amount).then((userData)=>{
             if(!userData) return false;
-            dispatch(saveUser(userData));
+            updateUser(userData);
         });
         return true
     };
@@ -58,7 +59,7 @@ export const useFirebaseHook = () => {
         if(!userID) return false;
         await removeCredit(userID, userData, amount).then((userData)=>{
             if(!userData) return false;
-            dispatch(saveUser(userData));
+            updateUser(userData);
         });
         return true
     };
@@ -100,7 +101,7 @@ export const useFirebaseHook = () => {
         if(!userID) return false;
         await purchaseIconInStore(userID, userData, item).then((userData)=>{
             if(!userData) return false
-            dispatch(saveUser(userData));
+            updateUser(userData);
         });
         return true
     };
@@ -109,7 +110,7 @@ export const useFirebaseHook = () => {
         if(!userID) return false;
         await purchaseBackgroundInStore(userID, userData, item).then((userData)=>{
             if(!userData) return false
-            dispatch(saveUser(userData));
+            updateUser(userData);
         });
         return true
     }
