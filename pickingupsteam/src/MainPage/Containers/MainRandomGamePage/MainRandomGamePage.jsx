@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { GetGameByUserID } from '../../../SteamUtils/index.js'
 import './MainRandomGamePage.css'
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector} from 'react-redux';
 import { useAuth } from '../../../Context/AuthContext';
 
 const MainRandomGamePage = () => {
@@ -11,8 +11,7 @@ const MainRandomGamePage = () => {
     const [error, setError] = useState(null);
 
     // User Data
-    const { user } = useAuth();
-    const dispatch = useDispatch();
+    const { user, isAuthenticated, updateUser } = useAuth();
 
     //Steam ID
     const [steamID, setSteamID] = useState("");
@@ -59,7 +58,8 @@ const MainRandomGamePage = () => {
         }
         let incompleteGameData = gameData.filter(game => game.playtime_forever < 30);
         const randomIndex = Math.floor(Math.random() * incompleteGameData.length);
-        setRandomGame(incompleteGameData[randomIndex].name);
+        setRandomGame(incompleteGameData[randomIndex]);
+        console.log(incompleteGameData[randomIndex]);
     }
 
     return (
@@ -102,9 +102,13 @@ const MainRandomGamePage = () => {
                     Random Game
                 </h2>
                 <button className="app__randomGameWheel-button" onClick={pickRandomGame}>Pick Random Game</button>
-                <p>
-                    {randomGame}
-                </p>
+                    {randomGame != null ? <div className="app__randomGameItem">
+                        <img src={"http://media.steampowered.com/steamcommunity/public/images/apps/" + 
+                        randomGame.appid + "/" + randomGame.img_icon_url + ".jpg"}></img> 
+                        <p>{randomGame.name} </p>
+                        <p>{randomGame.playtime_forever} / 30 minutes</p>
+                        {isAuthenticated ? <button className="app__selectGame-button">Select Game</button> : <div></div>}
+                        </div>: <div></div>}
             </div>
             
         </div>
