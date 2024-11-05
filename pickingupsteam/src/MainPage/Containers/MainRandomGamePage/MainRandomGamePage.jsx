@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { GetGameByUserID } from '../../../SteamUtils/index.js'
 import './MainRandomGamePage.css'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {login, signOut, saveUser} from '../../../Redux/AccountManagement/AuthSlice';
+import { auth} from '../../../Firebase/Firebase';
+import { fetchUser} from '../../../Firebase/FirebaseUtils';
 
 const MainRandomGamePage = () => {
 
@@ -11,6 +14,7 @@ const MainRandomGamePage = () => {
 
     // User Data
     const {user} = useSelector(state => state.auth);
+    const dispatch = useDispatch();
 
     //Steam ID
     const [steamID, setSteamID] = useState("");
@@ -23,22 +27,23 @@ const MainRandomGamePage = () => {
     // Random Game wheel Data
     const [randomGame, setRandomGame] = useState(null);
 
-    //initial fetch
-    useEffect(() => {
-        if(!user) return;
-        fetchGameData();
-    },[])
-
-    useEffect(() => {
-        if (user && user.SteamID) {
-            setSteamID(user.SteamID);
-            fetchGameData(user.SteamID);
+// Listen for auth state changes
+useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async user => {
+        if (user) {
+            const userData = await fetchUser(user.uid);
+            dispatch(saveUser(userData));
+            localStorage.setItem('user', JSON.stringify(userData)); // Optional: Store in localStorage
+            await fetchGameData(userData.SteamID); // Fetch game data for the logged-in user
+        } else {
+            dispatch(signOut()); // Clear user data on logout
+            localStorage.removeItem('user'); // Clear localStorage on logout
         }
-    }, [user]);
+    });
 
-    useEffect(() => {
-
-    },[gameData])
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+}, [dispatch]);
 
     const fetchGameData = async (id = steamID) => {
         setLoading(true);

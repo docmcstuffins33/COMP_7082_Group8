@@ -37,14 +37,14 @@ function Navbar() {
         </Link>
         
         <ul className='app__navbar-links'>
-            <Link to="/store" className="app__linkButton">
-                Store
-            </Link>
-            <Link to="/credit" className="app__linkButton">
-                Credit: {credit}
-            </Link>
             {isAuthenticated? 
                 <>
+                    <Link to="/store" className="app__linkButton">
+                        Store
+                    </Link>
+                    <Link to="/credit" className="app__linkButton">
+                        Credit: {credit}
+                    </Link>
                     <Link to="/profile" className="app__linkButton">
                         Profile
                     </Link>
