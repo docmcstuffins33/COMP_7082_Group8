@@ -120,6 +120,14 @@
 }
 /* ------------------End of Game list Container-------------------------*/
 
+/* ------------------Filter Container-----------------------------------*/
+.app__filterListForm {
+    display: flex;
+    flex-direction: row;
+}.app__radioButton {
+    padding-left: 15px;
+}
+
 /* ------------------Random Game Wheel Container-------------------------*/
 .app__randomGameWheel{
     display: flex;
