@@ -28,7 +28,7 @@ function Navbar() {
     const navbarStyle = {
         backgroundImage: isAuthenticated && user.Inventory?.Banners?.length > 0 
             ? `url(${user.Inventory.Banners[0].img})` 
-            : 'none',
+            : 'linear-gradient(to bottom right, #446996, #1b2838',
     };
     return (
         <nav className="app__navbar" style={navbarStyle}>

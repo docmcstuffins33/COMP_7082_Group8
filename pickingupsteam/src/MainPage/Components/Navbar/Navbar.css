@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 .app__navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: var(--header-color);
+    background-color: var(--header-color-dark);
     height: 10vh;
     background-size: cover;
     background-position: center;
@@ -11,8 +13,11 @@
 
   
 .app__navbar-logo {
+    font-family: "Fira Sans Condensed", sans-serif;
+    font-weight: 800;
+    font-style: italic;
     color: white;
-    font-size: 1.5rem;
+    font-size: 2rem;
     transition: all 0.15s ease-in-out;
 }
 
@@ -21,7 +26,7 @@
 }
 
 .app__navbar-links{
-    width: 75%;
+    width: 62%;
     display: flex;
     flex-direction: row;
     justify-content: right;
@@ -30,12 +35,14 @@
 }
 
 .app__linkButton{
-    margin: 0 1.5rem;
+    font-family: "Fira Sans Condensed", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0 0 0 2.5rem;
     padding: 1rem 1.5rem;
     font-size: 1rem;
     color: var(--black-color);
     background-color: var(--primary-color);
-    border: 0.25rem solid var(--black-color);
     border-radius: 15%;
     transition: all 0.2s ease-in-out;
     font-weight: 600;
