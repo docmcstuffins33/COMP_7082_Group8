@@ -36,6 +36,7 @@
 
 .app__linkButton{
     font-family: "Fira Sans Condensed", sans-serif;
+    vertical-align: middle;
     font-weight: 400;
     font-style: normal;
     margin: 0 0 0 2.5rem;
@@ -56,6 +57,19 @@
     -6px -6px 6px rgba(255,255,255,0.1);
     cursor: pointer;
 }
+
+
+.points_img{
+    width: 1.5rem;
+    height: auto;
+    vertical-align: middle;
+    transition: all 0.2s ease-in-out;
+}
+
+.app__linkButton:hover > .points_img{
+    width: 2rem;
+}
+
 .app__narbar-credit{
 
 }

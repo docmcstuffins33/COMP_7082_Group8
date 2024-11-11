@@ -40,10 +40,7 @@ function Navbar() {
             {isAuthenticated? 
                 <>
                     <Link to="/store" className="app__linkButton">
-                        Store
-                    </Link>
-                    <Link to="/credit" className="app__linkButton">
-                        Credit: {credit}
+                        <img className="points_img" src="https://cdn-icons-png.flaticon.com/512/546/546580.png" alt='Points:'></img> {credit}
                     </Link>
                     <Link to="/profile" className="app__linkButton">
                         Profile
