@@ -19,10 +19,11 @@
     color: white;
     font-size: 2rem;
     transition: all 0.15s ease-in-out;
+    text-shadow: 3px 2px 5px rgba(0, 0, 0, 1);
 }
 
 .app__navbar-logo:hover{
-    font-size: 1.7rem;
+    font-size: 2.2rem;
 }
 
 .app__navbar-links{
@@ -35,10 +36,6 @@
 }
 
 .app__linkButton{
-    font-family: "Fira Sans Condensed", sans-serif;
-    vertical-align: middle;
-    font-weight: 400;
-    font-style: normal;
     margin: 0 0 0 2.5rem;
     padding: 1rem 1.5rem;
     font-size: 1rem;

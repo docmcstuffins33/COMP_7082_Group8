@@ -1,12 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+* {
+    font-family: "Fira Sans Condensed", sans-serif;
+    vertical-align: middle;
+    font-weight: 400;
+    font-style: normal;
+}
 
 :root {
     --font-base: "DM Sans", sans-serif;
 
     --primary-color: #ffffff;
-    --secondary-color: #2a475e;
-    --header-color-dark: #1b2838;
-    --header-color-light: #446996;
+    --secondary-color: #313b74;
+    --header-color: #1b2838;
     --black-color: #030303;
     --lightGray-color: #e4e4e4;
     --gray-color: #6b7688;

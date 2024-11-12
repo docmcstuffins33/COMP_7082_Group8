@@ -60,7 +60,7 @@ function PurchaseModal({ isOpen, onRequestClose: closeModel, selectedPurchase })
             onRequestClose={closeModel}
             contentLabel="PurchaseModal"
         >
-            <button onClick={closeModel}>X</button>
+            <button className="closeBtn" onClick={closeModel}>X</button>
             {selectedPurchase && <h2>{selectedPurchase.name}</h2>}
             {selectedPurchase && selectedPurchase.type === "icon" && (
                 <div className="profileImgHolder">
@@ -72,7 +72,7 @@ function PurchaseModal({ isOpen, onRequestClose: closeModel, selectedPurchase })
                 <img className="bg" src={selectedPurchase.img} alt={selectedPurchase.name} />
             )}
             {selectedPurchase && (
-                <button className='itemCost' onClick={selectedPurchase.type === "icon" ? PurchaseIcon : PurchaseBackground}>Purchase for {selectedPurchase.cost}</button>
+                <button className='itemCost unpurchased' onClick={selectedPurchase.type === "icon" ? PurchaseIcon : PurchaseBackground}>Purchase for {selectedPurchase.cost}</button>
             )}
         </Modal>
     );
