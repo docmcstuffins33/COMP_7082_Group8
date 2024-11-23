@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         FRONTEND_IMAGE = "pickingupsteam"
-        BACKEND_IMAGE = "Server"
+        BACKEND_IMAGE = "server"
     }
 
     stages {
@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     docker.build("${FRONTEND_IMAGE}", "./pickingupsteam")
-                    docker.build("${BACKEND_IMAGE}", "./Server")
+                    docker.build("${BACKEND_IMAGE}", "./server")
                 }
             }
         }
