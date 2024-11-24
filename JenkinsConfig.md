@@ -13,43 +13,59 @@
 - 2. Unlock Jenkins:
     - Open your web browser and go to http://localhost:8080.
     - Access to the container:
+  
     ```
     docker exec -it jenkins bash
     ```
+    
     - Run apt-get update:
 
     ```
     apt-get update
     ```
+    
     - install nano
+  
     ```
     apt-get install nano
     ```
+    
     - find secret key:
+      
     ```
     nano /var/jenkins_home/secrets/initialAdminPassword
     ```
+    
     - copy the key and Enter the key in the Jenkins interface.
+    
 - 3. Install Docker CLI:
+     
     ```
     apt-get install -y docker.io
     ```
-    - verify docker installation:
+  
+    - Verify docker installation:
+      
     ```
     docker --version
     ```
+    
 - 4. add jenkins User to Docker Group
+     
     ```
     groupadd docker
     usermod -aG docker jenkins
     ```
+
 - 5. install docker-compose
+     
     ```
     curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
     ```
 
-    - verify installation:
+    - Verify installation:
+  
     ```
     docker-compose --version
     ```
@@ -60,7 +76,7 @@
     docker restart jenkins
     ```
 
-- Open your web browser and go to http://localhost:8080. and Skip to "Jenkins Step up"
+### Open your web browser and go to http://localhost:8080. and Skip to "Jenkins Step up"
 
 ## Setup in Window or Linux
 ### setup from COMP course:
@@ -95,7 +111,7 @@
     - Enter the password in the Jenkins interface.
 
 
-### Jenkins Step up:
+## Jenkins Step up:
 
 - 1. Install Suggested Plugins
     - Choose Install suggested plugins when prompted.
@@ -120,6 +136,7 @@
             - change Branch Specifier to [main] or [your working branch]
             - Script Path is Jenkinsfile
         - Configure Poll SCM:
+          
             ```
             H/5 * * * *
             ```
@@ -128,6 +145,7 @@
     - Dashboard -> Manage Jenkins -> System
     - Scroll Down to Environment variables
     - add all necessary Environment variable:
+      
     ```
     FIREBASE_API_KEY: [Your Firebase API Key]
     FIREBASE_APP_ID: [Your FireBase App ID]
