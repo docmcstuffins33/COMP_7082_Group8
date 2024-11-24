@@ -12,6 +12,11 @@ pipeline {
                 checkout scm
             }
         }
+        stage('remove old build') {
+            steps {
+                sh 'docker-compose down'
+            }
+        }
         stage('Prepare .env file for frontend') {
             steps {
                 sh '''
