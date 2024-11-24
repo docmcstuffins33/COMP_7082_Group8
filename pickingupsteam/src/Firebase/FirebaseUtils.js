@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, setDoc, getDocs, deleteField } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, getDocs, updateDoc, deleteField } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { db, storage } from "./Firebase";
 
@@ -90,6 +90,123 @@ export const getProfilePic = async (name) => {
         console.error("Error fetching image:", error);
     }
 }
+
+export const getSelectedTheme = async(UserID) => {
+    try {
+        const docRef = doc(db, "Users", UserID);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const userData = docSnap.data();
+            const themes = userData.Inventory.Banners || [];
+            const selectedTheme = themes.find((theme) => theme.isSelected == true);
+            if(selectedTheme){
+                return selectedTheme;
+            } else {
+                console.log("no theme is selected")
+                return null;
+            }
+        } else {
+        console.log("Data does not exist");
+        return null;
+        }
+    } catch (error) {
+        console.error("Error fetching from collection:", error);
+    }
+}
+
+export const setSelectedTheme = async(themeName, UserID) => {
+    try {
+        const docRef = doc(db, "Users", UserID);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const userData = docSnap.data();
+            const themes = userData.Inventory.Banners || [];
+            const updatedThemes = themes.map((theme) => ({
+                ...theme,
+                isSelected: theme.name === themeName,
+            }));
+            await updateDoc(docRef, {
+                "Inventory.Banners": updatedThemes,
+            });
+        } else {
+        console.log("Data does not exist");
+        return null;
+        }
+    } catch (error) {
+        console.error("Error updating collection:", error);
+    }
+}
+
+export const getSelectedDeco = async(UserID) => {
+    try {
+        const docRef = doc(db, "Users", UserID);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const userData = docSnap.data();
+            const decos = userData.Inventory.Icons || [];
+            const selectedDeco = decos.find((dec) => dec.isSelected == true);
+            if(selectedDeco){
+                return selectedDeco;
+            } else {
+                console.log("no theme is selected")
+                return null;
+            }
+        } else {
+        console.log("Data does not exist");
+        return null;
+        }
+    } catch (error) {
+        console.error("Error fetching from collection:", error);
+    }
+}
+
+export const setSelectedDeco = async(decName, UserID) => {
+    try {
+        const docRef = doc(db, "Users", UserID);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const userData = docSnap.data();
+            const decos = userData.Inventory.Icons || [];
+            const updatedDecos = decos.map((dec) => ({
+                ...dec,
+                isSelected: dec.name === decName,
+            }));
+            await updateDoc(docRef, {
+                "Inventory.Icons": updatedDecos,
+            });
+        } else {
+        console.log("Data does not exist");
+        return null;
+        }
+    } catch (error) {
+        console.error("Error updating collection:", error);
+    }
+}
+
+export const getSelectedDecoration = async(UserID) => {
+    try {
+        const docRef = doc(db, "Users", UserID);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const userData = docSnap.data();
+            const decos = userData.Inventory.Icons || [];
+            const selectedDeco = decos.find((dec) => dec.isSelected == true);
+            if(selectedDeco){
+                return selectedDeco;
+            } else {
+                console.log("no theme is selected")
+                return null;
+            }
+        } else {
+        console.log("Data does not exist");
+        return null;
+        }
+    } catch (error) {
+        console.error("Error fetching from collection:", error);
+    }
+}
+
+
 
 export const uploadProfilePic = async (file, userID, userData, setLoading) => {
     const filename = "ProfilePictures/" + userID + ".png";

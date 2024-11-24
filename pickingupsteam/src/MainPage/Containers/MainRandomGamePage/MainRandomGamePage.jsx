@@ -5,8 +5,11 @@ import { useSelector} from 'react-redux';
 import { useAuth } from '../../../Context/AuthContext';
 import { auth} from '../../../Firebase/Firebase'
 import { useFirebaseHook } from '../../../Firebase/FireBaseHook'
-
+import { getSelectedDeco } from '../../../Firebase/FirebaseUtils.js';
 const MainRandomGamePage = () => {
+
+    //can be deleted once profile picture component is finished
+    const [decoImg, setDecoImg] = useState(null);
 
     //page states
     const [loading, setLoading] = useState(true);
@@ -30,8 +33,17 @@ const MainRandomGamePage = () => {
     useEffect(() => {
         if (user) {
             fetchGameData(user.SteamID);
+            fetchDeco();
         }
     }, [user]);
+
+    const fetchDeco = async () => {
+        const banner = await getSelectedDeco(auth.currentUser.uid)
+        console.log(banner)
+        if(banner != null){
+            setDecoImg(banner.img);
+        }
+    };
 
     const fetchGameData = async (id = steamID) => {
         setLoading(true);
@@ -86,7 +98,7 @@ const MainRandomGamePage = () => {
         <div class="app__searchBar">
             {user && user.Inventory &&user.Inventory.Icons ? 
             <div class ="app_user-profile-container">
-                <img src={user.Inventory.Icons[0]?.img} alt={`${user.Username}'s icon`} className="app__user-profile-iconTheme" />
+                <img src={decoImg} alt={`${user.Username}'s icon`} className="app__user-profile-iconTheme" />
                 <h1 class="app__user-profile-text">Welcome, {user.Username}!</h1>
             </div>
             :

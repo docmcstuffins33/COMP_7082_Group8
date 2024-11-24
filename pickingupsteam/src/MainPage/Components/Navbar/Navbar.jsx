@@ -3,13 +3,14 @@ import './Navbar.css'; // Optional: for styling
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import {useAuth} from '../../../Context/AuthContext'
-
-
+import { getSelectedTheme } from '../../../Firebase/FirebaseUtils';
+import { auth } from '../../../Firebase/Firebase';
 
 function Navbar() {
     //storing the credit, should be dynamic or stored in a database
     const {user, isAuthenticated} = useAuth();
     const [credit, setCredit] = useState(0);
+    const [themeImg, setThemeImg] = useState(null);
 
     //handle the redirect to previous page
     const location = useLocation();
@@ -21,13 +22,23 @@ function Navbar() {
         if(user){
             console.log("Current Credit: " + user.Points);
             setCredit(user.Points);
+            fetchTheme();
         }
     }, [user]);
 
+    const fetchTheme = async () => {
+        const banner = await getSelectedTheme(auth.currentUser.uid)
+        console.log(banner)
+        if(banner != null){
+            setThemeImg(banner.img);
+        }
+        
+    };
+
     // Determine background style
     const navbarStyle = {
-        backgroundImage: isAuthenticated && user.Inventory?.Banners?.length > 0 
-            ? `url(${user.Inventory.Banners[0].img})` 
+        backgroundImage: isAuthenticated && user.Inventory?.Banners?.length > 0 && themeImg != null
+            ? `url(${themeImg})` 
             : 'linear-gradient(to bottom right, #446996, #1b2838',
     };
     return (

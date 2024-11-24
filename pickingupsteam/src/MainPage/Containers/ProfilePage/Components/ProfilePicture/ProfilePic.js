@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { useAuth } from '../../../Context/AuthContext';
-import { auth} from '../../../Firebase/Firebase'
-import { getProfilePic, uploadProfilePic, writeUser} from '../../../Firebase/FirebaseUtils'
+import { useAuth } from '../../../../../Context/AuthContext';
+import { auth } from '../../../../../Firebase/Firebase';
+import { getProfilePic, uploadProfilePic, writeUser} from '../../../../../Firebase/FirebaseUtils'
 
 export default function ProfilePic(props) {
 
