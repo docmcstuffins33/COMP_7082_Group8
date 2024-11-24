@@ -2,8 +2,9 @@ FROM node:latest
 
 WORKDIR /app
 
-COPY . /app
+COPY package.json /app
+COPY package-lock.json /app
 
 RUN npm install
-COPY . .
+COPY . /app
 CMD ["npm", "start", "dev"]
