@@ -59,9 +59,12 @@ pipeline {
 
         stage('Build Docker Images') {
             steps {
-                sh 'docker build -t ${BACKEND_IMAGE} ./Server'
-                sh 'docker build -t ${FRONTEND_IMAGE} ./pickingupsteam'
-
+                dir('./Server') {
+                    sh 'docker build -t ${BACKEND_IMAGE} ./Server'
+                }
+                dir('./pickingupsteam') {
+                    sh 'docker build -t ${FRONTEND_IMAGE} ./pickingupsteam'
+                }
             }
         }
         // stage('Run Tests') {
@@ -79,7 +82,7 @@ pipeline {
 
         stage('Deploy Containers') {
             steps {
-                sh 'docker-compose up -d'
+                sh 'docker-compose -f ./docker-compose.yml up -d'
             }
         }
     }
