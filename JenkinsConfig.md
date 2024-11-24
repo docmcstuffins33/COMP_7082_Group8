@@ -140,6 +140,7 @@
     REACT_APP_PORT: 3000
 
     SERVER_URL: localhost
+    REACT_APP_SERVER_PORT: [if the server url has a port]
     STEAM_API_KEY: [Your Steam API Key]
 
     STEAM_USER_ID: [your steam user id for testing]
