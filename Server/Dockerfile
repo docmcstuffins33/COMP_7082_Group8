@@ -2,7 +2,7 @@ FROM node:latest
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY . /app
 
 RUN npm install
 COPY . .
