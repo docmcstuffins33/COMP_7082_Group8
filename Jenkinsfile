@@ -4,6 +4,7 @@ pipeline {
     environment {
         FRONTEND_IMAGE = "pickingupsteam"
         BACKEND_IMAGE = "server"
+        DOCKER_REGISTRY = "localhost:5000" // target docker registry
     }
 
     stages {
@@ -54,9 +55,15 @@ pipeline {
 
         stage('Build Docker Images') {
             steps {
-                sh 'docker build -t server ./Server'
-                sh 'docker build -t pickingupsteam ./pickingupsteam'
+                sh 'docker build -t ${BACKEND_IMAGE} ./Server'
+                sh 'docker build -t ${FRONTEND_IMAGE} ./pickingupsteam'
 
+            }
+        }
+        stage ('Push Docker Images') {
+            steps {
+                sh 'docker push ${DOCKER_REGISTRY}/${BACKEND_IMAGE}'
+                sh 'docker push ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}'
             }
         }
 
