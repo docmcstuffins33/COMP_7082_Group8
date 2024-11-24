@@ -26,6 +26,7 @@ const MainRandomGamePage = () => {
 
     // Random Game wheel Data
     const [randomGame, setRandomGame] = useState(null);
+    const [selectedGame, setSelectedGame] = useState(null);
 
     useEffect(() => {
         if (user) {
@@ -38,11 +39,10 @@ const MainRandomGamePage = () => {
         try {
             const gameData = await GetGameByUserID(id, serverURL, serverPort);
             setGameData(gameData);
-            //let completeTime = 30;
-            //if (gameData.length > 0) {
-            //    incompleteGameData = await gameData.filter(game => game.playtime_forever < completeTime);
-             //   setIncompleteGameData(incompleteGameData);
-            //}
+            if(user && user.SelectedGame) {
+                console.log(gameData.find((game) => game.name = user.SelectedGame))
+                setSelectedGame(gameData.find((game) => game.appid = user.SelectedGame))
+            }
         } catch (err) {
             setError(err);
             console.error(err);
@@ -68,7 +68,7 @@ const MainRandomGamePage = () => {
     const selectGame = async () => {
         if(isAuthenticated) {
             const authUser = auth.currentUser;
-            await addSelectedGame(authUser.uid, user, randomGame);
+            await addSelectedGame(authUser.uid, user, randomGame.appid);
             setRandomGame(null);
         }
     }
@@ -120,17 +120,17 @@ const MainRandomGamePage = () => {
                 <h2>
                     Random Game
                 </h2>
-                {isAuthenticated ? (user.SelectedGame ? <></> : 
+                {isAuthenticated ? (selectedGame ? <></> : 
                 <button className="app__randomGameWheel-button" onClick={pickRandomGame}>Pick Random Game</button>) 
                 : <button className="app__randomGameWheel-button" onClick={pickRandomGame}>Pick Random Game</button>}
 
-                    {isAuthenticated && user.SelectedGame ? 
+                    {isAuthenticated && selectedGame ? 
                     <div className="app__randomGameItem">
                     <img src={"http://media.steampowered.com/steamcommunity/public/images/apps/" + 
-                    user.SelectedGame.appid + "/" + user.SelectedGame.img_icon_url + ".jpg"}></img> 
-                    <p>{user.SelectedGame.name} </p>
-                    <p>Playtime Progress: {user.SelectedGame.playtime_forever} / 120 minutes</p>
-                    {user.SelectedGame.playtime_forever > 120 ? <button className="app__selectGame-button" onClick={claimGame}>+200 Credits</button> 
+                    selectedGame.appid + "/" + selectedGame.img_icon_url + ".jpg"}></img> 
+                    <p>{selectedGame.name} </p>
+                    <p>Playtime Progress: {selectedGame.playtime_forever} / 120 minutes</p>
+                    {selectedGame.playtime_forever > 120 ? <button className="app__selectGame-button" onClick={claimGame}>+200 Credits</button> 
                     : <button className="app__selectGame-button" onClick={claimGame} disabled>+200 Credits</button>}
                     </div>
 
