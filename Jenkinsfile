@@ -60,10 +60,10 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 dir('./Server') {
-                    sh 'docker build -t ${BACKEND_IMAGE} ./Server'
+                    sh 'docker build -t ${BACKEND_IMAGE} .'
                 }
                 dir('./pickingupsteam') {
-                    sh 'docker build -t ${FRONTEND_IMAGE} ./pickingupsteam'
+                    sh 'docker build -t ${FRONTEND_IMAGE} .'
                 }
             }
         }
