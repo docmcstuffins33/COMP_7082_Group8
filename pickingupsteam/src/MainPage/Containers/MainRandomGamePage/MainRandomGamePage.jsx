@@ -40,8 +40,9 @@ const MainRandomGamePage = () => {
             const gameData = await GetGameByUserID(id, serverURL, serverPort);
             setGameData(gameData);
             if(user && user.SelectedGame) {
-                console.log(gameData.find((game) => game.name = user.SelectedGame))
-                setSelectedGame(gameData.find((game) => game.appid = user.SelectedGame))
+                console.log(user.SelectedGame)
+                console.log(gameData.find((game) => game.appid == user.SelectedGame))
+                setSelectedGame(gameData.find((game) => game.appid == user.SelectedGame))
             }
         } catch (err) {
             setError(err);
@@ -78,6 +79,7 @@ const MainRandomGamePage = () => {
             const authUser = auth.currentUser;
             await removeSelectedGame(authUser.uid, user);
             setRandomGame(null);
+            setSelectedGame(null);
         }
     }
 
