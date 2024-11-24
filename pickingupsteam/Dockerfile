@@ -1,5 +1,5 @@
 FROM node:alpine
-WORKDIR /react-app
+WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
