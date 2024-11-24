@@ -1,5 +1,5 @@
 import { collection, doc, getDoc, setDoc, getDocs, deleteField } from "firebase/firestore";
-import { ref, getDownloadURL } from "firebase/storage";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { db, storage } from "./Firebase";
 
 // Fetch by ID
@@ -74,6 +74,33 @@ export const getImage = async (name) => {
     } catch (error) {
         console.error("Error fetching image:", error);
     }
+}
+
+export const getProfilePic = async (name) => {
+    try {
+        const path = name
+        const url = await getDownloadURL(ref(storage, path))
+        if (url) {
+            return url;
+        } else {
+            console.log("URL does not exist");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching image:", error);
+    }
+}
+
+export const uploadProfilePic = async (file, userID, userData, setLoading) => {
+    const filename = "ProfilePictures/" + userID + ".png";
+    const fileRef = ref(storage, filename);
+    setLoading(true);
+    const snapshot = await uploadBytes(fileRef, file);
+    var newData = userData;
+    newData.photoURL = filename;
+    writeUser(userID, newData)
+    setLoading(false);
+    alert("Profile Picture uploaded!")
 }
 
 
