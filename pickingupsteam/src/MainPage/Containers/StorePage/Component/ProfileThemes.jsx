@@ -21,16 +21,16 @@ function ProfileThemes({ theme, openModal }) {
         }
     },[user])
     return (
-        <div>
+        <div className='decoHolder'> 
             <div key={theme.name}>
                 <img className="bg" src={theme.img} alt={theme.name} />
                 <p>{theme.name}</p>
                 {isPurchased? 
                 <>
-                    <button className='itemCost' onClick={() => openModal(theme)} disabled>Purchased</button>  
+                    <button className='itemCost purchased' onClick={() => openModal(theme)} disabled>Purchased</button>  
                 </>: 
                 <>
-                    <button className='itemCost' onClick={() => openModal(theme)}>Cost: {theme.cost}</button>
+                    <button className='itemCost unpurchased' onClick={() => openModal(theme)}>Cost: {theme.cost}</button>
                 </>}
             </div>
         </div>

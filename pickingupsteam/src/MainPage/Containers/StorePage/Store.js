@@ -72,15 +72,14 @@ function Store() {
     }
 
   return (
-    <>
-        <h1>Points Shop</h1>
-        <h2>Profile Decorations</h2>
+    <div>
+        <h1 className='sectionHead'>Profile Decorations</h1>
         <div id='profileDecorations'>
             {profileDecorations.map(dec => (
                 <ProfileDecorations key={dec.name} decorations={dec} openModal={openModal}/>
             ))}
         </div>
-        <h2>Profile Themes</h2>
+        <h1 className='sectionHead'>Profile Themes</h1>
         <div id='profileThemes'>
             {profileThemes.map(theme => (
                 <ProfileThemes key={theme.name} theme={theme} openModal={openModal}/>
@@ -93,7 +92,7 @@ function Store() {
                 selectedPurchase={selectedPurchase}
             />
         </div>
-    </>
+    </div>
   );
 };
 

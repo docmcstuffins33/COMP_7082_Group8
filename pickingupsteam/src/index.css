@@ -1,10 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+* {
+    font-family: "Fira Sans Condensed", sans-serif;
+    vertical-align: middle;
+    font-weight: 400;
+    font-style: normal;
+}
 
 :root {
     --font-base: "DM Sans", sans-serif;
 
-    --primary-color: #edf2f8;
-    --secondary-color: #2a475e;
+    --primary-color: #ffffff;
+    --secondary-color: #313b74;
     --header-color: #1b2838;
     --black-color: #030303;
     --lightGray-color: #e4e4e4;
@@ -12,7 +19,7 @@
     --brown-color: #46364a;
     --white-color: #ffffff;
     --yellow-color: #ffd321;
-    --hover-color: #66c0f4;
+    --hover-color: #84b5ff;
     --primary-background-color: linear-gradient(white, #3A3A3A);
     
 }
@@ -25,7 +32,7 @@
     --gray-color: #b0b3b8;           
     --brown-color: #b9a9b6;          
     --white-color: #121212;   
-    --hover-color: #2a475e;       
+    --hover-color: #1c3c57;       
     --yellow-color: #ffd321;    
     
     

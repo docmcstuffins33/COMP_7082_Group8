@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import "./MainProfilePage.css"
 
+import ProfilePic from '../../Components/ProfilePicture/ProfilePic'
+
 import { useSelector } from 'react-redux'
 import { Navigate, useNavigate} from 'react-router-dom'
 import { useAuth } from '../../../Context/AuthContext';
@@ -29,12 +31,15 @@ const MainProfilePage = () => {
         }
     }, [isAuthenticated])
 
+    
+
     return (
         <div>
             {isAuthenticated ? <>
                 <h1>Username: {user.Username}</h1>
                 <h1>Email: {user.Email}</h1>
                 <h1>SteamID: {user.SteamID}</h1>
+                <ProfilePic isEditable="false"></ProfilePic>
                 </>
                 : 
                 <>

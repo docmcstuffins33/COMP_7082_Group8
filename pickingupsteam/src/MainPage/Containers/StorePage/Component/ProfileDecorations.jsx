@@ -23,7 +23,7 @@ function ProfileDecorations({ decorations, openModal }) {
     },[user])
 
     return (
-        <div>
+        <div className='decoHolder'>
             <div className="profileImgHolder">
                 <img className="icon" src={decorations.img} alt={decorations.name} />
                 <img className="rounded dummyProfile" src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg" alt="Profile" />
@@ -31,10 +31,10 @@ function ProfileDecorations({ decorations, openModal }) {
             <p>{decorations.name}</p>
             {isPurchased? 
             <>
-                <button className='itemCost' onClick={() => openModal(decorations)} disabled>Purchased</button>  
+                <button className='itemCost purchased' onClick={() => openModal(decorations)} disabled>Purchased</button>  
             </>: 
             <>
-                <button className='itemCost' onClick={() => openModal(decorations)}>Cost: {decorations.cost}</button>
+                <button className='itemCost unpurchased' onClick={() => openModal(decorations)}>Cost: {decorations.cost}</button>
             </>}
             
         </div>

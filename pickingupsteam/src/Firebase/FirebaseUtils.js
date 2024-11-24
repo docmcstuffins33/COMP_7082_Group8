@@ -1,5 +1,5 @@
-import { collection, doc, getDoc, setDoc, getDocs } from "firebase/firestore";
-import { ref, getDownloadURL } from "firebase/storage";
+import { collection, doc, getDoc, setDoc, getDocs, deleteField } from "firebase/firestore";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { db, storage } from "./Firebase";
 
 // Fetch by ID
@@ -76,6 +76,33 @@ export const getImage = async (name) => {
     }
 }
 
+export const getProfilePic = async (name) => {
+    try {
+        const path = name
+        const url = await getDownloadURL(ref(storage, path))
+        if (url) {
+            return url;
+        } else {
+            console.log("URL does not exist");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching image:", error);
+    }
+}
+
+export const uploadProfilePic = async (file, userID, userData, setLoading) => {
+    const filename = "ProfilePictures/" + userID + ".png";
+    const fileRef = ref(storage, filename);
+    setLoading(true);
+    const snapshot = await uploadBytes(fileRef, file);
+    var newData = userData;
+    newData.photoURL = filename;
+    writeUser(userID, newData)
+    setLoading(false);
+    alert("Profile Picture uploaded!")
+}
+
 
 export const addCredit = async (userID, userData, amount) => {
     try {
@@ -100,6 +127,31 @@ export const removeCredit = async (userID, userData, amount) => {
         return newUserData;
     } catch (error) {
         console.error("Error writing to collection:", error);
+        return null;
+    }
+}
+
+export const addSelectedGame = async (userID, userData, selectedGame) => {
+    try {
+        const docRef = doc(db, "Users", userID);
+        let newUserData = {...userData, SelectedGame: selectedGame};
+        await setDoc(docRef, newUserData, {merge:true});
+        return newUserData;
+    } catch (error) {
+        console.error("Error writing into collection:", error);
+        return null;
+    }
+}
+
+export const removeSelectedGame = async (userID, userData) => {
+    try {
+        const docRef = doc(db, "Users", userID);
+        let newAmount = userData.Points != null ? userData.Points + 200 : 200
+        let newUserData = {...userData, SelectedGame: null, Points: newAmount};
+        await setDoc(docRef, newUserData, {merge:true});
+        return newUserData;
+    }catch (error) {
+        console.error("Error writing into collection:", error);
         return null;
     }
 }

@@ -1,8 +1,10 @@
 FROM node:latest
+
 WORKDIR /app
-COPY package.json package-lock.json ./
+
+COPY package.json /app/
+COPY package-lock.json /app/
 
 RUN npm install
-COPY . .
-EXPOSE 8080
+COPY . /app
 CMD ["npm", "start", "dev"]

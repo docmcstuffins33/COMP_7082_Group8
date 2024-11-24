@@ -28,7 +28,7 @@ function Navbar() {
     const navbarStyle = {
         backgroundImage: isAuthenticated && user.Inventory?.Banners?.length > 0 
             ? `url(${user.Inventory.Banners[0].img})` 
-            : 'none',
+            : 'linear-gradient(to bottom right, #446996, #1b2838',
     };
     return (
         <nav className="app__navbar" style={navbarStyle}>
@@ -40,10 +40,7 @@ function Navbar() {
             {isAuthenticated? 
                 <>
                     <Link to="/store" className="app__linkButton">
-                        Store
-                    </Link>
-                    <Link to="/credit" className="app__linkButton">
-                        Credit: {credit}
+                        <img className="points_img" src="https://cdn-icons-png.flaticon.com/512/546/546580.png" alt='Points:'></img> {credit}
                     </Link>
                     <Link to="/profile" className="app__linkButton">
                         Profile

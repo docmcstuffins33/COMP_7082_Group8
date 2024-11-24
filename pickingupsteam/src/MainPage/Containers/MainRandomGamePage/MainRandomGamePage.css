@@ -129,6 +129,17 @@
 }
 
 /* ------------------Random Game Wheel Container-------------------------*/
+.app__randomGameItem{
+    background-color: rgb(159, 159, 159);
+    border: 2px solid var(--black-color);
+    border-radius: 4px;
+    padding: 1em;
+    width: 40%;
+    min-height: 35%;
+    align-items: center;
+    justify-content: center;
+}
+
 .app__randomGameWheel{
     display: flex;
     flex-direction: column;
@@ -152,6 +163,38 @@
 }
 
 .app__randomGameWheel-button:hover{
+    font-size: 1rem;
+    background-color: var(--hover-color);
+    box-shadow: 6px 6px 6px rgba(0,0,0,0.1),
+    -6px -6px 6px rgba(255,255,255,0.1);
+    cursor: pointer;
+}
+
+.app__selectGame-button{
+    margin: 1%;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    color: var(--black-color);
+    background-color: rgb(0, 205, 3);
+    border: none;
+    border-radius: 5%;
+    transition: all 0.2s ease-in-out;
+    font-weight: 600;
+}
+
+.app__selectGame-button:disabled{
+    margin: 1%;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    color: var(--black-color);
+    background-color: rgb(150, 150, 150);
+    border: none;
+    border-radius: 5%;
+    transition: all 0.2s ease-in-out;
+    font-weight: 600;
+}
+
+.app__selectGame-button:hover{
     font-size: 1rem;
     background-color: var(--hover-color);
     box-shadow: 6px 6px 6px rgba(0,0,0,0.1),
