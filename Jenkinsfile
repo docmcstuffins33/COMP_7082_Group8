@@ -26,7 +26,7 @@ pipeline {
                 REACT_APP_STEAM_USER_ID=${STEAM_USER_ID}
 
                 REACT_APP_SERVER_URL=${SERVER_URL}
-                REACT_APP_SERVER_PORT=${SERVER_URL}
+                REACT_APP_SERVER_PORT=${SERVER_PORT}
 
                 REACT_APP_FIREBASE_API_KEY=${FIREBASE_API_KEY}
                 REACT_APP_FIREBASE_AUTH_DOMAIN=${FIREBASE_AUTH_DOMAIN}
@@ -43,7 +43,7 @@ pipeline {
                 sh '''
                 cat <<EOF > ./Server/.env
                 STEAM_API_KEY=${REACT_APP_STEAM_API_KEY}
-                PORT=${PORT}
+                PORT=${SERVER_PORT}
                 STEAM_USER_ID=${STEAM_USER_ID}
 
                 FIREBASE_API_KEY=${FIREBASE_API_KEY}
