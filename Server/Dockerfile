@@ -1,10 +1,10 @@
 FROM node:latest
 
-WORKDIR /server
+WORKDIR /app
 
-COPY package.json /server/
-COPY package-lock.json /server/
+COPY package.json /app/
+COPY package-lock.json /app/
 
 RUN npm install
-COPY . /server/
+COPY . /app
 CMD ["npm", "start", "dev"]

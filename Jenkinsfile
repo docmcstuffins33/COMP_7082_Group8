@@ -42,7 +42,7 @@ pipeline {
             steps {
                 sh '''
                 cat <<EOF > ./Server/.env
-                STEAM_API_KEY=${REACT_APP_STEAM_API_KEY}
+                STEAM_API_KEY=${STEAM_API_KEY}
                 PORT=${PORT}
                 STEAM_USER_ID=${STEAM_USER_ID}
 
