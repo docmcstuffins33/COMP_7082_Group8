@@ -16,8 +16,8 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                    docker.build("${FRONTEND_IMAGE}", "./pickingupsteam")
-                    docker.build("${BACKEND_IMAGE}", "./Server")
+                    docker.build("./pickingupsteam")
+                    docker.build("./Server")
                 }
             }
         }
