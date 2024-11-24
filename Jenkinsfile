@@ -49,6 +49,7 @@ pipeline {
                 FIREBASE_APP_ID=${FIREBASE_APP_ID}
                 EOF
                 '''
+            }
         }
 
         stage('Build Docker Images') {
