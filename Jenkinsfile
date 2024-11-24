@@ -54,10 +54,9 @@ pipeline {
 
         stage('Build Docker Images') {
             steps {
-                script {
-                    docker.build("./pickingupsteam")
-                    docker.build("./Server")
-                }
+                sh 'docker build -t server ./Server'
+                sh 'docker build -t pickingupsteam ./pickingupsteam'
+
             }
         }
 
