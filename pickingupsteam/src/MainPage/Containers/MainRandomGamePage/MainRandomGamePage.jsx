@@ -129,15 +129,16 @@ const MainRandomGamePage = () => {
                     <img src={"http://media.steampowered.com/steamcommunity/public/images/apps/" + 
                     user.SelectedGame.appid + "/" + user.SelectedGame.img_icon_url + ".jpg"}></img> 
                     <p>{user.SelectedGame.name} </p>
-                    <p>{user.SelectedGame.playtime_forever} / 30 minutes</p>
-                    <button className="app__selectGame-button" onClick={claimGame}>+200 Credits</button>
+                    <p>Playtime Progress: {user.SelectedGame.playtime_forever} / 120 minutes</p>
+                    {user.SelectedGame.playtime_forever > 120 ? <button className="app__selectGame-button" onClick={claimGame}>+200 Credits</button> 
+                    : <button className="app__selectGame-button" onClick={claimGame} disabled>+200 Credits</button>}
                     </div>
 
                     : (randomGame != null ? <div className="app__randomGameItem">
                         <img src={"http://media.steampowered.com/steamcommunity/public/images/apps/" + 
                         randomGame.appid + "/" + randomGame.img_icon_url + ".jpg"}></img> 
                         <p>{randomGame.name} </p>
-                        <p>{randomGame.playtime_forever} / 30 minutes</p>
+                        <p>Playtime: {randomGame.playtime_forever} Minutes</p>
                         {isAuthenticated ? <button className="app__selectGame-button" onClick={selectGame}>Select Game</button> : <></>}
                         </div>: <></>)}
             </div>
