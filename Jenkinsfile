@@ -12,8 +12,8 @@ pipeline {
                 checkout scm
             }
         }
-        stage("Prepare .env file for frontend") {
-            script {
+        stage('Prepare .env file for frontend') {
+            steps {
                 sh '''
                 cat <<EOF > ./pickingupsteam/.env
                 REACT_APP_STEAM_API_KEY=${STEAM_API_KEY}
@@ -33,8 +33,8 @@ pipeline {
                 '''
             }
         }
-        stage("Prepare .env file for backend") {
-            script {
+        stage('Prepare .env file for backend') {
+            steps {
                 sh '''
                 cat <<EOF > ./Server/.env
                 STEAM_API_KEY=${REACT_APP_STEAM_API_KEY}
