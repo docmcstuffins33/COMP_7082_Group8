@@ -4,7 +4,6 @@ pipeline {
     environment {
         FRONTEND_IMAGE = "pickingupsteam"
         BACKEND_IMAGE = "server"
-        DOCKER_REGISTRY = "localhost:5000" // target docker registry
     }
 
     stages {
@@ -72,14 +71,6 @@ pipeline {
         //         }
         //     }
         // }
-        // stage ('Push Docker Images') {
-        //     steps {
-        //         sh 'docker push ${DOCKER_REGISTRY}/${BACKEND_IMAGE}'
-        //         sh 'docker push ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}'
-        //     }
-        // }
-
-
 
         stage('Deploy Containers') {
             steps {
@@ -89,9 +80,6 @@ pipeline {
     }
 
     post {
-        always {
-            sh 'docker-compose down'
-        }
         success {
             echo 'Build and deployment successful!'
         }
