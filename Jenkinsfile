@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     docker.build("${FRONTEND_IMAGE}", "./pickingupsteam")
-                    docker.build("${BACKEND_IMAGE}", "./server")
+                    docker.build("${BACKEND_IMAGE}", "./Server")
                 }
             }
         }
