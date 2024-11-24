@@ -60,13 +60,6 @@ pipeline {
 
             }
         }
-        stage ('Push Docker Images') {
-            steps {
-                sh 'docker push ${DOCKER_REGISTRY}/${BACKEND_IMAGE}'
-                sh 'docker push ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}'
-            }
-        }
-
         // stage('Run Tests') {
         //     steps {
         //         script {
@@ -79,6 +72,14 @@ pipeline {
         //         }
         //     }
         // }
+        // stage ('Push Docker Images') {
+        //     steps {
+        //         sh 'docker push ${DOCKER_REGISTRY}/${BACKEND_IMAGE}'
+        //         sh 'docker push ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}'
+        //     }
+        // }
+
+
 
         stage('Deploy Containers') {
             steps {
