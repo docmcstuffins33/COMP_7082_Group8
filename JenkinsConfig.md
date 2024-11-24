@@ -70,6 +70,8 @@
     ```
     Java -version
     ```
+    - Docker: https://docs.docker.com/desktop/setup/install/windows-install/
+
 - 2. Start Jenkins:
     - Launch Jenkins on your local machine using .war file:
     ```
@@ -91,6 +93,7 @@
         - Windows: ```C:\Program Files\Jenkins\secrets\initialAdminPassword```
         - macOS/Linux: ```/Users/yourusername/.jenkins/secrets/initialAdminPassword```
     - Enter the password in the Jenkins interface.
+
 
 ### Jenkins Step up:
 
@@ -116,6 +119,10 @@
             - Add Credentials with your Username: [you git username] and password: [personal access token]
             - change Branch Specifier to [main] or [your working branch]
             - Script Path is Jenkinsfile
+        - Configure Poll SCM:
+            ```
+            H/5 * * * *
+            ```
 
 - 5. Add Environment variable
     - Dashboard -> Manage Jenkins -> System
