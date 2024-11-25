@@ -73,7 +73,7 @@ const MainRandomGamePage = () => {
         if (gameData.length === 0) {
             return;
         }
-        let incompleteGameData = gameData.filter(game => game.playtime_forever < 30);
+        let incompleteGameData = gameData.filter(game => game.playtime_forever < 120);
         const randomIndex = Math.floor(Math.random() * incompleteGameData.length);
         setRandomGame(incompleteGameData[randomIndex]);
         console.log(incompleteGameData[randomIndex]);
