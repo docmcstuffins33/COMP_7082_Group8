@@ -32,7 +32,6 @@ function Navbar() {
         if(banner != null){
             setThemeImg(banner.img);
         }
-        
     };
 
     // Determine background style

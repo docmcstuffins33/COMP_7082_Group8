@@ -56,7 +56,7 @@ const MainProfilePage = () => {
                 <h1>Username: {user.Username}</h1>
                 <h1>Email: {user.Email}</h1>
                 <h1>SteamID: {user.SteamID}</h1>
-                <ProfilePic isEditable="false"></ProfilePic>
+                <ProfilePic editable="true"></ProfilePic>
                 <h1 className='sectionHead'>Profile Decorations</h1>
                 <div id='profileDecorations'>
                     {profileDecorations.map(dec => (

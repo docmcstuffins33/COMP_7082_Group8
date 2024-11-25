@@ -6,6 +6,7 @@ import { useAuth } from '../../../Context/AuthContext';
 import { auth} from '../../../Firebase/Firebase'
 import { useFirebaseHook } from '../../../Firebase/FireBaseHook'
 import { getSelectedDeco } from '../../../Firebase/FirebaseUtils.js';
+import ProfilePic from '../ProfilePage/Components/ProfilePicture/ProfilePic.js';
 const MainRandomGamePage = () => {
 
     //can be deleted once profile picture component is finished
@@ -100,7 +101,7 @@ const MainRandomGamePage = () => {
         <div class="app__searchBar">
             {user && user.Inventory &&user.Inventory.Icons ? 
             <div class ="app_user-profile-container">
-                <img src={decoImg} alt={`${user.Username}'s icon`} className="app__user-profile-iconTheme" />
+                <ProfilePic className="app__user-profile-iconTheme"></ProfilePic>
                 <h1 class="app__user-profile-text">Welcome, {user.Username}!</h1>
             </div>
             :
