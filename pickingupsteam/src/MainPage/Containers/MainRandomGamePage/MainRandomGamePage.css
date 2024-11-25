@@ -122,10 +122,18 @@
 
 /* ------------------Filter Container-----------------------------------*/
 .app__filterListForm {
-    display: flex;
-    flex-direction: row;
-}.app__radioButton {
-    padding-left: 15px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr); 
+    gap: 8px;   
+    margin-right: 100px;
+    margin-left: 100px;
+    background-color: rgb(89, 89, 89);
+}
+.app__checkbox {
+    display: block;
+    align-items: center;
+    border: 2px;
+    border-style: solid;
 }
 
 /* ------------------Random Game Wheel Container-------------------------*/

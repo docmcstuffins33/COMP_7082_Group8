@@ -31,11 +31,27 @@ const MainRandomGamePage = () => {
     const [selectedfilters, setSelectedFilters] = useState([]);
     const [filteredList, setFilteredList] = useState(gameData);
     
-    var filters = ["Indie", "Casual", "Action", "Adventure", "RPG", "Action-Adventure", "Racing", "Simulation", "Strategy", "Sports", "Software"]
+    var filters = ["Pinball", "Adventure", "Indie", "Arcade", "Visual Novel", "Card & Board Game", "MOBA", "Point-and-click", "Fighting", "Shooter", "Music", "Platform", "Puzzle", "Racing", "Real Time Strategy (RTS)",
+        "Role-playing (RPG)", "Simulator", "Sport", "Strategy", "Turn-based strategy (TBS)", "Tactical", "Hack and slash/Beat 'em up", "Quiz/Trivia"]
 
     //checkbox stuff
-    const [checked, setChecked] = useState({'Indie': false, 'Casual': false, 'Action': false, 'Adventure': false, 'RPG': false, 'Action-Adventure': false, 'Racing': false, 'Simulation': false, 'Strategy': false, 'Sports': false, 'Software': false});
+    const [checked, setChecked] = useState({"Pinball": false,"Adventure": false, "Indie": false, "Arcade": false, "Visual Novel": false, "Card & Board Game": false, "MOBA": false, 
+        "Point-and-click": false,  "Fighting": false, "Shooter": false, "Music": false, "Platform": false, "Puzzle": false, "Racing": false, "Real Time Strategy (RTS)": false,
+        "Role-playing (RPG)": false,  "Simulator": false, "Sport": false, "Strategy": false, "Turn-based strategy (TBS)": false, "Tactical": false, "Hack and slash/Beat 'em up": false, "Quiz/Trivia": false});
     
+    const segments = [];
+    const segmentColors= ['#EE4040',
+    '#F0CF50',
+    '#815CD1',
+    '#3DA5E0',
+    '#34A24F',
+    '#F9AA1F',
+    '#EC3F3F',
+    '#FF9000'];
+    const onFinished = (winner) => {
+        console.log(winner)
+      };
+
     const handleChange = (genreChosen) => {
         console.log(genreChosen);
         setChecked((previousState) => ({
@@ -55,13 +71,14 @@ const MainRandomGamePage = () => {
     };
 
     const Checkbox = ({ label, value, onChange }) => {
-        return (
-          <label>
-            <input type="checkbox" checked={value} onChange={onChange} name={label}/>
-            {label}
-          </label>
-        );
-      };
+            return (
+                <label className="app__checkbox">
+                  <input  type="checkbox" checked={value} onChange={onChange} name={label}/>
+                  {label}
+                </label>
+                
+              );
+        };
 
     useEffect(() => {
         if (user) {
@@ -79,6 +96,9 @@ const MainRandomGamePage = () => {
             //    incompleteGameData = await gameData.filter(game => game.playtime_forever < completeTime);
              //   setIncompleteGameData(incompleteGameData);
             //}
+            gameData.forEach(game => {
+                segments.push(game.name);
+            });
         } catch (err) {
             setError(err);
             console.error(err);
@@ -95,7 +115,7 @@ const MainRandomGamePage = () => {
         if (gameData.length === 0) {
             return;
         }
-        let incompleteGameData = gameData.filter(game => game.playtime_forever < 30);
+        let incompleteGameData = gameData.filter(game => game.playtime_forever < 120);
         const randomIndex = Math.floor(Math.random() * incompleteGameData.length);
         setRandomGame(incompleteGameData[randomIndex]);
         console.log(incompleteGameData[randomIndex]);
@@ -143,6 +163,7 @@ const MainRandomGamePage = () => {
         <div className='app__filterPanel'>
             <form className='app__filterListForm'>
                     {filters.map((genre, idx) => (
+                    
                     <Checkbox key={genre} label={genre} value={checked[genre]} onChange={(event)=> {handleChange(genre)}}/>
                 ))}
             </form>
@@ -155,7 +176,7 @@ const MainRandomGamePage = () => {
                 <div className="app__gameList-container">
                     {loading ? (<div>Loading...</div>) :
                     (error ? (<div>Error</div>) :
-                    (gameData.filter(game => game.playtime_forever < 30).map(game => (<div className="app__gameList-item">{
+                    (gameData.filter(game => game.playtime_forever < 120).map(game => (<div className="app__gameList-item">{
                         <p className="app__gameList-item-text">{game.name}</p>
                         }</div>))))}
                 </div>
