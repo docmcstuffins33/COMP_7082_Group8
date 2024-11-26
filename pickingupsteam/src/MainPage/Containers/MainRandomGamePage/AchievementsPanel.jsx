@@ -202,10 +202,15 @@ const AchievementsPanel = () => {
                     className={`toggle-button ${isOpen ? 'button-open' : 'button-closed'}`}
                     onClick={togglePanel}
                 >
-
                     {isOpen ? '←' : '→'}
                 </button>
             )}
+            <button
+                className={`toggle-button ${isOpen ? 'button-open' : 'button-closed'}`}
+                onClick={togglePanel}
+            >
+                {isOpen ? '←' : '→'}
+            </button>
 
             <div className={`side-panel ${isOpen ? 'open' : 'closed'}`}>
                 <h2 className="panel-title">Achievements</h2>
