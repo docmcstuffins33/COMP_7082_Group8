@@ -200,13 +200,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 500px;
-    background-color: #f4f4f4;
   }
   
   .wheel {
-    width: 400px;
-    height: 400px;
+    width: 700px;
+    height: 700px;
     border-radius: 50%;
     border: 5px solid #000;
     position: relative;

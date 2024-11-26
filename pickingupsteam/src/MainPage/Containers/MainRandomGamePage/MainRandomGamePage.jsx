@@ -100,9 +100,10 @@ const MainRandomGamePage = () => {
     const segments = [];
     const [spinning, setSpinning] = useState(false);
     const [rotation, setRotation] = useState(0);
+    const [hasSpun, setHasSpun] = useState(false);
 
     const spinWheel = () => {
-        if (spinning) return; // Prevent multiple spins
+        if (spinning || hasSpun) return; // Prevent multiple spins
         const spinTo = Math.floor(Math.random() * 360 + 720); // Minimum 2 full spins
         setRotation((prev) => prev + spinTo);
         setSpinning(true);
@@ -111,10 +112,11 @@ const MainRandomGamePage = () => {
         const winningSegment = segments[Math.floor(((rotation + spinTo) % 360) / (360 / segments.length))];
         console.log(gameData.filter(game => game.name == winningSegment))
         setSelectedGame(gameData.filter(game => game.name == winningSegment)[0]);
+        setHasSpun(true);
         }, 3000); // Match animation duration
     };
     
-      
+    gameData.filter(game => game.playtime_forever < 120).map(game => (segments.push(game.name)))
 
     return (
     <div class="app__main_container">
@@ -139,19 +141,8 @@ const MainRandomGamePage = () => {
             }
 
         </div>
-        <div className="app__gameListPanel">
-            <div className="app__gameList">
-                <h2>Game List </h2>
-                <div className="app__gameList-container">
-                    {loading ? (<div>Loading...</div>) :
-                    (error ? (<div>Error</div>) :
-                    (gameData.filter(game => game.playtime_forever < 120).map(game => (<div className="app__gameList-item">{
-                        <p className="app__gameList-item-text">{game.name}</p>
-                        }</div>))))}
-                    {gameData.filter(game => game.playtime_forever < 120).map(game => (segments.push(game.name)))}
-                </div>
-
-            </div>
+        
+            
             <div className="app__randomGameWheel">
                 <h2>
                     Random Game
@@ -177,7 +168,7 @@ const MainRandomGamePage = () => {
                     </div>
                     ))}
                 </div>
-                <button onClick={spinWheel} disabled={spinning} className="spin-button">
+                <button onClick={spinWheel} disabled={(spinning || hasSpun)} className="spin-button">
                     Spin
                 </button>
                 </div>
@@ -202,7 +193,7 @@ const MainRandomGamePage = () => {
                         </div>: <></>)}
             </div>
             
-        </div>
+        
     </div>
   )
 }
