@@ -19,6 +19,7 @@ const AchievementsPanel = () => {
     
     const [achievements, setAchievements] = useState([]);
     const [threeAchievements, setThreeAchievements] = useState([]);
+    const [gameNames, setGameNames] = useState([]);
 
     const [boxVisbility, setBoxVisibility] = useState([true, true, true])
 
@@ -120,6 +121,7 @@ const AchievementsPanel = () => {
         const shuffledGames = GenerateRandomShuffle(under30Minutes);
     
         const gamesWithAchievements = [];
+        const names = [];
         for (const game of shuffledGames) {
             const unachieved = await GetGameAchievements(game.appid);
     
@@ -128,13 +130,15 @@ const AchievementsPanel = () => {
                     appid: game.appid,
                     achievements: unachieved,
                 });
+
+                names.push(game.name);
             }
     
             if (gamesWithAchievements.length === 3) break;
         }
     
         console.log(gamesWithAchievements);
-    
+        setGameNames(names)
         setAchievements(gamesWithAchievements);
     
         console.log(achievements);
@@ -241,6 +245,9 @@ const AchievementsPanel = () => {
                     schema && boxVisbility[index] && (
                         <div className="achievement-box" key={appid}>
                             {/* Render achievement icon, use placeholder if not found */}
+                            <span className="game-name">
+                                {gameNames[index]}
+                            </span>
                             <img
                                 src={schema.icon || '/placeholder-icon.png'}
                                 alt={schema.displayName || 'Achievement'}

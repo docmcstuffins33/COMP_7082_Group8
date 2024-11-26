@@ -2,7 +2,7 @@
     position: fixed;
     top: 25%;
     left: 0;
-    width: 15%;
+    width: 16%;
     height: 75%;
     background-color: #333;
     color: white;
@@ -58,7 +58,7 @@
 }
   
 .button-open {
-    left: 16%;
+    left: 17%;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
 }
@@ -66,11 +66,10 @@
 .panel-title {
     text-align: center;
     font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
   
 .achievement-box {
-    z-index: 200;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -81,6 +80,13 @@
     padding: 1rem;
     border-radius: 8px;
     margin-bottom: 1rem;
+}
+
+.game-name {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 0.3rem;
+    text-align: center;
 }
   
 .achievement-image {
@@ -125,7 +131,7 @@
     text-align: center;
     font-size: 1.5rem;
     margin-left: 33%;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
   
 .claim-button:hover, .refresh-button:hover {
