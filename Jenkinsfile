@@ -15,8 +15,7 @@ pipeline {
 
         stage('Clean Up old build') {
             steps {
-                sh 'docker-compose down -v'
-                sh 'docker system prune -f'
+                sh 'docker-compose down'
             }
         }
         stage('Prepare .env file for frontend') {
