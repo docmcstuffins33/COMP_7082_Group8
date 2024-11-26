@@ -109,7 +109,8 @@ const MainRandomGamePage = () => {
         setTimeout(() => {
         setSpinning(false);
         const winningSegment = segments[Math.floor(((rotation + spinTo) % 360) / (360 / segments.length))];
-        alert(`You won: ${winningSegment}`);
+        console.log(gameData.filter(game => game.name == winningSegment))
+        setSelectedGame(gameData.filter(game => game.name == winningSegment)[0]);
         }, 3000); // Match animation duration
     };
     
