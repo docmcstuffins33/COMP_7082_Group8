@@ -56,22 +56,44 @@ const AchievementsPanel = () => {
         }
     };
 
-    const GetRandomAchievements = async() => {
+    const GetRandomAchievements = async () => {
         const randomAchievements = new Map();
-
-        for (const [appid, gameAchievements] of achievements) {
+    
+        for (const [appid, gameAchievements] of achievements.entries()) {
+            if (!gameAchievements || gameAchievements.length === 0) {
+                console.warn(`No achievements found for AppID: ${appid}`);
+                continue;
+            }
+    
             const randomIndex = Math.floor(Math.random() * gameAchievements.length);
-            randomAchievements.set(appid, GetAchievementSchema(appid, gameAchievements[randomIndex].name));
+            const randomAchievement = gameAchievements[randomIndex];
+    
+            if (!randomAchievement || !randomAchievement.name) {
+                console.warn(`Invalid achievement at index ${randomIndex} for AppID: ${appid}`);
+                continue;
+            }
+    
+            const schema = await GetAchievementSchema(appid, randomAchievement.name);
+    
+            if (!schema) {
+                console.warn(`Schema not found for Achievement: ${randomAchievement.name} in AppID: ${appid}`);
+                continue;
+            }
+    
+            randomAchievements.set(appid, schema);
         }
-
+    
+        console.log("Final Random Achievements:", randomAchievements);
+    
         setThreeAchievements(randomAchievements);
     };
+    
 
     const GetAchievementSchema = async(appid, achievementName) => {
         try {
             const response = await axios.get(`http://${serverURL}:${serverPort}/api/achievementSchemaByAppid/${appid}`);
             const achievements = response.data.applist.apps;
-            const achievement = achievements.filter(x => x.name === achievementName);
+            const achievement = achievements.find(x => x.name === achievementName) || {};
 
             return achievement;
         } catch (error) {
@@ -80,39 +102,42 @@ const AchievementsPanel = () => {
         }
     };
 
-    const GetThreeGames = useCallback(async() => {
+    const GetThreeGames = async() => {
         if (!user) return;
 
         let allGames = await GetGameByUserID(user.SteamID, serverURL, serverPort);
-        const under120Minutes = allGames.filter(game => game.playtime_forever <= 120);
-        const shuffledGames = GenerateRandomShuffle(under120Minutes);
-
-        console.log(under120Minutes);
-        console.log(shuffledGames);
+        const under30Minutes = allGames.filter(game => game.playtime_forever <= 30);
+        const shuffledGames = GenerateRandomShuffle(under30Minutes);
 
         const gamesWithAchievements = [];
         for (const game of shuffledGames) {
+
             const unachieved = await GetGameAchievements(game.appid);
 
             if(unachieved.length > 0) {
+                console.log(unachieved);
                 gamesWithAchievements.push(game);
             }
 
             if(gamesWithAchievements.length === 3) break;
         }
 
+        console.log(gamesWithAchievements);
+
         const achievementMap = new Map();
         for (const game of gamesWithAchievements) {
-            const unachieved = await GetGameAchievements(game);
+            const unachieved = await GetGameAchievements(game.appid);
 
             achievementMap.set(game, unachieved);
         }
 
+        console.log(achievementMap)
+
         setThreeAppids(gamesWithAchievements);
         setAchievements(achievementMap);
 
-        GetRandomAchievements();
-    }, [user, serverURL, serverPort, GenerateRandomShuffle, GetGameAchievements, GetRandomAchievements]);
+        await GetRandomAchievements();
+    };
 
     const claimReward = async(boxId, points) => {
         if (isAuthenticated) {
@@ -150,7 +175,11 @@ const AchievementsPanel = () => {
                 setLoading(false);
             }
         }
-    }, [isAuthenticated, user]);
+    }, [isAuthenticated]);
+
+    if (isLoading) {
+        <div className="loading">loading</div>
+    }
 
     return (
         <div>
@@ -167,10 +196,10 @@ const AchievementsPanel = () => {
             <div className={`side-panel ${isOpen ? 'open' : 'closed'}`}>
                 <h2 className="panel-title">Rewards</h2>
                 {[...threeAchievements.entries()].map(([appid, achievement], index) => (
-                    boxVisbility[index] && (
+                    achievement && boxVisbility[index] && (
                         <div className="achievement-box" key={appid}>
-                            <img src={achievement.icon} alt={achievement.displayName} className="achievement-image"/>
-                            <span className="achievement-text">{achievement.displayName}</span>
+                            <img src={achievement.icon || '/placeholder-icon.png'} alt={achievement.displayName || 'Achievement'} className="achievement-image"/>
+                            <span className="achievement-text">{achievement.displayName || 'Unknown Achievement'}</span>
                             <span className="achievement-number">{achievement.points || 100} Points</span>
                             <div className="button-group">
                                 <button className="claim-button" onClick={() => claimReward(index, achievement.points || 100)}>Claim</button>
