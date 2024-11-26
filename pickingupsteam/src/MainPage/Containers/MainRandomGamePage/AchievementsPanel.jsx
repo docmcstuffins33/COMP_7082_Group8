@@ -234,6 +234,7 @@ const AchievementsPanel = () => {
 
             <div className={`side-panel ${isOpen ? 'open' : 'closed'}`}>
                 <h2 className="panel-title">Achievements</h2>
+                <button className="refresh-button" onClick={() => setPanelsClaimed(3)}>Refresh</button>
                 {/* Iterate over the entries of the threeAchievements Map */}
                 {Array.from(threeAchievements.entries()).map(([appid, schema], index) => (
                     // Check visibility and ensure schema is valid
@@ -259,7 +260,6 @@ const AchievementsPanel = () => {
                                 >
                                     Claim
                                 </button>
-                                <button className="refresh-button">Refresh</button>
                             </div>
                         </div>
                     )
