@@ -182,9 +182,6 @@ const MainRandomGamePage = () => {
                 </button>
                 </div>
                 
-                {isAuthenticated ? (selectedGame ? <></> : 
-                <button className="app__randomGameWheel-button" onClick={pickRandomGame}>Pick Random Game</button>) 
-                : <button className="app__randomGameWheel-button" onClick={pickRandomGame}>Pick Random Game</button>}
 
                     {isAuthenticated && selectedGame ? 
                     <div className="app__randomGameItem">
