@@ -61,8 +61,8 @@ pipeline {
 
         stage('Build Docker Images') {
             steps {
-                sh 'docker build --no-cache -t ${BACKEND_IMAGE} ./Server'
-                sh 'docker build --no-cache -t ${FRONTEND_IMAGE} ./pickingupsteam'
+                sh 'docker build -t ${BACKEND_IMAGE} ./Server'
+                sh 'docker build -t ${FRONTEND_IMAGE} ./pickingupsteam'
             }
         }
         // stage('Run Tests') {
