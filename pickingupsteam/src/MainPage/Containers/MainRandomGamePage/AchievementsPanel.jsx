@@ -44,24 +44,24 @@ const AchievementsPanel = () => {
     };
 
     const GetGameAchievements = async(appid) => {
-        console.log(serverPort)
-        console.log("SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
-        try {
-            let response;
-            if(!serverPort || serverPort === ""){
-                console.log("--------------------Https declared in server URL---------------------");
-                // response = await axios.get(`https://${serverURL}/api/achievementsByAppid/${user.SteamID}/${appid}`);
-            }
-            else{
-                // response = await axios.get(`https://${serverURL}:${serverPort}/api/achievementsByAppid/${user.SteamID}/${appid}`);
-            }
-            const gameAchievements = response.data.applist.apps;
+        // console.log(serverPort)
+        // console.log("SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
+        // try {
+        //     let response;
+        //     if(!serverPort || serverPort === ""){
+        //         console.log("--------------------Https declared in server URL---------------------");
+        //         // response = await axios.get(`https://${serverURL}/api/achievementsByAppid/${user.SteamID}/${appid}`);
+        //     }
+        //     else{
+        //         // response = await axios.get(`https://${serverURL}:${serverPort}/api/achievementsByAppid/${user.SteamID}/${appid}`);
+        //     }
+        //     const gameAchievements = response.data.applist.apps;
 
-            return gameAchievements ? gameAchievements.filter(achievement => achievement.achieved === 0) : [];
-        } catch (error) {
-            console.error("Error fetching achievements for appid", appid, error);
+        //     return gameAchievements ? gameAchievements.filter(achievement => achievement.achieved === 0) : [];
+        // } catch (error) {
+        //     console.error("Error fetching achievements for appid", appid, error);
             return [];
-        }
+        // }
     };
 
     const GetRandomAchievements = async () => {
