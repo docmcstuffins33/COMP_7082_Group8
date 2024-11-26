@@ -81,6 +81,12 @@ pipeline {
                 sh 'docker-compose up --build'
             }
         }
+        
+        stage('Clean Up Dangling Images') {
+            steps {
+                sh 'docker image prune -f'
+            }
+        }
     }
 
     post {
