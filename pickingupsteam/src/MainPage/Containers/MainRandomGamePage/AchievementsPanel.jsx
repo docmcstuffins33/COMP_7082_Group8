@@ -108,24 +108,24 @@ const AchievementsPanel = () => {
     };    
 
     const GetAchievementSchema = async(appid, achievementName) => {
-        try {
-            let response;
-            if(!serverPort || serverPort === ""){
-                console.log("--------------------Https declared in server URL---------------------");
-                response = await axios.get(`https://${serverURL}/api/achievementSchemaByAppid/${user.SteamID}/${appid}`);
-            }
-            else{
-               response = await axios.get(`https://${serverURL}:${serverPort}/api/achievementSchemaByAppid/${appid}`);
-            }
+        // try {
+        //     let response;
+        //     if(!serverPort || serverPort === ""){
+        //         console.log("--------------------Https declared in server URL---------------------");
+        //         response = await axios.get(`https://${serverURL}/api/achievementSchemaByAppid/${user.SteamID}/${appid}`);
+        //     }
+        //     else{
+        //        response = await axios.get(`https://${serverURL}:${serverPort}/api/achievementSchemaByAppid/${appid}`);
+        //     }
             
-            const achievements = response.data.applist.apps;
-            const achievement = achievements.find(x => x.name === achievementName) || {};
+        //     const achievements = response.data.applist.apps;
+        //     const achievement = achievements.find(x => x.name === achievementName) || {};
 
-            return achievement;
-        } catch (error) {
-            console.error("Error fetching achievement schema", appid, achievementName, error.message);
+        //     return achievement;
+        // } catch (error) {
+        //     console.error("Error fetching achievement schema", appid, achievementName, error.message);
             return [];
-        }
+        // }
     };
 
     const GetThreeGames = async () => {
