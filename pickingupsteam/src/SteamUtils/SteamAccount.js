@@ -15,7 +15,7 @@ async function GetGameByUserID(userID, serverURL, serverPort){
 
         // Check if server URL is http or https for deployment
         if(!serverPort || serverPort === ""){
-            console.log("--------------------Http declared in server URL---------------------");
+            console.log("--------------------Https declared in server URL---------------------");
             
             response = await axios.get(`https://${serverURL}/api/gamesByUser/${userID}`);
         }
