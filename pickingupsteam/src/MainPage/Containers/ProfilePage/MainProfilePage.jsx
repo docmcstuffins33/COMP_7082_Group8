@@ -57,18 +57,27 @@ const MainProfilePage = () => {
                 <h3>{user.Email}</h3>
                 <h3>SteamID: {user.SteamID}</h3>
                 <ProfilePic editable="true"></ProfilePic>
-                <h1 className='sectionHead'>Profile Decorations</h1>
-                <div id='profileDecorations'>
-                    {profileDecorations.map(dec => (
-                        <ProfileDecoSet key={dec.name} decorations={dec}/>
-                    ))}
-                </div>
-                <h1 className='sectionHead'>Themes</h1>
-                <div id='profileThemes'>
-                {profileThemes.map(theme => (
-                    <ProfileThemeSet key={theme.name} theme={theme}/>
-                ))}
-                </div>
+                
+                {profileDecorations?.length > 0 &&
+                    <>
+                        <h1 className='sectionHead'>Profile Decorations</h1>
+                        <div id='profileDecorations'>
+                            {profileDecorations.map(dec => (
+                                <ProfileDecoSet key={dec.name} decorations={dec}/>
+                            ))}
+                        </div>
+                    </>
+                }
+                {profileThemes?.length > 0 &&
+                    <>
+                        <h1 className='sectionHead'>Themes</h1>
+                        <div id='profileThemes'>
+                        {profileThemes.map(theme => (
+                            <ProfileThemeSet key={theme.name} theme={theme}/>
+                        ))}
+                        </div>
+                    </>
+                }  
                 </>
                 : 
                 <>
