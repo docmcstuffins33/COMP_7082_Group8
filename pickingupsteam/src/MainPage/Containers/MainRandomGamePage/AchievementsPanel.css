@@ -1,9 +1,9 @@
 .side-panel {
     position: fixed;
-    top: 25%;
+    top: 20%;
     left: 0;
     width: 16%;
-    height: 75%;
+    height: 80%;
     background-color: #333;
     color: white;
     overflow-y: auto;
