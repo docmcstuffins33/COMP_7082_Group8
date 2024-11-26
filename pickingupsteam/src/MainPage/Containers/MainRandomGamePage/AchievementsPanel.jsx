@@ -24,6 +24,7 @@ const AchievementsPanel = () => {
 
     const {addCreditToUser, removeCreditFromUser } = useFirebaseHook();
     const [showPanel, setShowPanel] = useState(false);
+    const [panelsClaimed, setPanelsClaimed] = useState(0);
 
     const togglePanel = () => {
         setIsOpen(!isOpen);
@@ -139,11 +140,24 @@ const AchievementsPanel = () => {
         console.log(achievements);
     };
     
+    const HasAchieved = async(appid, achievementName) => {
+        const response = await axios.get(`http://${serverURL}:${serverPort}/api/achievementsByAppid/${user.SteamID}/${appid}`);
+        const gameAchievements = response.data.applist.apps;
+        const gameAchievement = gameAchievements.filter(x => x.name === achievementName)[0];
 
-    const claimReward = async(boxId, points) => {
+        return gameAchievement.achieved;
+    };
+
+    const claimReward = async(boxId, points, appid, achievementName) => {
         if (isAuthenticated) {
-            const authUser = auth.currentUser;
-            addCreditToUser(authUser.uid, user, points);
+            const hasAchieved = await HasAchieved(appid, achievementName);
+            if (hasAchieved) {
+                const authUser = auth.currentUser;
+                addCreditToUser(authUser.uid, user, points);
+            }
+            else {
+                return;
+            }
         }
 
         setBoxVisibility((prevVisibility) => {
@@ -151,7 +165,20 @@ const AchievementsPanel = () => {
             newVisibility[boxId] = false;
             return newVisibility;
         });
+
+        setPanelsClaimed(panelsClaimed + 1);
     };
+
+    useEffect(() => {
+        if (panelsClaimed >= 3) {
+            setAchievements([]);
+            setThreeAchievements([]);
+            setPanelsClaimed(0);
+            setBoxVisibility([true, true, true]);
+
+            GetThreeGames();
+        }
+    }, [panelsClaimed]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -228,7 +255,7 @@ const AchievementsPanel = () => {
                                 {/* Claim button with points from schema */}
                                 <button
                                     className="claim-button"
-                                    onClick={() => claimReward(index, schema.points || 100)}
+                                    onClick={() => claimReward(index, schema.points || 100, appid, schema.name)}
                                 >
                                     Claim
                                 </button>
