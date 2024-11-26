@@ -23,7 +23,8 @@ const AchievementsPanel = () => {
 
     const [boxVisbility, setBoxVisibility] = useState([true, true, true])
 
-    const { addCreditToUser } = useFirebaseHook();
+    const {addCreditToUser, removeCreditFromUser } = useFirebaseHook();
+    const [showPanel, setShowPanel] = useState(false);
 
     const togglePanel = () => {
         setIsOpen(!isOpen);
@@ -127,6 +128,19 @@ const AchievementsPanel = () => {
     };
 
     useEffect(() => {
+        const interval = setInterval(() => {
+            const currentPath = window.location.pathname;
+            if (currentPath === '/home') {
+                setShowPanel(true);
+            } else {
+                setShowPanel(false);
+            }
+        }, 100);
+    
+        return () => clearInterval(interval);
+    }, []);    
+
+    useEffect(() => {
         if (isAuthenticated) {
             try {
                 GetThreeGames();
@@ -140,11 +154,12 @@ const AchievementsPanel = () => {
 
     return (
         <div>
-            {isAuthenticated && (
+            {isAuthenticated && showPanel && (
                 <button
                     className={`toggle-button ${isOpen ? 'button-open' : 'button-closed'}`}
                     onClick={togglePanel}
                 >
+
                     {isOpen ? '←' : '→'}
                 </button>
             )}

@@ -51,24 +51,24 @@ const MainProfilePage = () => {
     
 
     return (
-        <div>
+        <div className='profilePageHolder'>
             {isAuthenticated ? <>
-                <h1>Username: {user.Username}</h1>
-                <h1>Email: {user.Email}</h1>
-                <h1>SteamID: {user.SteamID}</h1>
-                <ProfilePic isEditable="false"></ProfilePic>
+                <h1 className='profileName'>{user.Username}</h1>
+                <h3>{user.Email}</h3>
+                <h3>SteamID: {user.SteamID}</h3>
+                <ProfilePic editable="true"></ProfilePic>
                 <h1 className='sectionHead'>Profile Decorations</h1>
                 <div id='profileDecorations'>
                     {profileDecorations.map(dec => (
                         <ProfileDecoSet key={dec.name} decorations={dec}/>
                     ))}
                 </div>
-                <h1 className='sectionHead'>Profile Themes</h1>
+                <h1 className='sectionHead'>Themes</h1>
                 <div id='profileThemes'>
                 {profileThemes.map(theme => (
                     <ProfileThemeSet key={theme.name} theme={theme}/>
                 ))}
-        </div>
+                </div>
                 </>
                 : 
                 <>

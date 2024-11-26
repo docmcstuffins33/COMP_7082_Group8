@@ -34,10 +34,6 @@
 #profileDecorations::-webkit-scrollbar-thumb:hover, #profileThemes::-webkit-scrollbar-thumb:hover {
   background-color: #173964;
 }
-  
-  .toggle-button, .side-panel{
-    visibility: hidden;
-  }
 
   .decoHolder {
     border-radius: 1rem;
