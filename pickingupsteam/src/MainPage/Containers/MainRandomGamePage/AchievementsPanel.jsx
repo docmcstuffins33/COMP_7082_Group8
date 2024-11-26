@@ -19,7 +19,6 @@ const AchievementsPanel = () => {
     
     const [achievements, setAchievements] = useState([]);
     const [threeAchievements, setThreeAchievements] = useState([]);
-    const [threeAppids, setThreeAppids] = useState([]);
 
     const [boxVisbility, setBoxVisibility] = useState([true, true, true])
 
@@ -57,22 +56,31 @@ const AchievementsPanel = () => {
     };
 
     const GetRandomAchievements = async () => {
-        const randomAchievements = new Map();
+        const randomAchievements = new Map(); // Holds the random achievements by AppID
     
-        for (const [appid, gameAchievements] of achievements.entries()) {
+        console.log(achievements);  // Debug: Check the achievements structure
+    
+        // Iterate over the games in achievements (now assumed to be an array of game data)
+        for (const achievementData of achievements) {
+            const { appid, achievements: gameAchievements } = achievementData;
+    
+            // Ensure the game has achievements and they are unachieved
             if (!gameAchievements || gameAchievements.length === 0) {
-                console.warn(`No achievements found for AppID: ${appid}`);
+                console.warn(`No unachieved achievements found for AppID: ${appid}`);
                 continue;
             }
     
+            // Pick a random achievement from the game's unachieved list
             const randomIndex = Math.floor(Math.random() * gameAchievements.length);
             const randomAchievement = gameAchievements[randomIndex];
     
+            // Ensure the random achievement is valid
             if (!randomAchievement || !randomAchievement.name) {
                 console.warn(`Invalid achievement at index ${randomIndex} for AppID: ${appid}`);
                 continue;
             }
     
+            // Fetch schema data for the achievement
             const schema = await GetAchievementSchema(appid, randomAchievement.name);
     
             if (!schema) {
@@ -80,14 +88,15 @@ const AchievementsPanel = () => {
                 continue;
             }
     
+            // Add the achievement schema to the map for later use
             randomAchievements.set(appid, schema);
         }
     
         console.log("Final Random Achievements:", randomAchievements);
     
+        // Set the state with the random achievements map
         setThreeAchievements(randomAchievements);
-    };
-    
+    };    
 
     const GetAchievementSchema = async(appid, achievementName) => {
         try {
@@ -102,42 +111,34 @@ const AchievementsPanel = () => {
         }
     };
 
-    const GetThreeGames = async() => {
+    const GetThreeGames = async () => {
         if (!user) return;
-
+    
         let allGames = await GetGameByUserID(user.SteamID, serverURL, serverPort);
         const under30Minutes = allGames.filter(game => game.playtime_forever <= 30);
         const shuffledGames = GenerateRandomShuffle(under30Minutes);
-
+    
         const gamesWithAchievements = [];
         for (const game of shuffledGames) {
-
             const unachieved = await GetGameAchievements(game.appid);
-
-            if(unachieved.length > 0) {
-                console.log(unachieved);
-                gamesWithAchievements.push(game);
+    
+            if (unachieved.length > 0) {
+                gamesWithAchievements.push({
+                    appid: game.appid,
+                    achievements: unachieved,
+                });
             }
-
-            if(gamesWithAchievements.length === 3) break;
+    
+            if (gamesWithAchievements.length === 3) break;
         }
-
+    
         console.log(gamesWithAchievements);
-
-        const achievementMap = new Map();
-        for (const game of gamesWithAchievements) {
-            const unachieved = await GetGameAchievements(game.appid);
-
-            achievementMap.set(game, unachieved);
-        }
-
-        console.log(achievementMap)
-
-        setThreeAppids(gamesWithAchievements);
-        setAchievements(achievementMap);
-
-        await GetRandomAchievements();
+    
+        setAchievements(gamesWithAchievements);
+    
+        console.log(achievements);
     };
+    
 
     const claimReward = async(boxId, points) => {
         if (isAuthenticated) {
@@ -171,11 +172,22 @@ const AchievementsPanel = () => {
                 GetThreeGames();
             } catch (error) {
                 console.error("Error fetching achievements: " + error);
+            }
+        }
+    }, [isAuthenticated]);
+
+    useEffect(() => {
+        if(achievements.length > 0)
+        {
+            try {
+            GetRandomAchievements()
+            } catch (error) {
+                console.error("Error choosing random achievements: " + error);
             } finally {
                 setLoading(false);
             }
         }
-    }, [isAuthenticated]);
+    }, [achievements]);
 
     if (isLoading) {
         <div className="loading">loading</div>
@@ -194,15 +206,32 @@ const AchievementsPanel = () => {
             )}
 
             <div className={`side-panel ${isOpen ? 'open' : 'closed'}`}>
-                <h2 className="panel-title">Rewards</h2>
-                {[...threeAchievements.entries()].map(([appid, achievement], index) => (
-                    achievement && boxVisbility[index] && (
+                <h2 className="panel-title">Achievements</h2>
+                {/* Iterate over the entries of the threeAchievements Map */}
+                {Array.from(threeAchievements.entries()).map(([appid, schema], index) => (
+                    // Check visibility and ensure schema is valid
+                    schema && boxVisbility[index] && (
                         <div className="achievement-box" key={appid}>
-                            <img src={achievement.icon || '/placeholder-icon.png'} alt={achievement.displayName || 'Achievement'} className="achievement-image"/>
-                            <span className="achievement-text">{achievement.displayName || 'Unknown Achievement'}</span>
-                            <span className="achievement-number">{achievement.points || 100} Points</span>
+                            {/* Render achievement icon, use placeholder if not found */}
+                            <img
+                                src={schema.icon || '/placeholder-icon.png'}
+                                alt={schema.displayName || 'Achievement'}
+                                className="achievement-image"
+                            />
+                            <span className="achievement-text">
+                                {schema.displayName || 'Unknown Achievement'}
+                            </span>
+                            <span className="achievement-number">
+                                {schema.points || 100} Points
+                            </span>
                             <div className="button-group">
-                                <button className="claim-button" onClick={() => claimReward(index, achievement.points || 100)}>Claim</button>
+                                {/* Claim button with points from schema */}
+                                <button
+                                    className="claim-button"
+                                    onClick={() => claimReward(index, schema.points || 100)}
+                                >
+                                    Claim
+                                </button>
                                 <button className="refresh-button">Refresh</button>
                             </div>
                         </div>
