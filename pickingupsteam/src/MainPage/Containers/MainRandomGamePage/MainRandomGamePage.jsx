@@ -57,6 +57,7 @@ const MainRandomGamePage = () => {
                 console.log(gameData.find((game) => game.appid == user.SelectedGame))
                 setSelectedGame(gameData.find((game) => game.appid == user.SelectedGame))
             }
+            
         } catch (err) {
             setError(err);
             console.error(err);
@@ -96,11 +97,29 @@ const MainRandomGamePage = () => {
         }
     }
 
+    const segments = [];
+    const [spinning, setSpinning] = useState(false);
+    const [rotation, setRotation] = useState(0);
+
+    const spinWheel = () => {
+        if (spinning) return; // Prevent multiple spins
+        const spinTo = Math.floor(Math.random() * 360 + 720); // Minimum 2 full spins
+        setRotation((prev) => prev + spinTo);
+        setSpinning(true);
+        setTimeout(() => {
+        setSpinning(false);
+        const winningSegment = segments[Math.floor(((rotation + spinTo) % 360) / (360 / segments.length))];
+        alert(`You won: ${winningSegment}`);
+        }, 3000); // Match animation duration
+    };
+    
+      
+
     return (
     <div class="app__main_container">
         <div class="app__searchBar">
             {user && user.Inventory &&user.Inventory.Icons ? 
-            <div class ="app_user-profile-container">
+            <div className ="app_user-profile-container">
                 <ProfilePic className="app__user-profile-iconTheme"></ProfilePic>
                 <h1 class="app__user-profile-text">Welcome, {user.Username}!</h1>
             </div>
@@ -125,9 +144,10 @@ const MainRandomGamePage = () => {
                 <div className="app__gameList-container">
                     {loading ? (<div>Loading...</div>) :
                     (error ? (<div>Error</div>) :
-                    (gameData.filter(game => game.playtime_forever < 30).map(game => (<div className="app__gameList-item">{
+                    (gameData.filter(game => game.playtime_forever < 120).map(game => (<div className="app__gameList-item">{
                         <p className="app__gameList-item-text">{game.name}</p>
                         }</div>))))}
+                    {gameData.filter(game => game.playtime_forever < 120).map(game => (segments.push(game.name)))}
                 </div>
 
             </div>
@@ -135,6 +155,31 @@ const MainRandomGamePage = () => {
                 <h2>
                     Random Game
                 </h2>
+
+                <div className="wheel-container">
+                <div
+                    className={`wheel ${spinning ? 'spinning' : ''}`}
+                    style={{ transform: `rotate(${rotation}deg)` }}
+                >
+                    {segments.map((segment, index) => (
+                    <div
+                        key={index}
+                        className="segment"
+                        style={{
+                        transform: `rotate(${(360 / segments.length) * index}deg)`,
+                        backgroundColor: index % 2 === 0 ? '#F7A' : '#AAF',
+                        overflow: `hidden`,
+                        }}
+                    >
+                        {segment}
+                    </div>
+                    ))}
+                </div>
+                <button onClick={spinWheel} disabled={spinning} className="spin-button">
+                    Spin
+                </button>
+                </div>
+                
                 {isAuthenticated ? (selectedGame ? <></> : 
                 <button className="app__randomGameWheel-button" onClick={pickRandomGame}>Pick Random Game</button>) 
                 : <button className="app__randomGameWheel-button" onClick={pickRandomGame}>Pick Random Game</button>}
