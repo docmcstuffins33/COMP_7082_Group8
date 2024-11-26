@@ -11,6 +11,7 @@ export default function ProfilePic({editable}) {
     const { user, isAuthenticated, updateUser } = useAuth();
     const [loading, setLoading] = useState(false);
     const [picToUpload, setPicToUpload] = useState(null);
+    const [fileName, setFileName] = useState("No File Selected");
     const [decoImg, setDecoImg] = useState(null);
     const [pic, setPic] = useState("Profile_Default.png");
     useEffect(() => {
@@ -43,14 +44,17 @@ export default function ProfilePic({editable}) {
 
     async function handleChange(e){
         if (e.target.files[0]) {
-            setPicToUpload(e.target.files[0])
+            const file = e.target.files[0];
+            setPicToUpload(file);
+            setFileName(file.name);
         }
     }
 
     async function handleClick(){
         const authUser = auth.currentUser;
+        setFileName("No File Selected");
         uploadProfilePic(picToUpload, authUser.uid, user, setLoading);
-
+        
         fetchPic();
     }
 
@@ -60,9 +64,11 @@ export default function ProfilePic({editable}) {
                 <img className="profileDeco" src={decoImg}/>
                 <img className="profilePic" src={pic}/>
             </div>
-            {editable && <div>
-                <input type="file" onChange={handleChange} accept="image/png, image/jpg, image/jpeg"></input>
-                <button disabled={loading || !picToUpload} onClick={handleClick}>Upload</button>
+            {editable && <div className='uploadDiv'>
+                <label for="fileBtn" class="fileUploadLabel">Select File...</label>
+                <input id="fileBtn" type="file" onChange={handleChange} accept="image/png, image/jpg, image/jpeg"></input>
+                <p className='fileName'>{fileName}</p>
+                <button disabled={loading || !picToUpload} className="uploadBtn" onClick={handleClick}>Upload</button>
                 </div>}
             
         </>
