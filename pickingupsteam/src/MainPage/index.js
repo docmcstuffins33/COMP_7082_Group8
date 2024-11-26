@@ -1,5 +1,5 @@
 export {default as Navbar} from './Components/Navbar/Navbar'
-export {default as AchievementsPanel} from './Components/AchievementsPanel/AchievementsPanel'
+export {default as AchievementsPanel} from './Containers/MainRandomGamePage/AchievementsPanel'
 export {default as MainRandomGamePage} from './Containers/MainRandomGamePage/MainRandomGamePage'
 export {default as Store} from './Containers/StorePage/Store'
 export {default as LoginPage} from './Containers/LoginPage/MainLoginPage'

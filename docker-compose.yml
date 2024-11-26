@@ -10,7 +10,8 @@ services:
       - ./pickingupsteam/.env
     volumes:
       - ./react-app:/app  # Mount local react app
-      - /app/node_modules 
+      - /app/node_modules
+    image: pickingupsteam
     ports:
       - "${REACT_APP_PORT}:${REACT_APP_PORT}"
     environment:
@@ -23,6 +24,7 @@ services:
       dockerfile: Dockerfile
     env_file:
       - ./Server/.env
+    image: server
     ports:
       - "${PORT}:${PORT}"
     volumes:

@@ -42,6 +42,61 @@ app.get('/api/gamesByUser/:uid', async (req, res) => {
     }
 });
 
+app.get('/api/achievementsByAppid/:uid/:appid', async (req, res) => {
+    console.log("Received Request.");
+    try {
+        const uid = req.params.uid;
+        const appid = req.params.appid;
+
+        if (!uid || !appid) {
+            return res.status(400).send({ error: 'SteamID or AppID is missing' });
+        }
+
+        console.log('Requesting achievements from:', `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appid}&key=${STEAM_API_KEY}&steamid=${uid}`);
+
+        const response = await axios.get(`https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appid}&key=${STEAM_API_KEY}&steamid=${uid}`);
+        const achievements = response?.data?.playerstats?.achievements?.map(achievement => ({
+            name: achievement.apiname,
+            achieved: achievement.achieved
+        })) || [];
+
+        res.send({ applist: { apps: achievements } });
+    } catch (error) {
+        if (error.response?.status === 429) {
+            console.error('Rate limit exceeded');
+        } else {
+            console.error('Error fetching achievements:', error.message);
+        }
+        res.send({ applist: { apps: [] } });
+    }
+});
+
+app.get('/api/achievementSchemaByAppid/:appid', async (req, res) => {
+    console.log("Received Request.");
+    try {
+        const appid = req.params.appid;
+
+        if (!appid || isNaN(appid)) {
+            return res.status(400).send({ error: 'Invalid AppID' });
+        }
+
+        console.log('Requesting schema for appid:', appid, 'URL:', `https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=${STEAM_API_KEY}&appid=${appid}`);
+
+        const response = await axios.get(`https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=${STEAM_API_KEY}&appid=${appid}`);
+        const achievements = response?.data?.game?.availableGameStats?.achievements || [];
+
+        res.send({ applist: { apps: achievements } });
+    } catch (error) {
+        if (error.response) {
+            console.error(`Steam API error for appid ${appid}:`, error.response.status, error.response.statusText);
+            console.error("Full response data:", error.response.data);
+        } else {
+            console.error(`Error fetching schema for appid ${appid}:`, error.message);
+        }
+        res.status(500).send({ applist: { apps: [] } });
+    }
+});
+
 //SteamSpy api route, should hypothetically be fetching data including the median playtime.
 //Currently the api seems to always return 0? I've reached out to the API developer and am awaiting a response.
 app.get('/api/steamSpy/:appid', async (req, res) => {
