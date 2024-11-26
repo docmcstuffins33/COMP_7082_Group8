@@ -156,7 +156,7 @@ const AchievementsPanel = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             const currentPath = window.location.pathname;
-            if (currentPath === '/home') {
+            if (currentPath === '/home' || currentPath === "/") {
                 setShowPanel(true);
             } else {
                 setShowPanel(false);
