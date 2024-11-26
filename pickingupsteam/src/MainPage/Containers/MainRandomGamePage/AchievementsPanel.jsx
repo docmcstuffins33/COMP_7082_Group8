@@ -112,7 +112,7 @@ const AchievementsPanel = () => {
             let response;
             if(!serverPort || serverPort === ""){
                 console.log("--------------------Https declared in server URL---------------------");
-                response = await axios.get(`https://${serverURL}/api/achievementSchemaByAppid/${user.SteamID}/${appid}`);
+                response = await axios.get(`https://${serverURL}/api/achievementSchemaByAppid/${appid}`);
             }
             else{
                response = await axios.get(`https://${serverURL}:${serverPort}/api/achievementSchemaByAppid/${appid}`);
