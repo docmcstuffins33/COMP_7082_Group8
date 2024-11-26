@@ -100,10 +100,9 @@ const MainRandomGamePage = () => {
     const segments = [];
     const [spinning, setSpinning] = useState(false);
     const [rotation, setRotation] = useState(0);
-    const [hasSpun, setHasSpun] = useState(false);
 
     const spinWheel = () => {
-        if (spinning || hasSpun) return; // Prevent multiple spins
+        if (spinning) return; // Prevent multiple spins
         const spinTo = Math.floor(Math.random() * 360 + 720); // Minimum 2 full spins
         setRotation((prev) => prev + spinTo);
         setSpinning(true);
@@ -111,8 +110,7 @@ const MainRandomGamePage = () => {
         setSpinning(false);
         const winningSegment = segments[Math.floor(((rotation + spinTo) % 360) / (360 / segments.length))];
         console.log(gameData.filter(game => game.name == winningSegment))
-        setSelectedGame(gameData.filter(game => game.name == winningSegment)[0]);
-        setHasSpun(true);
+        setRandomGame(gameData.filter(game => game.name == winningSegment)[0]);
         }, 3000); // Match animation duration
     };
     
@@ -168,7 +166,7 @@ const MainRandomGamePage = () => {
                     </div>
                     ))}
                 </div>
-                <button onClick={spinWheel} disabled={(spinning || hasSpun)} className="spin-button">
+                <button onClick={spinWheel} disabled={(spinning || selectedGame)} className="spin-button">
                     Spin
                 </button>
                 </div>
