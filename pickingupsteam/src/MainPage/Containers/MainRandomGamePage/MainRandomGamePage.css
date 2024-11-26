@@ -194,5 +194,54 @@
     cursor: pointer;
 }
 
+.wheel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .wheel {
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    border: 5px solid #000;
+    position: relative;
+    transform-origin: center;
+    transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    overflow: hidden;
+  }
+  
+  .segment {
+    width: 50%;
+    height: 50%;
+    background: lightblue;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0% 0%;
+    text-align: center;
+    line-height: 150%;
+    font-weight: bold;
+    font-size: 12px;
+  }
+  
+  .spin-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .spin-button:disabled {
+    background: gray;
+    cursor: not-allowed;
+  }
+
 /* ------------------End of Random Game Wheel Container-------------------------*/
 
