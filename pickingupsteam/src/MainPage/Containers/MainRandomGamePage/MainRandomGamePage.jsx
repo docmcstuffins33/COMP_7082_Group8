@@ -57,7 +57,6 @@ const MainRandomGamePage = () => {
                 console.log(gameData.find((game) => game.appid == user.SelectedGame))
                 setSelectedGame(gameData.find((game) => game.appid == user.SelectedGame))
             }
-            
         } catch (err) {
             setError(err);
             console.error(err);
@@ -120,7 +119,7 @@ const MainRandomGamePage = () => {
     <div class="app__main_container">
         <div class="app__searchBar">
             {user && user.Inventory &&user.Inventory.Icons ? 
-            <div className ="app_user-profile-container">
+            <div class ="app_user-profile-container">
                 <ProfilePic className="app__user-profile-iconTheme"></ProfilePic>
                 <h1 class="app__user-profile-text">Welcome, {user.Username}!</h1>
             </div>

@@ -44,17 +44,8 @@ const AchievementsPanel = () => {
     };
 
     const GetGameAchievements = async(appid) => {
-        console.log(serverPort)
-        console.log("SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
         try {
-            let response;
-            if(!serverPort || serverPort === ""){
-                console.log("--------------------Https declared in server URL---------------------");
-                response = await axios.get(`https://${serverURL}/api/achievementsByAppid/${user.SteamID}/${appid}`);
-            }
-            else{
-                response = await axios.get(`https://${serverURL}:${serverPort}/api/achievementsByAppid/${user.SteamID}/${appid}`);
-            }
+            const response = await axios.get(`http://${serverURL}:${serverPort}/api/achievementsByAppid/${user.SteamID}/${appid}`);
             const gameAchievements = response.data.applist.apps;
 
             return gameAchievements ? gameAchievements.filter(achievement => achievement.achieved === 0) : [];
@@ -109,15 +100,7 @@ const AchievementsPanel = () => {
 
     const GetAchievementSchema = async(appid, achievementName) => {
         try {
-            let response;
-            if(!serverPort || serverPort === ""){
-                console.log("--------------------Https declared in server URL---------------------");
-                response = await axios.get(`https://${serverURL}/api/achievementSchemaByAppid/${appid}`);
-            }
-            else{
-               response = await axios.get(`https://${serverURL}:${serverPort}/api/achievementSchemaByAppid/${appid}`);
-            }
-            
+            const response = await axios.get(`http://${serverURL}:${serverPort}/api/achievementSchemaByAppid/${appid}`);
             const achievements = response.data.applist.apps;
             const achievement = achievements.find(x => x.name === achievementName) || {};
 
