@@ -12,11 +12,13 @@ pipeline {
                 checkout scm
             }
         }
-        // stage('remove old build') {
-        //     steps {
-        //         sh 'docker-compose down'
-        //     }
-        // }
+
+        stage('Clean Up old build') {
+            steps {
+                sh 'docker-compose down -v'
+                sh 'docker system prune -f'
+            }
+        }
         stage('Prepare .env file for frontend') {
             steps {
                 sh '''
@@ -78,13 +80,7 @@ pipeline {
 
         stage('Deploy Containers') {
             steps {
-                sh 'docker-compose up --build'
-            }
-        }
-        
-        stage('Clean Up Dangling Images') {
-            steps {
-                sh 'docker image prune -f'
+                sh 'docker-compose up --build -d'
             }
         }
     }
