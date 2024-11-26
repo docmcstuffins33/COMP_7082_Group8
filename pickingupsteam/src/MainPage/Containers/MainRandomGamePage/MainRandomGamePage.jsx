@@ -168,6 +168,7 @@ const MainRandomGamePage = () => {
                         style={{
                         transform: `rotate(${(360 / segments.length) * index}deg)`,
                         backgroundColor: index % 2 === 0 ? '#F7A' : '#AAF',
+                        clipPath: `polygon(0% 0%, 100% 0%, 100% 10%, 0% 0%)`,
                         overflow: `hidden`,
                         }}
                     >
