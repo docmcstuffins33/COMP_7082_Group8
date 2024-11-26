@@ -80,7 +80,7 @@ pipeline {
 
         stage('Deploy Containers') {
             steps {
-                sh 'docker-compose up --build -d'
+                sh 'docker-compose up -d'
             }
         }
     }
