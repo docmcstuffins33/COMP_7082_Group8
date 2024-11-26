@@ -13,11 +13,6 @@ pipeline {
             }
         }
 
-        stage('Clean Up old build') {
-            steps {
-                sh 'docker-compose down'
-            }
-        }
         stage('Prepare .env file for frontend') {
             steps {
                 sh '''
@@ -55,6 +50,12 @@ pipeline {
                 FIREBASE_APP_ID=${FIREBASE_APP_ID}
                 EOF
                 '''
+            }
+        }
+        
+        stage('Clean Up old build') {
+            steps {
+                sh 'docker-compose down'
             }
         }
 
