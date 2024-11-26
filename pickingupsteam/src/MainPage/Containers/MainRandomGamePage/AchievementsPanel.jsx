@@ -50,10 +50,10 @@ const AchievementsPanel = () => {
             let response;
             if(!serverPort || serverPort === ""){
                 console.log("--------------------Https declared in server URL---------------------");
-                // response = await axios.get(`https://${serverURL}/api/achievementsByAppid/${user.SteamID}/${appid}`);
+                response = await axios.get(`https://${serverURL}/api/achievementsByAppid/${user.SteamID}/${appid}`);
             }
             else{
-                // response = await axios.get(`https://${serverURL}:${serverPort}/api/achievementsByAppid/${user.SteamID}/${appid}`);
+                response = await axios.get(`https://${serverURL}:${serverPort}/api/achievementsByAppid/${user.SteamID}/${appid}`);
             }
             const gameAchievements = response.data.applist.apps;
 
