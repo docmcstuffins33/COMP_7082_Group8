@@ -156,12 +156,17 @@ const MainRandomGamePage = () => {
         </div>
         
             
-            <div className="app__randomGameWheel">
-                <h2>
+        {gameData == 0? 
+        <div>
+            <h2>No Games were found</h2>
+        </div>
+        :
+        <div className="app__randomGameWheel">
+                <h2 style={{alignSelf: `center`}}>
                     Random Game
                 </h2>
 
-                <div className="wheel-container">
+            <div className="wheel-container">
                 <div
                     className={`wheel ${spinning ? 'spinning' : ''}`}
                     style={{ transform: `rotate(${rotation}deg)` }}
@@ -184,7 +189,7 @@ const MainRandomGamePage = () => {
                 <button onClick={spinWheel} disabled={(spinning || selectedGame)} className="spin-button">
                     Spin
                 </button>
-                </div>
+            </div>
                 
 
                     {isAuthenticated && selectedGame ? 
@@ -204,7 +209,8 @@ const MainRandomGamePage = () => {
                         <p>Playtime: {randomGame.playtime_forever} Minutes</p>
                         {isAuthenticated ? <button className="app__selectGame-button" onClick={selectGame}>Select Game</button> : <></>}
                         </div>: <></>)}
-            </div>
+        </div>
+    }   
             
         
     </div>
