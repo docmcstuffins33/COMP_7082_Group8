@@ -49,10 +49,18 @@ const MainLoginPage = () => {
                     navigate('/profile');
                 });
             }
-            console.log(user);
+            // console.log(user);
         } 
         catch (error) {
             console.log(error);
+            if(error.message.includes("auth/invalid-email"))
+                alert("Signup Failed - Invalid Email format")
+            else if(error.message.includes("auth/missing"))
+                alert("Signup Failed - Make sure you've filled in every field!")
+            else if(error.message.includes("auth/weak-password"))
+                alert("Signup Failed - Your password must be at least 6 characters.")
+            else
+                alert("Signup Failed - Please try again.")
         }
     }
 
@@ -73,6 +81,14 @@ const MainLoginPage = () => {
 
     } catch (error) {
         console.log(error)
+        if(error.message.includes("auth/invalid-credential"))
+            alert("Login Failed - Invalid Credentials")
+        else if(error.message.includes("auth/invalid-email"))
+            alert("Login Failed - Invalid Email format")
+        else if(error.message.includes("auth/missing"))
+            alert("Login Failed - Make sure you've filled in every field!")
+        else
+            alert("Login Failed - Please try again.")
     }
   }
 
