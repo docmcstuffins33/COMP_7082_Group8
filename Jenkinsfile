@@ -65,18 +65,15 @@ pipeline {
                 sh 'docker build -t ${FRONTEND_IMAGE} ./pickingupsteam'
             }
         }
-        // stage('Run Tests') {
-        //     steps {
-        //         script {
-        //             docker.image("${BACKEND_IMAGE}").inside {
-        //                 sh 'npm test'
-        //             }
-        //             docker.image("${FRONTEND_IMAGE}").inside {
-        //                 sh 'npm test'
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Run Tests') {
+            steps {
+                script {
+                    docker.image("${FRONTEND_IMAGE}").inside {
+                        sh 'npm test'
+                    }
+                }
+            }
+        }
 
         stage('Deploy Containers') {
             steps {
