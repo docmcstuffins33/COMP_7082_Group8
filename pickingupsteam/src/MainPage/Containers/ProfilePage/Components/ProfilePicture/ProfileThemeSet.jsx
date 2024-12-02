@@ -16,7 +16,7 @@ function ProfileThemeSet({theme}) {
 
         // If the user has the background, set isPurchased to true
         if(!user.Inventory.Banners || user.Inventory.Banners.length === 0) return;
-        console.log(user)
+        // console.log(user)
         if(theme.isSelected == true){
             setIsPurchased(true);
         }else{

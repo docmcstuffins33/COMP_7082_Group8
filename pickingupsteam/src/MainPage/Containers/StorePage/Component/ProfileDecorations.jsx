@@ -12,9 +12,9 @@ function ProfileDecorations({ decorations, openModal }) {
         // console.log(user.Inventory.Icons.filter(icon => icon.name === decorations.name));
 
         // If the user has the icon, set isPurchased to true
-        console.log(user.Inventory.Icons)
+        // console.log(user.Inventory.Icons)
         if(!user.Inventory.Icons || user.Inventory.Icons.length === 0) return;
-        console.log(user)
+        // console.log(user)
         if(user.Inventory.Icons.filter(icon => icon.name === decorations.name).length > 0){
             setIsPurchased(true);
         }else{

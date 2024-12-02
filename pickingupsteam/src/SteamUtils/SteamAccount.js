@@ -23,7 +23,7 @@ async function GetGameByUserID(userID, serverURL, serverPort){
             response = await axios.get(`http://${serverURL}:${serverPort}/api/gamesByUser/${userID}}`);
         }
         
-        console.log(response.data)
+        // console.log(response.data)
         const filteredList = response.data.applist.apps.filter(x => x.name)
         return filteredList;
 

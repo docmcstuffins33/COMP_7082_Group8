@@ -60,7 +60,7 @@ const AchievementsPanel = () => {
     const GetRandomAchievements = async () => {
         const randomAchievements = new Map(); // Holds the random achievements by AppID
     
-        console.log(achievements);  // Debug: Check the achievements structure
+        // console.log(achievements);  // Debug: Check the achievements structure
     
         // Iterate over the games in achievements (now assumed to be an array of game data)
         for (const achievementData of achievements) {
@@ -94,7 +94,7 @@ const AchievementsPanel = () => {
             randomAchievements.set(appid, schema);
         }
     
-        console.log("Final Random Achievements:", randomAchievements);
+        // console.log("Final Random Achievements:", randomAchievements);
     
         // Set the state with the random achievements map
         setThreeAchievements(randomAchievements);
@@ -137,11 +137,11 @@ const AchievementsPanel = () => {
             if (gamesWithAchievements.length === 3) break;
         }
     
-        console.log(gamesWithAchievements);
+        // console.log(gamesWithAchievements);
         setGameNames(names)
         setAchievements(gamesWithAchievements);
     
-        console.log(achievements);
+        // console.log(achievements);
     };
     
     const HasAchieved = async(appid, achievementName) => {

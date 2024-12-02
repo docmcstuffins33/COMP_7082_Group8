@@ -41,7 +41,7 @@ const MainRandomGamePage = () => {
 
     const fetchDeco = async () => {
         const banner = await getSelectedDeco(auth.currentUser.uid)
-        console.log(banner)
+        // console.log(banner)
         if(banner != null){
             setDecoImg(banner.img);
         }
@@ -50,11 +50,27 @@ const MainRandomGamePage = () => {
     const fetchGameData = async (id = steamID) => {
         setLoading(true);
         try {
-            const gameData = await GetGameByUserID(id, serverURL, serverPort);
+            const cachedData = JSON.parse(localStorage.getItem("gameDataCache"));
+            const currentTime = Date.now();
+            var gameData = null;
+            if(cachedData && cachedData.timestamp && currentTime - cachedData.timestamp <= 5 /*Minutes*/ * 60 /*Seconds*/ * 1000 /*Milliseconds*/){ //I LOVE INLINE COMMENTS I JUST REMEMBERED I CAN DO THIS ON THE LITERAL LAST DAY
+                console.log("Fetching cached data...");
+                gameData = cachedData.data;
+            } else {
+                console.log("Cache expired or not found, fetching data from steamAPI...");
+                gameData = await GetGameByUserID(id, serverURL, serverPort);
+                localStorage.setItem(
+                    "gameDataCache",
+                    JSON.stringify({
+                        data: gameData,
+                        timestamp: currentTime
+                    })
+                );
+            }
             setGameData(gameData);
             if(user && user.SelectedGame) {
-                console.log(user.SelectedGame)
-                console.log(gameData.find((game) => game.appid == user.SelectedGame))
+                // console.log(user.SelectedGame)
+                // console.log(gameData.find((game) => game.appid == user.SelectedGame))
                 setSelectedGame(gameData.find((game) => game.appid == user.SelectedGame))
             }
         } catch (err) {

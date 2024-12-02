@@ -16,14 +16,14 @@ export default function ProfilePic({editable}) {
     const [pic, setPic] = useState("Profile_Default.png");
     useEffect(() => {
         if(user)
-            console.log(user)
-            console.log(auth.currentUser)
+            // console.log(user)
+            // console.log(auth.currentUser)
             fetchPic();
             fetchDeco();
     }, [user, loading])
 
     const fetchPic = async () => {
-        console.log("URL ====== " + user.photoURL)
+        // console.log("URL ====== " + user.photoURL)
         var picPath;
         if(typeof user.photoURL === undefined || user.photoURL == null){
             picPath = await getProfilePic("ProfilePictures/Profile_Default.png")
@@ -36,7 +36,7 @@ export default function ProfilePic({editable}) {
 
     const fetchDeco = async () => {
         const banner = await getSelectedDeco(auth.currentUser.uid)
-        console.log(banner)
+        // console.log(banner)
         if(banner != null){
             setDecoImg(banner.img);
         }

@@ -13,7 +13,7 @@ function ProfileThemes({ theme, openModal }) {
 
         // If the user has the background, set isPurchased to true
         if(!user.Inventory.Banners || user.Inventory.Banners.length === 0) return;
-        console.log(user)
+        // console.log(user)
         if(user.Inventory.Banners.filter(bg => bg.name === theme.name).length > 0){
             setIsPurchased(true);
         }else{

@@ -47,9 +47,9 @@ function PurchaseModal({ isOpen, onRequestClose: closeModel, selectedPurchase })
             console.log(error);
         }
     }
-    useEffect(() => {
-        console.log("user", user);
-    })
+    // useEffect(() => {
+    //     console.log("user", user);
+    // })
 
 
     return (

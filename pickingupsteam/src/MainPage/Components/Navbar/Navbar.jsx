@@ -20,7 +20,7 @@ function Navbar() {
 
     useEffect(() => {
         if(user){
-            console.log("Current Credit: " + user.Points);
+            // console.log("Current Credit: " + user.Points);
             setCredit(user.Points);
             fetchTheme();
         }
@@ -28,7 +28,7 @@ function Navbar() {
 
     const fetchTheme = async () => {
         const banner = await getSelectedTheme(auth.currentUser.uid)
-        console.log(banner)
+        // console.log(banner)
         if(banner != null){
             setThemeImg(banner.img);
         }
