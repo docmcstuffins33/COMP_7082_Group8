@@ -53,9 +53,16 @@ export default function ProfilePic({editable}) {
     async function handleClick(){
         const authUser = auth.currentUser;
         setFileName("No File Selected");
-        uploadProfilePic(picToUpload, authUser.uid, user, setLoading);
+        setLoading(true);
+
+        uploadProfilePic(picToUpload, authUser.uid, user, setLoading).then(() => {
+            fetchPic().then(() => {
+                setLoading(false);
+                alert("Profile Picture uploaded!")
+            });
+        });
+
         
-        fetchPic();
     }
 
     return (

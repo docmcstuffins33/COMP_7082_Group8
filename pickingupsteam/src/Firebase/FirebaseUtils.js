@@ -208,16 +208,18 @@ export const getSelectedDecoration = async(UserID) => {
 
 
 
-export const uploadProfilePic = async (file, userID, userData, setLoading) => {
-    const filename = "ProfilePictures/" + userID + ".png";
-    const fileRef = ref(storage, filename);
-    setLoading(true);
-    const snapshot = await uploadBytes(fileRef, file);
-    var newData = userData;
-    newData.photoURL = filename;
-    writeUser(userID, newData)
-    setLoading(false);
-    alert("Profile Picture uploaded!")
+export const uploadProfilePic = async (file, userID, userData) => {
+    try{
+        const filename = "ProfilePictures/" + userID + ".png";
+        const fileRef = ref(storage, filename);
+    
+        const snapshot = await uploadBytes(fileRef, file);
+        var newData = userData;
+        newData.photoURL = filename;
+        return await writeUser(userID, newData)
+    }catch (error) {
+        console.error("Error writing to collection:", error);
+    }
 }
 
 

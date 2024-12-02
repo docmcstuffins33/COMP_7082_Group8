@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import { BrowserRouter , Routes, Route } from 'react-router-dom';
 import './index.css'
-import axios from 'axios';
+
 
 import { AuthProvider } from './Context/AuthContext.jsx';
 import { MainRandomGamePage, Navbar, AchievementsPanel, Store, LoginPage, CreditPage, ProfilePage, SignoutPage} from './MainPage/index.js';
