@@ -4,19 +4,16 @@ import { useSelector } from 'react-redux';
 import { useAuth } from '../../../../../Context/AuthContext';
 import { setSelectedDeco } from '../../../../../Firebase/FirebaseUtils';
 import { auth } from '../../../../../Firebase/Firebase';
-function ProfileDecoSet({ decorations, select }) {
+
+/*The setter panel for a profile decoration, as seen on the Profile page. Takes in a prop "decorations" which is the profile decoration to be displayed within this component.*/
+function ProfileDecoSet({ decorations }) {
     const {user} = useAuth();
     const [isPurchased, setIsPurchased] = useState(false);  
 
+    //Gets the user's currently selected profile decoration.
     useEffect(() => {
         if(!user) return;
-
-        // console.log(user.Inventory.Icons.filter(icon => icon.name === decorations.name));
-
-        // If the user has the icon, set isPurchased to true
-        // console.log(user.Inventory.Icons)
         if(!user.Inventory.Icons || user.Inventory.Icons.length === 0) return;
-        // console.log(user)
         if(decorations.isSelected == true){
             setIsPurchased(true);
         }else{
@@ -24,11 +21,13 @@ function ProfileDecoSet({ decorations, select }) {
         }
     },[user])
 
+    //Set the user's selected decoration to the one corresponding with this component.
     const decoSetter = async () => {
         await setSelectedDeco(decorations.name, auth.currentUser.uid)
         window.location.reload();
     }
 
+    /*----Actual decoration setter layout starts here----*/
     return (
         <div className='decoHolder'>
             <div className="profileImgHolder">

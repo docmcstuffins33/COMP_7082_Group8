@@ -6,6 +6,7 @@ import './index.css'
 import { AuthProvider } from './Context/AuthContext.jsx';
 import { MainRandomGamePage, Navbar, AchievementsPanel, Store, LoginPage, CreditPage, ProfilePage, SignoutPage} from './MainPage/index.js';
 
+//Base renderer for the entire react app. Also contains the react routing.
 function App() {
     return (
         <AuthProvider>

@@ -73,7 +73,7 @@ app.get('/api/achievementsByAppid/:uid/:appid', async (req, res) => {
     }
 });
 
-/*Gets the list of steam achievements for a game from its AppID. Returns the list if it is found, or an error code if it could not properly fetch the data.*/
+/*Gets the steam achievement schema for a game from its AppID. Returns the list if it is found, or an error code if it could not properly fetch the data.*/
 app.get('/api/achievementSchemaByAppid/:appid', async (req, res) => {
     console.log("Received Request.");
     try {

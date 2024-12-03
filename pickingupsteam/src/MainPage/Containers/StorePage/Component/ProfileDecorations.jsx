@@ -2,19 +2,19 @@ import React, {useEffect, useState} from 'react';
 import '../Store.css';
 import { useSelector } from 'react-redux';
 import { useAuth } from '../../../../Context/AuthContext';
+
+/*The purchase for a profile decoration, as seen on the Store page. 
+Takes in a prop "decorations" which is the profile decoration to be displayed within this component, 
+and "openModal" which is the function to open the modal which triggers on a press of the button.*/
 function ProfileDecorations({ decorations, openModal }) {
     const {user} = useAuth();
     const [isPurchased, setIsPurchased] = useState(false);  
 
+    //Sets whether or not the user has already purchased this decoration.
     useEffect(() => {
         if(!user) return;
-
-        // console.log(user.Inventory.Icons.filter(icon => icon.name === decorations.name));
-
         // If the user has the icon, set isPurchased to true
-        // console.log(user.Inventory.Icons)
         if(!user.Inventory.Icons || user.Inventory.Icons.length === 0) return;
-        // console.log(user)
         if(user.Inventory.Icons.filter(icon => icon.name === decorations.name).length > 0){
             setIsPurchased(true);
         }else{
@@ -22,6 +22,7 @@ function ProfileDecorations({ decorations, openModal }) {
         }
     },[user])
 
+    /*----Actual decoration purchaser layout starts here----*/
     return (
         <div className='decoHolder'>
             <div className="profileImgHolder">

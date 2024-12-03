@@ -6,6 +6,7 @@ import { getProfilePic, uploadProfilePic, writeUser} from '../../../../../Fireba
 import { getSelectedDeco } from '../../../../../Firebase/FirebaseUtils';
 import "./ProfilePic.css"
 
+/*Profile Picture component, takes in a prop "editable" which is a boolean that determines whether it should include the file uploader.*/
 export default function ProfilePic({editable}) {
 
     const { user, isAuthenticated, updateUser } = useAuth();
@@ -14,16 +15,16 @@ export default function ProfilePic({editable}) {
     const [fileName, setFileName] = useState("No File Selected");
     const [decoImg, setDecoImg] = useState(null);
     const [pic, setPic] = useState("Profile_Default.png");
+
+    //Updates the user's picture and profile decoration when the user logs in/out or when a new file finishes uploading.
     useEffect(() => {
         if(user)
-            // console.log(user)
-            // console.log(auth.currentUser)
             fetchPic();
             fetchDeco();
     }, [user, loading])
 
+    //Fetches the user's profile picture from firebase storage.
     const fetchPic = async () => {
-        // console.log("URL ====== " + user.photoURL)
         var picPath;
         if(typeof user.photoURL === undefined || user.photoURL == null){
             picPath = await getProfilePic("ProfilePictures/Profile_Default.png")
@@ -34,14 +35,15 @@ export default function ProfilePic({editable}) {
         setPic(picPath); 
     };
 
+    //Fetches the user's profile decoration from firebase storage.
     const fetchDeco = async () => {
         const banner = await getSelectedDeco(auth.currentUser.uid)
-        // console.log(banner)
         if(banner != null){
             setDecoImg(banner.img);
         }
     };
 
+    //Stages the file for upload from the file uploader.
     async function handleChange(e){
         if (e.target.files[0]) {
             const file = e.target.files[0];
@@ -50,6 +52,7 @@ export default function ProfilePic({editable}) {
         }
     }
 
+    //Uploads the file when the upload button is clicked.
     async function handleClick(){
         const authUser = auth.currentUser;
         setFileName("No File Selected");
@@ -65,12 +68,14 @@ export default function ProfilePic({editable}) {
         
     }
 
+    /*----Actual profile picture layout starts here----*/
     return (
         <>
             <div className="profilePictureHolder">
                 <img className="profileDeco" src={decoImg}/>
                 <img className="profilePic" src={pic}/>
             </div>
+            {/*Conditional rendering displays the uploading options if the prop "editable" is passed in.*/}
             {editable && <div className='uploadDiv'>
                 <label for="fileBtn" class="fileUploadLabel">Select File...</label>
                 <input id="fileBtn" type="file" onChange={handleChange} accept="image/png, image/jpg, image/jpeg"></input>

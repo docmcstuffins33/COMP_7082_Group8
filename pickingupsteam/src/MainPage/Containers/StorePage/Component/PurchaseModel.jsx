@@ -6,12 +6,18 @@ import { useSelector } from 'react-redux';
 import { auth } from '../../../../Firebase/Firebase';
 import { useAuth } from '../../../../Context/AuthContext';
 
+/*The modal for purchasing a cosmetic. 
+Takes in props:     isOpen (dictating whether or not the modal should be open), 
+                    onRequestClose (a function to call when the modal closes)
+                    selectedPurchase (the cosmetic to be displayed in the modal)
+*/
 function PurchaseModal({ isOpen, onRequestClose: closeModel, selectedPurchase }) {
 
     const {user, isAuthenticated} = useAuth();
     const [credit, setCredit] = useState(0);
     const {purchaseIconInStore, purchaseBackgroundInStore} = useFirebaseHook();
 
+    //Styling the modal here, because reactModal does not interact well with CSS.
     const modalStyle = {
         content: {
             top: '50%',
@@ -24,6 +30,7 @@ function PurchaseModal({ isOpen, onRequestClose: closeModel, selectedPurchase })
         },
     };
 
+    //Function to purchase a profile decoration and then close the modal.
     const PurchaseIcon = async () => {
         try{
             const authUser = auth.currentUser;
@@ -36,6 +43,7 @@ function PurchaseModal({ isOpen, onRequestClose: closeModel, selectedPurchase })
         }
     }
 
+    //Function to purchase a profile theme and then close the modal.
     const PurchaseBackground = async () => {
         try{
             const authUser = auth.currentUser;
@@ -47,11 +55,8 @@ function PurchaseModal({ isOpen, onRequestClose: closeModel, selectedPurchase })
             console.log(error);
         }
     }
-    // useEffect(() => {
-    //     console.log("user", user);
-    // })
 
-
+    /*----Actual modal layout starts here----*/
     return (
         <Modal
             className="purchaseModal"

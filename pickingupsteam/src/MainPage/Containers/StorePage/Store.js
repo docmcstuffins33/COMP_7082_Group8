@@ -62,11 +62,6 @@ function Store() {
         setIsOpen(true);
     }
     
-    function afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        //empty rn, might be used later
-    }
-    
     function closeModal() {
         setIsOpen(false);
     }

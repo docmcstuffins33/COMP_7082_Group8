@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import './Navbar.css'; // Optional: for styling
+import './Navbar.css';
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import {useAuth} from '../../../Context/AuthContext'
 import { getSelectedTheme } from '../../../Firebase/FirebaseUtils';
 import { auth } from '../../../Firebase/Firebase';
 
+/*Navbar component.*/
 function Navbar() {
     //storing the credit, should be dynamic or stored in a database
     const {user, isAuthenticated} = useAuth();
@@ -18,28 +19,30 @@ function Navbar() {
         sessionStorage.setItem("previousPage", location.pathname);
     };
 
+    //Updates the user's credit and current theme any time the user value changes (on login/logout)
     useEffect(() => {
         if(user){
-            // console.log("Current Credit: " + user.Points);
             setCredit(user.Points);
             fetchTheme();
         }
     }, [user]);
 
+    //Fetch the user's theme
     const fetchTheme = async () => {
         const banner = await getSelectedTheme(auth.currentUser.uid)
-        // console.log(banner)
         if(banner != null){
             setThemeImg(banner.img);
         }
     };
 
-    // Determine background style
+    // Determine background style based on current user theme
     const navbarStyle = {
         backgroundImage: isAuthenticated && user.Inventory?.Banners?.length > 0 && themeImg != null
             ? `url(${themeImg})` 
             : 'linear-gradient(to bottom right, #446996, #1b2838',
     };
+
+    /*----Actual navbar layout starts here----*/
     return (
         <nav className="app__navbar" style={navbarStyle}>
         <Link to="/home">

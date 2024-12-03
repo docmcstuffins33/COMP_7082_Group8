@@ -7,6 +7,7 @@ import { useFirebaseHook } from '../../../Firebase/FireBaseHook'
 import { useAuth } from '../../../Context/AuthContext';
 import axios from 'axios';
 
+/*Achievements panel component, as seen on homepage.*/
 const AchievementsPanel = () => {
     const [isLoading, setLoading] = useState(true);
 
@@ -31,6 +32,7 @@ const AchievementsPanel = () => {
         setIsOpen(!isOpen);
     };
 
+    //Randomly shuffles a list of games
     const GenerateRandomShuffle = (games) => {
         const shuffledIndices = Array.from({ length: games.length }, (_, i) => i);
 
@@ -45,6 +47,7 @@ const AchievementsPanel = () => {
         return shuffledIndices.map(i => games[i]);
     };
 
+    //Gets the achievements of a game given its steam appID. See Server/index.js for more details on the specifics.
     const GetGameAchievements = async(appid) => {
         try {
             const response = await axios.get(`http://${serverURL}:${serverPort}/api/achievementsByAppid/${user.SteamID}/${appid}`);
@@ -57,10 +60,9 @@ const AchievementsPanel = () => {
         }
     };
 
+    //Gets 3 random achievements from the currently set achievements variable, then sets the threeAchievements state variable to said 3 achievements.
     const GetRandomAchievements = async () => {
         const randomAchievements = new Map(); // Holds the random achievements by AppID
-    
-        // console.log(achievements);  // Debug: Check the achievements structure
     
         // Iterate over the games in achievements (now assumed to be an array of game data)
         for (const achievementData of achievements) {
@@ -94,12 +96,11 @@ const AchievementsPanel = () => {
             randomAchievements.set(appid, schema);
         }
     
-        // console.log("Final Random Achievements:", randomAchievements);
-    
         // Set the state with the random achievements map
         setThreeAchievements(randomAchievements);
     };    
 
+    //Gets the Achievement Schema for a given game (appID) and achievement name.
     const GetAchievementSchema = async(appid, achievementName) => {
         try {
             const response = await axios.get(`http://${serverURL}:${serverPort}/api/achievementSchemaByAppid/${appid}`);
@@ -113,10 +114,12 @@ const AchievementsPanel = () => {
         }
     };
 
+    //Gets 3 random games from the user's steam library.
     const GetThreeGames = async () => {
         if (!user) return;
     
         let allGames = await GetGameByUserID(user.SteamID, serverURL, serverPort);
+        //Filter to only games with less than 30 minutes of playtime - may not be necessary, but it's how we've decided to do it.
         const under30Minutes = allGames.filter(game => game.playtime_forever <= 30);
         const shuffledGames = GenerateRandomShuffle(under30Minutes);
     
@@ -137,13 +140,11 @@ const AchievementsPanel = () => {
             if (gamesWithAchievements.length === 3) break;
         }
     
-        // console.log(gamesWithAchievements);
         setGameNames(names)
         setAchievements(gamesWithAchievements);
-    
-        // console.log(achievements);
     };
     
+    //Check whether the user has achieved a given achievement.
     const HasAchieved = async(appid, achievementName) => {
         const response = await axios.get(`http://${serverURL}:${serverPort}/api/achievementsByAppid/${user.SteamID}/${appid}`);
         const gameAchievements = response.data.applist.apps;
@@ -152,6 +153,7 @@ const AchievementsPanel = () => {
         return gameAchievement.achieved;
     };
 
+    //If the user is authenticated and has achieved the given achievement, adds the credits for the reward to their account.
     const claimReward = async(boxId, points, appid, achievementName) => {
         if (isAuthenticated) {
             const hasAchieved = await HasAchieved(appid, achievementName);
@@ -164,6 +166,7 @@ const AchievementsPanel = () => {
             }
         }
 
+        //Handle the UI updates after claiming an achievements.
         setBoxVisibility((prevVisibility) => {
             const newVisibility = [...prevVisibility];
             newVisibility[boxId] = false;
@@ -173,6 +176,7 @@ const AchievementsPanel = () => {
         setPanelsClaimed(panelsClaimed + 1);
     };
 
+    //Resets everything when all achievement panels have been claimed.
     useEffect(() => {
         if (panelsClaimed >= 3) {
             setAchievements([]);
@@ -184,6 +188,7 @@ const AchievementsPanel = () => {
         }
     }, [panelsClaimed]);
 
+    //Hides the achievement panel on pages other than the main page.
     useEffect(() => {
         const interval = setInterval(() => {
             const currentPath = window.location.pathname;
@@ -197,6 +202,7 @@ const AchievementsPanel = () => {
         return () => clearInterval(interval);
     }, []);    
 
+    //Gets games when the user becomes authenticated.
     useEffect(() => {
         if (isAuthenticated) {
             try {
@@ -207,6 +213,7 @@ const AchievementsPanel = () => {
         }
     }, [isAuthenticated]);
 
+    //Get random achievements when the list of all achievements changes.
     useEffect(() => {
         if(achievements.length > 0)
         {
@@ -220,10 +227,12 @@ const AchievementsPanel = () => {
         }
     }, [achievements]);
 
+    //Display a loading message while the achievements are loading.
     if (isLoading) {
         <div className="loading">loading</div>
     }
 
+    /*----Actual achievements panel layout starts here----*/
     return (
         <div>
             {isAuthenticated && showPanel && (
