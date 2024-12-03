@@ -1,5 +1,5 @@
 
-//---------------------setup express server----------------------
+//---------------------Set up express server----------------------
 const express = require('express');
 const app = express();
 const axios = require('axios');
@@ -7,25 +7,26 @@ const cors = require("cors")
 
 require('dotenv').config()
 
+//Cors policy! We love it! (This caused significant headache before I remembered that setting the cors policy is important.)
 app.use(cors({
     origin:"*",
     methods:['GET']
 }))
 
-//handle JSON requests
 var bodyParser = require('body-parser')
 app.use(bodyParser.json());
-// Start the server
+//Grab the requested port from .env, or just default to 8080 if none is specified.
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
     console.log('Press Ctrl+C to quit.');
 });
-//---------------------setup express server----------------------
+//---------------------End of express server setup----------------------
 
+//This is our unique steam API key, from the .env file.
 const STEAM_API_KEY = process.env.STEAM_API_KEY;
 
-//76561198290514792 is will's steam id. You can use this to test if you want
+/*Gets the list of steam games from a given SteamID. Returns the list if it is found, or an error 500 if it could not properly fetch the data.*/
 app.get('/api/gamesByUser/:uid', async (req, res) => {
     console.log("Recieved Request.")
     try {
@@ -42,6 +43,7 @@ app.get('/api/gamesByUser/:uid', async (req, res) => {
     }
 });
 
+/*Gets the list of steam achievements on a game for a user from a given SteamID and AppID. Returns the list if it is found, error 400 if a param is missing, and error 429 if the rate limit has been exceeded.*/
 app.get('/api/achievementsByAppid/:uid/:appid', async (req, res) => {
     console.log("Received Request.");
     try {
@@ -71,6 +73,7 @@ app.get('/api/achievementsByAppid/:uid/:appid', async (req, res) => {
     }
 });
 
+/*Gets the list of steam achievements for a game from its AppID. Returns the list if it is found, or an error code if it could not properly fetch the data.*/
 app.get('/api/achievementSchemaByAppid/:appid', async (req, res) => {
     console.log("Received Request.");
     try {
@@ -97,8 +100,9 @@ app.get('/api/achievementSchemaByAppid/:appid', async (req, res) => {
     }
 });
 
-//SteamSpy api route, should hypothetically be fetching data including the median playtime.
-//Currently the api seems to always return 0? I've reached out to the API developer and am awaiting a response.
+/*SteamSpy api route, should hypothetically be fetching data including the median playtime. 
+Currently, this API is unavailable, but I have left this code in, just in case the API developer ever gets back to me about un-deprecating it.
+Generally though, this route goes unused./*/
 app.get('/api/steamSpy/:appid', async (req, res) => {
     console.log("Recieved Request.")
     try {
@@ -115,7 +119,7 @@ app.get('/api/steamSpy/:appid', async (req, res) => {
 
 
 
-//This route can get some extra stats about a game. Might be unnecessary, but was implemented in hopes that it would show playtime.
+/*Accesses the IGDB stats for a game given its name. Returns game data on a success and error 500 on a failure.*/
 app.get('/api/IGDB/:name', async (req, res) => {
     console.log("Recieved Request.")
     try {
@@ -135,6 +139,7 @@ app.get('/api/IGDB/:name', async (req, res) => {
     }
 });
 
+/*Test route to ensure that the SteamAPI is functioning properly. Returns the first 100 games in Steam's database.*/
 app.get('/api/applist', async (req, res) => {
     console.log("Recieved Request.")
     try {
