@@ -131,18 +131,21 @@ const AchievementsPanel = () => {
         const under30Minutes = allGames.filter(game => game.playtime_forever <= 30);
         const names = [];
 
+        //If achievement data is in Firebase database use that instead of generating new games
         if (user.Achievements) {
-            const achiementMap = new Map(Object.entries(user.Achievements));
+            const achievementMap = new Map(Object.entries(user.Achievements));
             for (const game of under30Minutes) {
-                for (const achievement of achiementMap) {
-                    if(game.appid == achievement.appid) {
-                        names.push(game.appid);
+                for (const appid of achievementMap.keys()) {
+                    if(game.appid == appid) {
+                        names.push(game.name);
                     }
                 }
             }
 
+            console.log(names);
+
             setGameNames(names);
-            setThreeAchievements(achiementMap);
+            setThreeAchievements(achievementMap);
             return;
         }
 
@@ -277,13 +280,7 @@ const AchievementsPanel = () => {
 
             <div className={`side-panel ${isOpen ? 'open' : 'closed'}`}>
                 <h2 className="panel-title">Achievements</h2>
-                <button className="refresh-button" onClick={async() => {
-                    if(isAuthenticated) {
-                        const authUser = auth.currentUser;
-                        await removeAchievements(authUser.uid, user);
-                        setPanelsClaimed(3);
-                    }
-                }}>Refresh</button>
+                <button className="refresh-button" onClick={() => setPanelsClaimed(3)}>Refresh</button>
                 {/* Iterate over the entries of the threeAchievements Map */}
                 {Array.from(threeAchievements.entries()).map(([appid, schema], index) => (
                     // Check visibility and ensure schema is valid
