@@ -52,3 +52,14 @@ TWITCH_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXX
 REACT_APP_PORT=3000
 PORT=8080
 ```
+
+## Startup
+
+In both the server and pickingupsteam subfolders, start both parts with:
+```
+npm start
+```
+Make sure to start with the server before the pickingupsteam
+
+## CI/CD
+refer to the file [JenkinsConfig](JenkinsConfig.md) for CI/CD setup 
