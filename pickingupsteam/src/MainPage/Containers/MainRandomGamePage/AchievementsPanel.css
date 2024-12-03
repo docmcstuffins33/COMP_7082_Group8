@@ -22,7 +22,7 @@
 .loading {
     position: fixed;
     bottom: 20px;
-    left: 16%;
+    left: 0;
     width: 75px;
     height: 100px;
     background-color: #333;
@@ -34,6 +34,8 @@
     align-items: center;
     justify-content: center;
     transition: left 0.3s ease;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
   
 .toggle-button {

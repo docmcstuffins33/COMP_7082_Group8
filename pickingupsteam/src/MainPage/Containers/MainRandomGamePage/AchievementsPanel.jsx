@@ -142,8 +142,6 @@ const AchievementsPanel = () => {
                 }
             }
 
-            console.log(names);
-
             setGameNames(names);
             setThreeAchievements(achievementMap);
             return;
@@ -207,19 +205,27 @@ const AchievementsPanel = () => {
     useEffect(() => {
         if (panelsClaimed >= 3) {
             const resetAchievements = async () => {
-                const authUser = auth.currentUser;
-                setAchievements([]);
-                setThreeAchievements([]);
-                setPanelsClaimed(0);
-                setBoxVisibility([true, true, true]);
-                await removeAchievements(authUser.uid, user);
+                setLoading(true); // Start loading
     
-                GetThreeGames();
+                try {
+                    const authUser = auth.currentUser;
+                    setAchievements([]);
+                    setThreeAchievements([]);
+                    setPanelsClaimed(0);
+                    setBoxVisibility([true, true, true]);
+                    await removeAchievements(authUser.uid, user);
+                    await GetThreeGames();
+                } catch (error) {
+                    console.error("Error resetting achievements: ", error);
+                } finally {
+                    setLoading(false); // Always reset loading state
+                }
             };
     
             resetAchievements();
         }
     }, [panelsClaimed]);
+    
 
     //Hides the achievement panel on pages other than the main page.
     useEffect(() => {
@@ -237,32 +243,45 @@ const AchievementsPanel = () => {
 
     //Gets games when the user becomes authenticated.
     useEffect(() => {
-        if (isAuthenticated) {
+        const fetchGames = async () => {
+            setLoading(true); // Start loading
+    
             try {
-                GetThreeGames();
+                await GetThreeGames();
             } catch (error) {
-                console.error("Error fetching achievements: " + error);
+                console.error("Error fetching games: " + error);
+            } finally {
+                setLoading(false); // Ensure loading is reset
             }
+        };
+    
+        if (isAuthenticated) {
+            fetchGames();
         }
     }, [isAuthenticated]);
+    
 
     //Get random achievements when the list of all achievements changes.
     useEffect(() => {
-        if(achievements.length > 0)
-        {
+        const fetchRandomAchievements = async () => {
             try {
-            GetRandomAchievements()
+                await GetRandomAchievements();
             } catch (error) {
                 console.error("Error choosing random achievements: " + error);
             } finally {
                 setLoading(false);
             }
+        };
+    
+        if (achievements.length > 0) {
+            fetchRandomAchievements();
         }
     }, [achievements]);
+    
 
     //Display a loading message while the achievements are loading.
     if (isLoading) {
-        <div className="loading">loading</div>
+        return <div className="loading">loading</div>
     }
 
     /*----Actual achievements panel layout starts here----*/
