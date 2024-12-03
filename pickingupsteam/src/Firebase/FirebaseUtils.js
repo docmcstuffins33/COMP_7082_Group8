@@ -275,6 +275,30 @@ export const removeSelectedGame = async (userID, userData) => {
     }
 }
 
+export const addAchievements = async (userID, userData, achievements) => {
+    try {
+        const docRef = doc(db, "Users", userID);
+        let newUserData = {...userData, Achievements: Object.fromEntries(achievements)};
+        await setDoc(docRef, newUserData, {merge: true});
+        return newUserData;
+    } catch (error) {
+        console.error("Error writing into collection:", error);
+        return null;
+    }
+}
+
+export const removeAchievements = async (userID, userData) => {
+    try {
+        const docRef = doc(db, "Users", userID);
+        let newUserData = {...userData, Achievements: null};
+        await setDoc(docRef, newUserData, {merge: true});
+        return newUserData;
+    } catch (error) {
+        console.error("Error writing into collection:", error);
+        return null;
+    }
+}
+
 export const purchaseBackgroundInStore = async (userID, userData, item) => {
     try {
         const docRef = doc(db, "Users", userID);

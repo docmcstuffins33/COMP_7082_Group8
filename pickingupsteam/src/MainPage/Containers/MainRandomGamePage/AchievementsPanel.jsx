@@ -5,6 +5,7 @@ import './AchievementsPanel.css';
 import { auth } from '../../../Firebase/Firebase';
 import { useFirebaseHook } from '../../../Firebase/FireBaseHook'
 import { useAuth } from '../../../Context/AuthContext';
+import { addAchievements, removeAchievements } from '../../../Firebase/FirebaseUtils';
 import axios from 'axios';
 
 /*Achievements panel component, as seen on homepage.*/
@@ -24,7 +25,7 @@ const AchievementsPanel = () => {
 
     const [boxVisbility, setBoxVisibility] = useState([true, true, true])
 
-    const {addCreditToUser, removeCreditFromUser } = useFirebaseHook();
+    const {addCreditToUser } = useFirebaseHook();
     const [showPanel, setShowPanel] = useState(false);
     const [panelsClaimed, setPanelsClaimed] = useState(0);
 
@@ -98,6 +99,13 @@ const AchievementsPanel = () => {
     
         // Set the state with the random achievements map
         setThreeAchievements(randomAchievements);
+
+        if (isAuthenticated)
+        {
+            const authUser = auth.currentUser;
+        
+            await addAchievements(authUser.uid, user, randomAchievements);
+        }
     };    
 
     //Gets the Achievement Schema for a given game (appID) and achievement name.
@@ -117,14 +125,30 @@ const AchievementsPanel = () => {
     //Gets 3 random games from the user's steam library.
     const GetThreeGames = async () => {
         if (!user) return;
-    
+
         let allGames = await GetGameByUserID(user.SteamID, serverURL, serverPort);
         //Filter to only games with less than 30 minutes of playtime - may not be necessary, but it's how we've decided to do it.
         const under30Minutes = allGames.filter(game => game.playtime_forever <= 30);
+        const names = [];
+
+        if (user.Achievements) {
+            const achiementMap = new Map(Object.entries(user.Achievements));
+            for (const game of under30Minutes) {
+                for (const achievement of achiementMap) {
+                    if(game.appid == achievement.appid) {
+                        names.push(game.appid);
+                    }
+                }
+            }
+
+            setGameNames(names);
+            setThreeAchievements(achiementMap);
+            return;
+        }
+
         const shuffledGames = GenerateRandomShuffle(under30Minutes);
     
         const gamesWithAchievements = [];
-        const names = [];
         for (const game of shuffledGames) {
             const unachieved = await GetGameAchievements(game.appid);
     
@@ -179,12 +203,18 @@ const AchievementsPanel = () => {
     //Resets everything when all achievement panels have been claimed.
     useEffect(() => {
         if (panelsClaimed >= 3) {
-            setAchievements([]);
-            setThreeAchievements([]);
-            setPanelsClaimed(0);
-            setBoxVisibility([true, true, true]);
-
-            GetThreeGames();
+            const resetAchievements = async () => {
+                const authUser = auth.currentUser;
+                setAchievements([]);
+                setThreeAchievements([]);
+                setPanelsClaimed(0);
+                setBoxVisibility([true, true, true]);
+                await removeAchievements(authUser.uid, user);
+    
+                GetThreeGames();
+            };
+    
+            resetAchievements();
         }
     }, [panelsClaimed]);
 
@@ -247,7 +277,13 @@ const AchievementsPanel = () => {
 
             <div className={`side-panel ${isOpen ? 'open' : 'closed'}`}>
                 <h2 className="panel-title">Achievements</h2>
-                <button className="refresh-button" onClick={() => setPanelsClaimed(3)}>Refresh</button>
+                <button className="refresh-button" onClick={async() => {
+                    if(isAuthenticated) {
+                        const authUser = auth.currentUser;
+                        await removeAchievements(authUser.uid, user);
+                        setPanelsClaimed(3);
+                    }
+                }}>Refresh</button>
                 {/* Iterate over the entries of the threeAchievements Map */}
                 {Array.from(threeAchievements.entries()).map(([appid, schema], index) => (
                     // Check visibility and ensure schema is valid

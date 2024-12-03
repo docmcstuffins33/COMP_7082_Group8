@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {login, signOut, saveUser} from '../Redux/AccountManagement/AuthSlice';
 import {fetchIcon} from '../Redux/Inventory/IconSlice';
 import { fetchBackground } from '../Redux/Inventory/BackgroundSlice';
-import { fetchUser, writeUser, addCredit, removeCredit, addSelectedGame, removeSelectedGame, purchaseIconInStore, purchaseBackgroundInStore, fetchAllIcons, fetchAllBackgrounds, getImage } from '../Firebase/FirebaseUtils';
+import { fetchUser, writeUser, addCredit, removeCredit, addSelectedGame, removeSelectedGame, addAchievements, removeAchievements, purchaseIconInStore, purchaseBackgroundInStore, fetchAllIcons, fetchAllBackgrounds, getImage } from '../Firebase/FirebaseUtils';
 import { auth } from '../Firebase/Firebase';
 import {useAuth} from '../Context/AuthContext';
 
@@ -78,6 +78,20 @@ export const useFirebaseHook = () => {
             console.log(userData);
         })
     }
+    const addAchievementsHook = async (userID, userData, achievements) => {
+        if(!userID) return false;
+        await addAchievements(userID, userData, achievements).then((userData) => {
+            if(!userData) return false;
+            updateUser(userData);
+        })
+    }
+    const removeAchievementsHook = async (userID, userData) => {
+        if(!userID) return false;
+        await removeAchievements(userID, userData).then((userData) => {
+            if(!userData) return false;
+            updateUser(userData);
+        })
+    }
     //load icon and save state into redux
     const getIconsHook = async () => {
         await fetchAllIcons().then(async (data) => {
@@ -132,7 +146,7 @@ export const useFirebaseHook = () => {
     
     return { user, fetchUserById: fetchUserByIdHook, writeUserToDB: writeUserToDBHook,
         addCreditToUser: addCreditToUserHook, removeCreditFromUser: removeCreditFromUserHook, addSelectedGame: addSelectedGameHook,
-        removeSelectedGame: removeSelectedGameHook, SignOutUser: SignOutUserHook, startLogin: startLoginHook,
-        purchaseIconInStore: purchaseIconInStoreHook, purchaseBackgroundInStore: purchaseBackgroundInStoreHook,
-        getIcon: getIconsHook, getBackground: getBackgroundHook};
+        removeSelectedGame: removeSelectedGameHook, addAchievements: addAchievementsHook, removeAchievements: removeAchievementsHook, 
+        SignOutUser: SignOutUserHook, startLogin: startLoginHook, purchaseIconInStore: purchaseIconInStoreHook, 
+        purchaseBackgroundInStore: purchaseBackgroundInStoreHook, getIcon: getIconsHook, getBackground: getBackgroundHook};
 };
