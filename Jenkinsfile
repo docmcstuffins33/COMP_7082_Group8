@@ -69,7 +69,7 @@ pipeline {
             steps {
                 script {
                     docker.image("${FRONTEND_IMAGE}").inside {
-                        sh 'ls'
+                        sh 'cd pickingupsteam && npm install && npm run test'
                     }
                 }
             }
