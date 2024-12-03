@@ -74,6 +74,10 @@ pipeline {
                 }
             }
         }
+        // stage('push Docker Images') {
+        //     steps {
+        //         sh 'docker push ${FRONTEND_IMAGE}'
+        //         sh 'docker push ${BACKEND_IMAGE}'
 
         stage('Deploy Containers') {
             steps {
