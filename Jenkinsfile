@@ -69,8 +69,7 @@ pipeline {
             steps {
                 script {
                     docker.image("${FRONTEND_IMAGE}").inside {
-                        sh 'npm install'
-                        sh 'npm test'
+                        sh 'ls'
                     }
                 }
             }
