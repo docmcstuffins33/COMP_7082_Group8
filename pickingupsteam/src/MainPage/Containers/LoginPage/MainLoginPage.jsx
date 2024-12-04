@@ -9,6 +9,9 @@ import Box from '@mui/material/Box';
 import Textfield from '@mui/material/TextField';
 
 import { useFirebaseHook } from '../../../Firebase/FireBaseHook'
+import { fetchUser } from '../../../Firebase/FirebaseUtils'
+
+import axios from 'axios';
 
 const MainLoginPage = () => {
     const [regEmail, setRegEmail] = useState("");
@@ -19,15 +22,24 @@ const MainLoginPage = () => {
     const [logEmail, setLogEmail] = useState("");
     const [logPassword, setLogPassword] = useState("");
 
+    const [serverURL] = useState(process.env.REACT_APP_SERVER_URL);
+    const [serverPort] = useState(process.env.REACT_APP_SERVER_PORT);
+
     const navigate = useNavigate()
 
     const [error, setError] = useState(null);
 
-    const { writeUserToDB, startLogin, signOutUser} = useFirebaseHook();
+    const { writeUserToDB, startLogin, SignOutUser} = useFirebaseHook();
 
     const handleRegister = async (e) => {
         e.preventDefault()
         try {
+            const visibility = await axios.get(`http://${serverURL}:${serverPort}/api/getProfileVisibility/${steamID}`);
+            if (visibility.data.profileState !== 3) {
+                alert("Signup Failed - Steam id is not public or is invalid");
+                return;
+            }
+
             await createUserWithEmailAndPassword(auth, regEmail, regPassword);
             const user = auth.currentUser;
             if(user) {
@@ -70,7 +82,18 @@ const MainLoginPage = () => {
     try {
         await signInWithEmailAndPassword(auth, logEmail, logPassword)
         const user = auth.currentUser
-        console.log(user.uid)
+        console.log(user.uid);
+
+        const userData = await fetchUser(user.uid);
+        
+        const visibility = await axios.get(`http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/api/getProfileVisibility/${userData.SteamID}`);
+        if (visibility.data.profileState !== 3) {
+            alert("Login Failed - Steam id is not public or has become invalid");
+
+            await handlesignOut();
+            return;
+        }
+
         await startLogin(user.uid).then((state)=>{
             if(state){
                 //redirect to previous page
@@ -95,7 +118,7 @@ const MainLoginPage = () => {
 
     const handlesignOut = async (e) => {
         try {
-            await signOutUser();
+            await SignOutUser();
             console.log("User logged out")
         } catch (error) {
             console.log(error)

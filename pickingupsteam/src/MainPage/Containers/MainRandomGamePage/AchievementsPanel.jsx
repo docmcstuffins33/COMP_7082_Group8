@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import { GetGameByUserID } from '../../../SteamUtils';
 import './AchievementsPanel.css';
 import { auth } from '../../../Firebase/Firebase';
@@ -16,8 +15,8 @@ const AchievementsPanel = () => {
 
     const { user, isAuthenticated } = useAuth();
 
-    const [serverURL, setServerURL] = useState(process.env.REACT_APP_SERVER_URL);
-    const [serverPort, setServerPort] = useState(process.env.REACT_APP_SERVER_PORT);
+    const [serverURL] = useState(process.env.REACT_APP_SERVER_URL);
+    const [serverPort] = useState(process.env.REACT_APP_SERVER_PORT);
     
     const [achievements, setAchievements] = useState([]);
     const [threeAchievements, setThreeAchievements] = useState([]);
@@ -280,7 +279,7 @@ const AchievementsPanel = () => {
     
 
     //Display a loading message while the achievements are loading.
-    if (isLoading) {
+    if (isLoading && showPanel && isAuthenticated) {
         return <div className="loading">loading</div>
     }
 

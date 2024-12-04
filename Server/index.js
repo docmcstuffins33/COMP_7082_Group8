@@ -54,7 +54,7 @@ app.get('/api/achievementsByAppid/:uid/:appid', async (req, res) => {
             return res.status(400).send({ error: 'SteamID or AppID is missing' });
         }
 
-        console.log('Requesting achievements from:', `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appid}&key=${STEAM_API_KEY}&steamid=${uid}`);
+        //console.log('Requesting achievements from:', `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appid}&key=${STEAM_API_KEY}&steamid=${uid}`);
 
         const response = await axios.get(`https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appid}&key=${STEAM_API_KEY}&steamid=${uid}`);
         const achievements = response?.data?.playerstats?.achievements?.map(achievement => ({
@@ -83,7 +83,7 @@ app.get('/api/achievementSchemaByAppid/:appid', async (req, res) => {
             return res.status(400).send({ error: 'Invalid AppID' });
         }
 
-        console.log('Requesting schema for appid:', appid, 'URL:', `https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=${STEAM_API_KEY}&appid=${appid}`);
+        //console.log('Requesting schema for appid:', appid, 'URL:', `https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=${STEAM_API_KEY}&appid=${appid}`);
 
         const response = await axios.get(`https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=${STEAM_API_KEY}&appid=${appid}`);
         const achievements = response?.data?.game?.availableGameStats?.achievements || [];
@@ -91,10 +91,43 @@ app.get('/api/achievementSchemaByAppid/:appid', async (req, res) => {
         res.send({ applist: { apps: achievements } });
     } catch (error) {
         if (error.response) {
-            console.error(`Steam API error for appid ${appid}:`, error.response.status, error.response.statusText);
+            console.error(`Steam API error for appid:`, error.response.status, error.response.statusText);
             console.error("Full response data:", error.response.data);
         } else {
-            console.error(`Error fetching schema for appid ${appid}:`, error.message);
+            console.error(`Error fetching schema for appid:`, error.message);
+        }
+        res.status(500).send({ applist: { apps: [] } });
+    }
+});
+
+/*Gets the profile status for a steam account from the steam id. Returns the status if it is found, or an error code if it could not properly fetch the data.*/
+app.get('/api/getProfileVisibility/:uid', async (req, res) => {
+    console.log("Recieved Request.");
+    try {
+        const uid = req.params.uid;
+
+        if (!uid || !/^\d+$/.test(uid)) {
+            return res.status(400).send({ error: 'Invalid Steam ID' });
+        }
+
+        //console.log('Requesting profile visibility for:', uid, 'URL:', apiUrl);
+
+        const apiUrl = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${STEAM_API_KEY}&steamids=${uid}`;
+        const response = await axios.get(apiUrl);
+        const players = response?.data?.response?.players || [];
+        let profile = -1;
+
+        if (players.length === 1) {
+            profile = players[0].communityvisibilitystate || -1;
+        }
+
+        res.send({ profileState: profile });
+    } catch (error) {
+        if (error.response) {
+            console.error(`Steam API error for steam id:`, error.response.status, error.response.statusText);
+            console.error("Full response data:", error.response.data);
+        } else {
+            console.error(`Error fetching profile for steam id:`, error.message);
         }
         res.status(500).send({ applist: { apps: [] } });
     }

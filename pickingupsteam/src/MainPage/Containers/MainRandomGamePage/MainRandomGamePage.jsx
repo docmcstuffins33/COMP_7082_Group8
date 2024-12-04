@@ -7,6 +7,7 @@ import { auth} from '../../../Firebase/Firebase'
 import { useFirebaseHook } from '../../../Firebase/FireBaseHook'
 import { getSelectedDeco } from '../../../Firebase/FirebaseUtils.js';
 import ProfilePic from '../ProfilePage/Components/ProfilePicture/ProfilePic.js';
+import axios from 'axios';
 const MainRandomGamePage = () => {
 
     //can be deleted once profile picture component is finished
@@ -82,6 +83,12 @@ const MainRandomGamePage = () => {
     }
 
     const handleSearch = async () => {
+        const visibility = await axios.get(`http://${serverURL}:${serverPort}/api/getProfileVisibility/${steamID}`);
+        if (visibility.data.profileState !== 3) {
+            alert("Search Failed - Steam id is not public or is invalid");
+            return;
+        }
+
         fetchGameData();
     }
 
