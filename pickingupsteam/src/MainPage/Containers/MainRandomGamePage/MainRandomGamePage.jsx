@@ -54,7 +54,7 @@ const MainRandomGamePage = () => {
             const cachedData = JSON.parse(localStorage.getItem("gameDataCache"));
             const currentTime = Date.now();
             var gameData = null;
-            if(cachedData && cachedData.timestamp && currentTime - cachedData.timestamp <= 5 /*Minutes*/ * 60 /*Seconds*/ * 1000 /*Milliseconds*/){ //I LOVE INLINE COMMENTS I JUST REMEMBERED I CAN DO THIS ON THE LITERAL LAST DAY
+            if(cachedData && cachedData.timestamp && cachedData.uid == user.SteamID && currentTime - cachedData.timestamp <= 5 /*Minutes*/ * 60 /*Seconds*/ * 1000 /*Milliseconds*/){ //I LOVE INLINE COMMENTS I JUST REMEMBERED I CAN DO THIS ON THE LITERAL LAST DAY
                 console.log("Fetching cached data...");
                 gameData = cachedData.data;
             } else {
@@ -64,7 +64,8 @@ const MainRandomGamePage = () => {
                     "gameDataCache",
                     JSON.stringify({
                         data: gameData,
-                        timestamp: currentTime
+                        timestamp: currentTime,
+                        uid: id
                     })
                 );
             }
