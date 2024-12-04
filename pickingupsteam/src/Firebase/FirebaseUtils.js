@@ -30,6 +30,7 @@ export const writeUser = async (userID, userData) => {
     }
 };
 
+// Fetch all icon decorations for the shop
 export const fetchAllIcons = async () => {
     try {
         const docSnap = await getDocs(collection(db, 'Icons'));
@@ -46,6 +47,7 @@ export const fetchAllIcons = async () => {
     }
 };
 
+//Fetch all backgrounds for the shop
 export const fetchAllBackgrounds = async () => {
     try {
         const docSnap = await getDocs(collection(db, 'Backgrounds'));
@@ -62,6 +64,7 @@ export const fetchAllBackgrounds = async () => {
     }
 };
 
+//Fetches and image from the DB
 export const getImage = async (name) => {
     try {
         const url = await getDownloadURL(ref(storage, name))
@@ -76,6 +79,7 @@ export const getImage = async (name) => {
     }
 }
 
+//Fetches a user's profile picture from the DB
 export const getProfilePic = async (name) => {
     try {
         const path = name
@@ -91,6 +95,7 @@ export const getProfilePic = async (name) => {
     }
 }
 
+//Get the user's currently selected theme
 export const getSelectedTheme = async(UserID) => {
     try {
         const docRef = doc(db, "Users", UserID);
@@ -114,6 +119,7 @@ export const getSelectedTheme = async(UserID) => {
     }
 }
 
+//Set which theme is currently selected for the user in the DB
 export const setSelectedTheme = async(themeName, UserID) => {
     try {
         const docRef = doc(db, "Users", UserID);
@@ -137,6 +143,7 @@ export const setSelectedTheme = async(themeName, UserID) => {
     }
 }
 
+//Get the user's currently selected icon decoration
 export const getSelectedDeco = async(UserID) => {
     try {
         const docRef = doc(db, "Users", UserID);
@@ -160,6 +167,7 @@ export const getSelectedDeco = async(UserID) => {
     }
 }
 
+//Set the user's currently selected icon decoration in the DB
 export const setSelectedDeco = async(decName, UserID) => {
     try {
         const docRef = doc(db, "Users", UserID);
@@ -183,6 +191,7 @@ export const setSelectedDeco = async(decName, UserID) => {
     }
 }
 
+//Get the user's currently selected icon decoration in DB
 export const getSelectedDecoration = async(UserID) => {
     try {
         const docRef = doc(db, "Users", UserID);
@@ -207,7 +216,7 @@ export const getSelectedDecoration = async(UserID) => {
 }
 
 
-
+//Upload a profile picture for a user in the DB
 export const uploadProfilePic = async (file, userID, userData) => {
     try{
         const filename = "ProfilePictures/" + userID + ".png";
@@ -222,7 +231,7 @@ export const uploadProfilePic = async (file, userID, userData) => {
     }
 }
 
-
+//Add credits to a user's account
 export const addCredit = async (userID, userData, amount) => {
     try {
         const docRef = doc(db, "Users", userID);
@@ -236,6 +245,8 @@ export const addCredit = async (userID, userData, amount) => {
         return null;
     }
 }
+
+//Remove credits from the user's account
 export const removeCredit = async (userID, userData, amount) => {
     try {
         const docRef = doc(db, "Users", userID);
@@ -250,6 +261,7 @@ export const removeCredit = async (userID, userData, amount) => {
     }
 }
 
+//Add currently selected game into a user's account
 export const addSelectedGame = async (userID, userData, selectedGame) => {
     try {
         const docRef = doc(db, "Users", userID);
@@ -262,6 +274,7 @@ export const addSelectedGame = async (userID, userData, selectedGame) => {
     }
 }
 
+//Remove currently selected game from a user's account and give them points
 export const removeSelectedGame = async (userID, userData) => {
     try {
         const docRef = doc(db, "Users", userID);
@@ -275,6 +288,7 @@ export const removeSelectedGame = async (userID, userData) => {
     }
 }
 
+//Add achievements into the user's account
 export const addAchievements = async (userID, userData, achievements) => {
     try {
         const docRef = doc(db, "Users", userID);
@@ -287,6 +301,7 @@ export const addAchievements = async (userID, userData, achievements) => {
     }
 }
 
+//Remove achievements from the user's account
 export const removeAchievements = async (userID, userData) => {
     try {
         const docRef = doc(db, "Users", userID);
@@ -299,6 +314,7 @@ export const removeAchievements = async (userID, userData) => {
     }
 }
 
+//Add purchased background decoration into user's account and remove corresponding points
 export const purchaseBackgroundInStore = async (userID, userData, item) => {
     try {
         const docRef = doc(db, "Users", userID);
@@ -324,6 +340,7 @@ export const purchaseBackgroundInStore = async (userID, userData, item) => {
     }
 }
 
+//Add purchased icon into user's account and remove corresponding points
 export const purchaseIconInStore = async (userID, userData, item) => {
     try {
         const docRef = doc(db, "Users", userID);
