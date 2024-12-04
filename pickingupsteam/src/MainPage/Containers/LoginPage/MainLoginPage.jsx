@@ -13,15 +13,24 @@ import { fetchUser } from '../../../Firebase/FirebaseUtils'
 
 import axios from 'axios';
 
+/** 
+ * Page for login and signup forms
+ * 
+ */
+
 const MainLoginPage = () => {
+
+    //States for values in the Signup form (Creating a new account)
     const [regEmail, setRegEmail] = useState("");
     const [regPassword, setRegPassword] = useState("");
     const [steamID, setSteamID] = useState("");
     const [username, setUsername] = useState("");
 
+    //State for values in the Login form
     const [logEmail, setLogEmail] = useState("");
     const [logPassword, setLogPassword] = useState("");
 
+    //Get serverURL and port for API calls
     const [serverURL] = useState(process.env.REACT_APP_SERVER_URL);
     const [serverPort] = useState(process.env.REACT_APP_SERVER_PORT);
 
@@ -29,20 +38,25 @@ const MainLoginPage = () => {
 
     const [error, setError] = useState(null);
 
+    //Get Firebase hooks
     const { writeUserToDB, startLogin, SignOutUser} = useFirebaseHook();
 
+    //Handling registering a new account
     const handleRegister = async (e) => {
         e.preventDefault()
         try {
+            //Check if profile is private, inform user if it is
             const visibility = await axios.get(`http://${serverURL}:${serverPort}/api/getProfileVisibility/${steamID}`);
             if (visibility.data.profileState !== 3) {
                 alert("Signup Failed - Steam id is not public or is invalid");
                 return;
             }
 
+            //Create a new account with given email and password
             await createUserWithEmailAndPassword(auth, regEmail, regPassword);
             const user = auth.currentUser;
             if(user) {
+                //Set user data in Firestore
                 const userData = {
                     Username: username,
                     Email: regEmail,
@@ -57,7 +71,7 @@ const MainLoginPage = () => {
                     Achievements: null
                 }
                 await writeUserToDB(user.uid, userData).then(() => {
-                    console.log("Collection updated/added:", user.uid);
+                    //console.log("Collection updated/added:", user.uid);
                     //store user in redux
                     navigate('/profile');
                 });
@@ -65,7 +79,7 @@ const MainLoginPage = () => {
             // console.log(user);
         } 
         catch (error) {
-            console.log(error);
+            //console.log(error);
             if(error.message.includes("auth/invalid-email"))
                 alert("Signup Failed - Invalid Email format")
             else if(error.message.includes("auth/missing"))
@@ -77,15 +91,17 @@ const MainLoginPage = () => {
         }
     }
 
+//Handle logging into an existing account
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
+        //Login with given email and password
         await signInWithEmailAndPassword(auth, logEmail, logPassword)
         const user = auth.currentUser
-        console.log(user.uid);
+        //console.log(user.uid);
 
         const userData = await fetchUser(user.uid);
-        
+        //Check if Steam account is private
         const visibility = await axios.get(`http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/api/getProfileVisibility/${userData.SteamID}`);
         if (visibility.data.profileState !== 3) {
             alert("Login Failed - Steam id is not public or has become invalid");
@@ -93,7 +109,7 @@ const MainLoginPage = () => {
             await handlesignOut();
             return;
         }
-
+        //Login user, then go to previous page
         await startLogin(user.uid).then((state)=>{
             if(state){
                 //redirect to previous page
@@ -104,7 +120,7 @@ const MainLoginPage = () => {
         })
 
     } catch (error) {
-        console.log(error)
+        //console.log(error)
         if(error.message.includes("auth/invalid-credential"))
             alert("Login Failed - Invalid Credentials")
         else if(error.message.includes("auth/invalid-email"))
@@ -116,12 +132,13 @@ const MainLoginPage = () => {
     }
   }
 
+  //Handle signout from account
     const handlesignOut = async (e) => {
         try {
             await SignOutUser();
-            console.log("User logged out")
+            //console.log("User logged out")
         } catch (error) {
-            console.log(error)
+            //console.log(error)
         }
     }
 

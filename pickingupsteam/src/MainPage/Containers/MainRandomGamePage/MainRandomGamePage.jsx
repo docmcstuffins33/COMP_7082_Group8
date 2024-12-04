@@ -33,6 +33,7 @@ const MainRandomGamePage = () => {
     const [randomGame, setRandomGame] = useState(null);
     const [selectedGame, setSelectedGame] = useState(null);
 
+    //Fetch game data when the user state is updated
     useEffect(() => {
         if (user) {
             fetchGameData(user.SteamID);
@@ -40,6 +41,7 @@ const MainRandomGamePage = () => {
         }
     }, [user]);
 
+    //Get user's decorations
     const fetchDeco = async () => {
         const banner = await getSelectedDeco(auth.currentUser.uid)
         // console.log(banner)
@@ -48,17 +50,19 @@ const MainRandomGamePage = () => {
         }
     };
 
+    //Function to fetch game data
     const fetchGameData = async (id = steamID) => {
         setLoading(true);
         try {
             const cachedData = JSON.parse(localStorage.getItem("gameDataCache"));
             const currentTime = Date.now();
             var gameData = null;
+            //If 5 minutes have passed, fetch gamedata from API and update cache with it. Otherwise, use cache data
             if(cachedData && cachedData.timestamp && cachedData.uid == user.SteamID && currentTime - cachedData.timestamp <= 5 /*Minutes*/ * 60 /*Seconds*/ * 1000 /*Milliseconds*/){ //I LOVE INLINE COMMENTS I JUST REMEMBERED I CAN DO THIS ON THE LITERAL LAST DAY
-                console.log("Fetching cached data...");
+                //console.log("Fetching cached data...");
                 gameData = cachedData.data;
             } else {
-                console.log("Cache expired or not found, fetching data from steamAPI...");
+                //console.log("Cache expired or not found, fetching data from steamAPI...");
                 gameData = await GetGameByUserID(id, serverURL, serverPort);
                 localStorage.setItem(
                     "gameDataCache",
@@ -83,6 +87,7 @@ const MainRandomGamePage = () => {
         }
     }
 
+    //Handle search for gamedata, used for the SteamID search if user is not logged in
     const handleSearch = async () => {
         const visibility = await axios.get(`http://${serverURL}:${serverPort}/api/getProfileVisibility/${steamID}`);
         if (visibility.data.profileState !== 3) {
@@ -93,6 +98,7 @@ const MainRandomGamePage = () => {
         fetchGameData();
     }
 
+    //Pick a random game from the list of games
     const pickRandomGame = () => {
         if (gameData.length === 0) {
             return;
@@ -103,6 +109,7 @@ const MainRandomGamePage = () => {
         console.log(incompleteGameData[randomIndex]);
     }
 
+    //Select currently shown random game
     const selectGame = async () => {
         if(isAuthenticated) {
             const authUser = auth.currentUser;
@@ -111,6 +118,7 @@ const MainRandomGamePage = () => {
         }
     }
 
+    //Removed selected game and give the user points
     const claimGame = async() => {
         if(isAuthenticated) {
             const authUser = auth.currentUser;
@@ -120,10 +128,12 @@ const MainRandomGamePage = () => {
         }
     }
 
+    //States for the random wheel
     const segments = [];
     const [spinning, setSpinning] = useState(false);
     const [rotation, setRotation] = useState(0);
 
+    //Spin wheel and set the random game to a random one once done
     const spinWheel = () => {
         if (spinning) return; // Prevent multiple spins
         const spinTo = Math.floor(Math.random() * 360 + 720); // Minimum 2 full spins
@@ -132,11 +142,12 @@ const MainRandomGamePage = () => {
         setTimeout(() => {
         setSpinning(false);
         const winningSegment = segments[Math.floor(((rotation + spinTo) % 360) / (360 / segments.length))];
-        console.log(gameData.filter(game => game.name == winningSegment))
+        //console.log(gameData.filter(game => game.name == winningSegment))
         setRandomGame(gameData.filter(game => game.name == winningSegment)[0]);
         }, 3000); // Match animation duration
     };
     
+    //Set wheel segments to game data
     gameData.filter(game => game.playtime_forever < 120).map(game => (segments.push(game.name)))
 
     return (

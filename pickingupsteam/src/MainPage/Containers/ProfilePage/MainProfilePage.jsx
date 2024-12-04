@@ -12,6 +12,7 @@ import { getSelectedDeco} from '../../../Firebase/FirebaseUtils'
 
 const MainProfilePage = () => {
 
+    //Set auths for user and user decorations
     const {user, isAuthenticated} = useAuth();
     const [returnTimer, setReturnTimer] = useState(5);
     const navigate = useNavigate();
@@ -35,13 +36,14 @@ const MainProfilePage = () => {
         }
     }, [isAuthenticated])
 
+    //Update inventorys when user state is updated
     useEffect(() => {
         if(!user) return;
         if(user.Inventory.Icons && !user.Inventory.Icons.length === 0)
-            console.log(user.Inventory.Icons);
+            //console.log(user.Inventory.Icons);
             setProfileDecorations(user.Inventory.Icons);
         if(user.Inventory.Banners && !user.Inventory.Banners.length === 0)
-            console.log(user.Inventory.Banners);
+            //console.log(user.Inventory.Banners);
             setProfileThemes(user.Inventory.Banners);
     },[user])
 

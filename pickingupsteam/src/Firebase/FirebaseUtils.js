@@ -11,7 +11,7 @@ export const fetchUser = async (UserID) => {
         if (docSnap.exists()) {
         return docSnap.data();
         } else {
-        console.log("Data does not exist");
+        // console.log("Data does not exist");
         return null;
         }
     } catch (error) {
@@ -24,7 +24,7 @@ export const writeUser = async (userID, userData) => {
     try {
         const docRef = doc(db, "Users", userID);
         await setDoc(docRef, userData, { merge: true });
-        console.log("Collection updated/added:", userID);
+        // console.log("Collection updated/added:", userID);
     } catch (error) {
         console.error("Error writing to collection:", error);
     }
@@ -39,7 +39,7 @@ export const fetchAllIcons = async () => {
             // console.log(data);
             return data;
         } else {
-            console.log("Data does not exist");
+            // console.log("Data does not exist");
             return null;
         }
     } catch (error) {
@@ -56,7 +56,7 @@ export const fetchAllBackgrounds = async () => {
             // console.log(data);
             return data;
         } else {
-            console.log("Data does not exist");
+            // console.log("Data does not exist");
             return null;
         }
     } catch (error) {
@@ -71,7 +71,7 @@ export const getImage = async (name) => {
         if (url) {
             return url;
         } else {
-            console.log("URL does not exist");
+            // console.log("URL does not exist");
             return null;
         }
     } catch (error) {
@@ -87,7 +87,7 @@ export const getProfilePic = async (name) => {
         if (url) {
             return url;
         } else {
-            console.log("URL does not exist");
+            // console.log("URL does not exist");
             return null;
         }
     } catch (error) {
@@ -107,11 +107,11 @@ export const getSelectedTheme = async(UserID) => {
             if(selectedTheme){
                 return selectedTheme;
             } else {
-                console.log("no theme is selected")
+                // console.log("no theme is selected")
                 return null;
             }
         } else {
-        console.log("Data does not exist");
+        // console.log("Data does not exist");
         return null;
         }
     } catch (error) {
@@ -135,7 +135,7 @@ export const setSelectedTheme = async(themeName, UserID) => {
                 "Inventory.Banners": updatedThemes,
             });
         } else {
-        console.log("Data does not exist");
+        // console.log("Data does not exist");
         return null;
         }
     } catch (error) {
@@ -155,11 +155,11 @@ export const getSelectedDeco = async(UserID) => {
             if(selectedDeco){
                 return selectedDeco;
             } else {
-                console.log("no theme is selected")
+                // console.log("no theme is selected")
                 return null;
             }
         } else {
-        console.log("Data does not exist");
+        // console.log("Data does not exist");
         return null;
         }
     } catch (error) {
@@ -183,7 +183,7 @@ export const setSelectedDeco = async(decName, UserID) => {
                 "Inventory.Icons": updatedDecos,
             });
         } else {
-        console.log("Data does not exist");
+        // console.log("Data does not exist");
         return null;
         }
     } catch (error) {
@@ -203,11 +203,11 @@ export const getSelectedDecoration = async(UserID) => {
             if(selectedDeco){
                 return selectedDeco;
             } else {
-                console.log("no theme is selected")
+                // console.log("no theme is selected")
                 return null;
             }
         } else {
-        console.log("Data does not exist");
+        // console.log("Data does not exist");
         return null;
         }
     } catch (error) {
@@ -238,7 +238,7 @@ export const addCredit = async (userID, userData, amount) => {
         let newAmount = userData.Points != null ? userData.Points + amount : 0
         let newUserData = {...userData, Points: newAmount };
         await setDoc(docRef, newUserData, { merge: true });
-        console.log("Collection updated/added:", userID);
+        // console.log("Collection updated/added:", userID);
         return newUserData;
     } catch (error) {
         console.error("Error writing to collection:", error);
@@ -327,11 +327,11 @@ export const purchaseBackgroundInStore = async (userID, userData, item) => {
             },
             Points: userData.Points - item.cost
         };
-        console.log("_______________________________________________newUserData_______________________________________________")
-        console.log(userData.Points)
-        console.log(item.cost)
-        console.log(newUserData)
-        console.log("_______________________________________________newUserData_______________________________________________")
+        // console.log("_______________________________________________newUserData_______________________________________________")
+        // console.log(userData.Points)
+        // console.log(item.cost)
+        // console.log(newUserData)
+        // console.log("_______________________________________________newUserData_______________________________________________")
         await setDoc(docRef, newUserData, { merge: true });
         return newUserData;
     } catch (error) {
@@ -354,11 +354,11 @@ export const purchaseIconInStore = async (userID, userData, item) => {
             },
             Points: userData.Points - item.cost
         };
-        console.log("_______________________________________________newUserData_______________________________________________")
-        console.log(userData.Points)
-        console.log(item.cost)
-        console.log(newUserData)
-        console.log("_______________________________________________newUserData_______________________________________________")
+        // console.log("_______________________________________________newUserData_______________________________________________")
+        // console.log(userData.Points)
+        // console.log(item.cost)
+        // console.log(newUserData)
+        // console.log("_______________________________________________newUserData_______________________________________________")
         await setDoc(docRef, newUserData, { merge: true });
         return newUserData;
     } catch (error) {

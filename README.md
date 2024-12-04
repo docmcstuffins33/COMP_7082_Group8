@@ -63,3 +63,17 @@ Make sure to start with the server before the pickingupsteam
 
 ## CI/CD
 refer to the file [JenkinsConfig](JenkinsConfig.md) for CI/CD setup 
+
+## Main File Structure
+>pickingupsteam
+    >src
+        >Context (Contains Auth State)
+        >Firebase (Contains Firebase hooks and logic)
+        >MainPage (Contains all pages and component logic for website)
+        >Redux (Contains states for store info)
+        >SteamUtils (Contains SteamAPI hooks)
+        >Test (Contains tests for Jenkins to run)
+        -App.js
+
+>server
+    -index.js
